@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+
 const resError = (msg) => {
     return NextResponse.json({
         success: false,
