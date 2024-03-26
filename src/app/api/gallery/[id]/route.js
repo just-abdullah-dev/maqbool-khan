@@ -6,7 +6,6 @@ import resError from "@/utils/resError";
 import uploadFiles from "@/utils/uploadFiles";
 import { NextResponse } from "next/server";
 
-
 export async function GET(req, { params }) {
   try {
     await connectDB();
@@ -29,7 +28,7 @@ export async function POST(req, { params }) {
     const { id } = params;
     const formData = await req.formData();
     let body = formData.getAll("body")[0];
-    body = JSON.parse(body); 
+    body = JSON.parse(body);
     let { name, slug } = body;
     if (!name || !slug) {
       return resError("Please fill all fields.");
@@ -40,8 +39,8 @@ export async function POST(req, { params }) {
       countryName: name,
       slug,
       professorId: id,
-      images: uploadedFiles
-       });
+      images: uploadedFiles,
+    });
 
     return NextResponse.json(
       {
@@ -63,12 +62,12 @@ export async function PUT(req, { params }) {
     if (!authData?.success) {
       return resError(authData?.message);
     }
-    
+
     const { id } = params;
     const formData = await req.formData();
 
     let body = formData.getAll("body")[0] ? formData.getAll("body")[0] : {};
-    body = JSON.parse(body); 
+    body = JSON.parse(body);
     let { name, slug, deletingImages } = body;
 
     const uploadedFiles = await uploadFiles(formData);
@@ -80,20 +79,21 @@ export async function PUT(req, { params }) {
     gallery.countryName = name || gallery.countryName;
     gallery.slug = slug || gallery.slug;
 
-    if(uploadedFiles.length > 0){
+    if (uploadedFiles.length > 0) {
       gallery.images = gallery.images.concat(uploadedFiles);
     }
 
     //Now deleting Images on demand
-    if(deletingImages){
-      if(deletingImages.length > 0){
-        deletingImages.map((image)=>{
+    if (deletingImages) {
+      if (deletingImages.length > 0) {
+        deletingImages.map((image) => {
           fileRemover(image);
         });
+      }
+      gallery.images = gallery.images.filter(
+        (item) => !deletingImages.includes(item)
+      );
     }
-      gallery.images = gallery.images.filter(item => !deletingImages.includes(item));
-    }
-
 
     const updatedGallery = await gallery.save();
 
@@ -122,10 +122,10 @@ export async function DELETE(req, { params }) {
     if (!data) {
       return resError(`${id} not found in database.`);
     }
-    if(data.images.length > 0){
-      data.images.map((image)=>{
+    if (data.images.length > 0) {
+      data.images.map((image) => {
         fileRemover(image);
-      })
+      });
     }
     return NextResponse.json(
       {
