@@ -36,22 +36,22 @@ export async function POST(req, { params }) {
 export async function PUT(req, { params }) {
   try {
     await connectDB();
-    // const authData = await userAuthGuard(req);
-    // if (!authData?.success) {
-    //   return resError(authData?.message);
-    // }
+    const authData = await userAuthGuard(req);
+    if (!authData?.success) {
+      return resError(authData?.message);
+    }
 
     const { id } = params;
     const body = await req.json();
-    const { researchId, memberIndex, memberBody } = body;
+    const { memberIndex, memberBody } = body;
 
-    let research = await Research.findOne({ _id: researchId });
+    let research = await Research.findOne({ _id: id });
     if (!research) {
       return resError(`${id} not found in database.`);
     }
-    research.member[memberIndex]?.title = memberBody.title || research.member[memberIndex]?.title;
+    research.member[memberIndex].title = memberBody.title || research.member[memberIndex]?.title;
     
-    research.member[memberIndex]?.link = memberBody.link || research.member[memberIndex]?.link;
+    research.member[memberIndex].link = memberBody.link || research.member[memberIndex]?.link;
 
     const updatedResearch = await research.save();
 
@@ -77,12 +77,22 @@ export async function DELETE(req, { params }) {
       return resError(authData?.message);
     }
     const { id } = params;
-    const data = await Research.findOneAndDelete({ _id: id });
-    if (!data) {
+    const body = await req.json();
+    const { memberIndex } = body;
+    
+    let research = await Research.findOne({ _id: id });
+    if (!research) {
       return resError(`${id} not found in database.`);
     }
+    research.member.splice(memberIndex, 1);
+
+    const updatedResearch = await research.save();
+
     return NextResponse.json(
-      { success: true, message: `Research data has been deleted.` },
+      { 
+        success: true, 
+        message: `Member has been removed.`,
+        data: updatedResearch },
       { status: 200 }
     );
   } catch (error) {
