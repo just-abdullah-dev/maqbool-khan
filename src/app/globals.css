@@ -16,6 +16,27 @@
   }
 }
 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
 
+.inputTag {
+  @apply block p-3 outline-none rounded-lg dark:bg-gray-700 bg-gray-200;
+}
+.labelTag{
+  @apply font-semibold text-gray-200;
+}
+.actionButtonTag{
+  @apply p-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center;
+}
+.normalButtonTag{
+  @apply p-2 rounded-lg text-white disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center;
+
+}
 
 

@@ -19,15 +19,15 @@ const Header = () => {
   ];
 
   return (
-    <header className="bg-gray-800 p-6 md:px-16 flex justify-between items-center relative">
+    <header className="p-6 md:px-16 flex justify-between items-center relative">
       {/* Name */}
-      <div className="text-white text-xl font-bold">Name</div>
+      <div className="text-xl font-bold">Name</div>
 
       {/* Desktop Menu */}
       <nav className="hidden md:flex space-x-8">
         {nav_links.map((item, index) => {
           return (
-            <Link onClick={()=>setIsMenuOpen(false)} key={index} href={`/${item.link}`} className=" text-white">
+            <Link onClick={()=>setIsMenuOpen(false)} key={index} href={`/${item.link}`} className="">
               {item.name}
             </Link>
           );
@@ -36,7 +36,7 @@ const Header = () => {
 
       {/* Mobile Menu */}
       <div className="md:hidden">
-        <button name="" onClick={toggleMenu} className="text-white">
+        <button name="" onClick={toggleMenu} className="">
           {isMenuOpen ? <X/> : <Menu />}
         </button>
       </div>
@@ -54,7 +54,7 @@ const Header = () => {
                   onClick={()=>setIsMenuOpen(false)}
                   key={index}
                   href={`/${item.link}`}
-                  className=" text-white"
+                  className=" "
                 >
                   {item.name}
                 </Link>
