@@ -7,7 +7,9 @@ const ThemeSwitcher = () => {
   const { theme, setTheme } = useTheme();
 
   useEffect(() => {
-    setTheme("light");
+    if (theme === "system") {
+      setTheme("light");
+    }
     setMounted(true);
   }, []);
 
@@ -19,11 +21,12 @@ const ThemeSwitcher = () => {
     <div className=" flex w-full justify-between items-center dark:bg-gray-950 p-2">
       The current theme is: {theme}
       <br />
-      {theme === "light" && 
-      <button onClick={() => setTheme("dark")}>Dark Mode</button>}
-      
-      {theme === "dark" && 
-      <button onClick={() => setTheme("light")}>Light Mode</button>}
+      {theme === "light" && (
+        <button onClick={() => setTheme("dark")}>Dark Mode</button>
+      )}
+      {theme === "dark" && (
+        <button onClick={() => setTheme("light")}>Light Mode</button>
+      )}
       <br />
     </div>
   );

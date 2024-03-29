@@ -87,16 +87,18 @@ export default function Dashboard({ children }) {
           title={openSidebar ? "Close Sidebar" : "Open Sidebar"}
         >
           {openSidebar ?
-          
-        <div className=" flex items-center gap-4 bg-gray-800 text-gray-200 dark:bg-gray-200 dark:text-gray-800 py-2"><ChevronLeftIcon className="pl-2" size={38}/><p className="">Close Sidebar</p></div>:
-        <ChevronRightIcon className="pl-2" size={38}/>
+        <div className=" flex items-center gap-4 bg-gray-800 text-gray-200 dark:bg-gray-200 dark:text-gray-800 py-2">
+        <ChevronLeftIcon className="pl-2" size={38}/><p className="">Close Sidebar</p></div>:
+        <div className="bg-gray-800 text-gray-200 dark:bg-gray-200 dark:text-gray-800 py-2">
+          <ChevronRightIcon className="pl-2" size={38}/>
+        </div>
 
         }
         </button>
         {options.map((opt, index) => {
           return (
             <Link
-              className=" flex items-center gap-4 px-2"
+              className=" flex items-center gap-4 px-3"
               href={opt?.path}
               key={index}
               title={opt?.name}
