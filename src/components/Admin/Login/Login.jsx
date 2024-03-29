@@ -2,7 +2,7 @@
 import { userActions } from "@/store/reducers/userReducer";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -10,24 +10,27 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassowrd] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { userInfo } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  // useEffect(()=>{
-  //   if(userInfo?.success){
-  //     toast('Already logged in!', {
-  //       icon: '🔓',
-  //     });
-  //     router.push('/');
-  //   }
-  // },[]);
+  useEffect(()=>{
+    if(userInfo?.success){
+      toast('Already logged in!', {
+        icon: '🔓',
+      });
+      router.push('/admin/pin/dashboard');
+    }
+  },[]);
 
   const handleLogin = async (e) => {
     try {
+      setIsLoading(true);
       e.preventDefault();
       if (!username || !password) {
         toast.error("Kindly fill the feilds.");
+        setIsLoading(false);
         return;
       }
       const res = await fetch("/api/auth/login", {
@@ -46,9 +49,11 @@ export default function Login() {
       } else {
         toast.error(data?.message);
       }
+      setIsLoading(false);
     } catch (error) {
       toast.error(error?.message)
       console.error("Error during login:", error);
+      setIsLoading(false);
     }
   };
 
@@ -96,7 +101,9 @@ export default function Login() {
                 </a>
               )}
             </div>
-            <button className="actionButtonTag" type="submit">
+            <button
+            disabled={isLoading}
+            className="actionButtonTag" type="submit">
               Login
             </button>
           </form>
