@@ -17,7 +17,7 @@ import {
   UserRoundCog,
 } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,11 +26,13 @@ export default function Dashboard({ children }) {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.user);
   const router = useRouter();
+  const pathname = usePathname();
+  const arr = pathname.split("/");
+  const currentWindow = arr[arr.length-1];
 
   useEffect(() => {
     if (!userInfo?.success) {
-      toast.error("Kindly login first!");
-      router.push("/admin/pin/login");
+      router.back();
     }
   }, []);
   const logoutHandler = () => {
@@ -98,9 +100,9 @@ export default function Dashboard({ children }) {
       <div
         className={`${
           openSidebar
-            ? "w-[64%] sm:w-[44%] md:w-[30%] lg:w-[16%] p-2"
+            ? "w-[64%] sm:w-[44%] md:w-[30%] lg:w-[16%]"
             : "w-[10%] sm:w-[8%] md:w-[6%] lg:w-[4%]"
-        } transition-all duration-1000 border-r h-screen border-black dark:border-white flex flex-col gap-4 overflow-hidden`}
+        } transition-all duration-1000 border-r h-screen border-black dark:border-white flex flex-col overflow-hidden`}
       >
         <button
           onClick={() => {
@@ -113,14 +115,14 @@ export default function Dashboard({ children }) {
             <div
               className={`${
                 !openSidebar && " justify-center"
-              } flex items-center gap-4 bg-gray-800 text-gray-200 dark:bg-gray-200 dark:text-gray-800 py-2`}
+              } flex items-center gap-4 bg-gray-700 text-gray-300 dark:bg-gray-300 dark:text-gray-800 py-2`}
             >
-              <ChevronLeftIcon className="" size={36} />
+              <ChevronLeftIcon className="" size={32} />
               <p className="">Close Sidebar</p>
             </div>
           ) : (
-            <div className="bg-gray-800 text-gray-200 dark:bg-gray-200 dark:text-gray-800 py-2 pl-2">
-              <ChevronRightIcon className="" size={36} />
+            <div className="bg-gray-700 text-gray-300 dark:bg-gray-300 dark:text-gray-800 py-2 pl-2">
+              <ChevronRightIcon className="" size={32} />
             </div>
           )}
         </button>
@@ -129,7 +131,8 @@ export default function Dashboard({ children }) {
             <Link
               className={`${
                 !openSidebar && " justify-center"
-              } flex items-center gap-4 hover:scale-105 duration-300`}
+              } ${currentWindow === opt?.path && " bg-gray-800 text-gray-200 dark:bg-gray-200 dark:text-gray-800"} 
+              flex items-center gap-4 hover:scale-105 duration-300 py-2 px-2`}
               href={
                 opt?.path === "dashboard"
                   ? `/admin/pin/${opt?.path}`
@@ -146,7 +149,7 @@ export default function Dashboard({ children }) {
         <button
           className={`${
             !openSidebar && " justify-center"
-          } flex items-center gap-4 dark:text-red-500 text-red-600 hover:scale-105 duration-300`}
+          } flex items-center gap-4 dark:text-red-500 text-red-600 hover:scale-105 duration-300 px-2`}
           key={"Log Out"}
           title={"Log Out"}
           onClick={logoutHandler}

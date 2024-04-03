@@ -32,6 +32,7 @@ const socialsSchema = mongoose.Schema({
 const personalSchema = mongoose.Schema(
   {
     id: {type: String, default: ''},
+    avatar: { type: String, default: "" },
     name: { type: nameSchema, required: true },
     bio: { type: String, default: "" },
     about: { type: String, default: "" },
