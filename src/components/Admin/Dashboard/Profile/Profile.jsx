@@ -11,6 +11,7 @@ import ChangePassword from "./ChangePassword";
 import { userActions } from "@/store/reducers/userReducer";
 
 function ProfileData() {
+  return <div>Profile dashboard</div>;
   const [isEdit, setIsEdit] = useState(false);
   const { userInfo } = useSelector((state) => state.user);
   const router = useRouter();
