@@ -1,310 +1,370 @@
 "use client";
-
-import { Camera, CircleUserRound, Loader2Icon, PenSquare } from "lucide-react";
-import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
-import ChangePassword from "./ChangePassword";
-import { userActions } from "@/store/reducers/userReducer";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useSelector } from "react-redux";
 
-function ProfileData() {
-  return <div>Profile dashboard</div>;
-  const [isEdit, setIsEdit] = useState(false);
-  const { userInfo } = useSelector((state) => state.user);
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (!userInfo?.success) {
-      toast.error("You are not logged in.");
-      router.back();
-    } else {
-      setName(() => {
-        return { value: userInfo?.name, error: "" };
-      });
-      setUsername(() => {
-        return { value: userInfo?.username, error: "" };
-      });
-      setBio(() => {
-        return { value: userInfo?.bio, error: "" };
-      });
-      setAbout(() => {
-        return { value: userInfo?.about, error: "" };
-      });
+const schema = z.object({
+  title: z.string(),
+  first: z.string(),
+  middle: z.string(),
+  last: z.string(),
+  bio: z.string(),
+  instagram: z.string().url(),
+  twitter: z.string().url(),
+  facebook: z.string().url(),
+  linkedin: z.string().url(),
+  github: z.string().url(),
+  googleScholar: z.string().url(),
+  researchGate: z.string().url(),
+  currentPosAt: z.string(),
+  currentPosTitle: z.string(),
+  email: z.string().email(),
+});
+
+export default function Profile() {
+  let { userInfo } = useSelector((state) => state.user);
+  userInfo = userInfo?.data;
+  console.log(userInfo);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    defaultValues: {
+      title: userInfo?.name?.title,
+      first: userInfo?.name?.first,
+      middle: userInfo?.name?.middle,
+      last: userInfo?.name?.last,
+      bio: userInfo?.bio,
+      about: userInfo?.about,
+      currentPosTitle: userInfo?.currentPosition?.title,
+      currentPosAt: userInfo?.currentPosition?.at,
+      email: userInfo?.contact?.email,
+      phone: userInfo?.contact?.phone,
+      instagram: userInfo?.socials?.instagram,
+      twitter: userInfo?.socials?.twitter,
+      facebook: userInfo?.socials?.facebook,
+      linkedin: userInfo?.socials?.linkedin,
+      github: userInfo?.socials?.github,
+      researchGate: userInfo?.socials?.researchGate,
+      googleScholar: userInfo?.socials?.googleScholar,
+    },
+    resolver: zodResolver(schema),
+  });
+
+  const submitHandler = async (data) => {
+    try {
+      var formdata = new FormData();
+formdata.append("files", fileInput.files[0], "abbas2.jpg");
+formdata.append("body", body);
+
+var requestOptions = {
+  method: 'PUT',
+  body: formdata,
+  redirect: 'follow'
+};
+
+fetch("/api/personal/maqboolkhan", requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  
+    } catch (error) {
+      toast.error(error?.message);
     }
-  }, [router, userInfo]);
-
-  const [name, setName] = useState({
-    value: {
-      title: "",
-      first: "",
-      middle: "",
-      last: ""
-    },
-    error: "",
-  });
-
-  const [currentPosition, setCurrentPosition] = useState({
-    value: {
-      title: "",
-      at: ""
-    },
-    error: ""
-  });
-
-  const [contact, setContact] = useState({
-    value: {
-      phone: 0,
-      email: ""
-    },
-    error: ""
-  });
-
-  const [socials, setSocials] = useState({
-    value: {
-      instagram: "",
-    twitter: "",
-    facebook: "",
-    linkedin: "",
-    github: "",
-    googleScholar: "",
-    researchGate: ""
-    },
-    error: ""
-  })
-
-  const [bio, setBio] = useState({
-    value: "",
-    error: "",
-  });
-  const [about, setAbout] = useState({
-    value: "",
-    error: "",
-  });
-  const [avatar, setAvatar] = useState({
-    url: "",
-    value: null,
-    error: "",
-  });
-
-  const handleChangeName = (e) => {
-    const name = e.target.value;
-    setName(() => {
-      return { value: name, error: "" };
-    });
   };
-  const handleChangeUsername = (e) => {
-    const username = e.target.value;
-    setUsername(() => {
-      return { value: username, error: "" };
-    });
-  };
-  const handleChangeBio = (e) => {
-    const bio = e.target.value;
-    setBio(() => {
-      return { value: bio, error: "" };
-    });
-  };
-  const handleChangeAbout = (e) => {
-    const about = e.target.value;
-    setAbout(() => {
-      return { value: about, error: "" };
-    });
-  };
-  function handleChangeAvatar(event) {
-    const input = event.target;
-    if (input.files && input.files[0]) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        setAvatar(() => {
-          return { url: e.target.result, error: "", value: input.files[0] };
-        });
-      };
-      reader.readAsDataURL(input.files[0]);
-    }
-  }
-
-  async function handleUpdateProfile() {
-    setIsLoading(true);
-    var formdata = new FormData();
-    if (avatar.url) {
-      formdata.append("avatar", avatar.value, avatar.value?.name);
-    }
-    const body = {
-      name: name.value,
-      username: username.value,
-      bio: bio.value,
-      about: about.value,
-    };
-    formdata.append("document", JSON.stringify(body));
-
-    var requestOptions = {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${userInfo?.token}`,
-      },
-      body: formdata,
-      redirect: "follow",
-    };
-
-    await fetch("/api/users/updateProfile", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        if (result?.success) {
-          dispatch(userActions.setUserInfo(result?.data));
-          localStorage.setItem("account", JSON.stringify(result?.data));
-          toast.success("Profile Updated!");
-        } else {
-          toast.error(data?.message);
-        }
-      })
-      .catch((error) => console.log("error", error));
-      setIsEdit(false);
-      setIsLoading(false);
-  }
   return (
-    <div className="flex items-center justify-center">
-      <div className="relative flex flex-col flex-wrap items-center justify-between gap-6 bg-white py-10 px-24 w-[800px] rounded-3xl shadow-[-6px_-1px_25px_5px_#00000024]">
-        {!isEdit && (
-          <PenSquare
-            color="#595959"
-            className="absolute top-10 right-10 cursor-pointer"
-            onClick={() => {
-              setIsEdit(true);
-            }}
-          />
-        )}
-        <div className={`flex items-center justify-around gap-8`}>
-          <div className="w-[260px] flex items-center justify-center relative group">
-            {isEdit && (
-              <div className="w-[150px] aspect-square duration-300 absolute z-10 cursor-pointer opacity-0 group-hover:opacity-100 rounded-full bg-transparent bg-opacity-30 bg-dark-grey flex items-center justify-center">
-                <input
-                  type="file"
-                  name="avatar"
-                  id="avatar"
-                  accept="image/*"
-                  className="absolute opacity-0 w-full h-full cursor-pointer"
-                  onChange={(event) => {
-                    handleChangeAvatar(event);
-                  }}
+    <div>
+      <form
+        onSubmit={handleSubmit(submitHandler)}
+        className=" grid gap-4 px-12 py-4"
+      >
+        {/* avatar, name & bio  */}
+        <div className=" flex p-8 bg-ray-500">
+          {/* avatar  */}
+          <div className=" w-[25%] flex items-center justify-center">
+            <Image
+              className=" rounded-full"
+              src={`/uploads/${userInfo?.avatar}`}
+              height={250}
+              width={250}
+              alt="Profile picture"
+            />
+          </div>
+
+          {/* name & bio  */}
+          <div className=" w-[75%] p-4 grid gap-4">
+            {/* name div  */}
+            <div className="grid gap-2">
+              <h4>Name:</h4>
+              <div className=" grid gap-2 grid-cols-2">
+                <div>
+                  <input
+                    {...register("title")}
+                    type="text"
+                    className=" inputTag"
+                    placeholder="title"
+                  />
+                  {errors?.title && (
+                    <div className=" text-red-500 text-sm">
+                      {errors?.title?.message}
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <input
+                    {...register("first")}
+                    type="text"
+                    className=" inputTag"
+                    placeholder="first"
+                  />
+                  {errors?.first && (
+                    <div className=" text-red-500 text-sm">
+                      {errors?.first?.message}
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <input
+                    {...register("middle")}
+                    type="text"
+                    className=" inputTag"
+                    placeholder="middle"
+                  />
+                  {errors?.middle && (
+                    <div className=" text-red-500 text-sm">
+                      {errors?.middle?.message}
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <input
+                    {...register("last")}
+                    type="text"
+                    className=" inputTag"
+                    placeholder="last"
+                  />
+                  {errors?.last && (
+                    <div className=" text-red-500 text-sm">
+                      {errors?.last?.message}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            {/* bio  */}
+            <div className=" grid gap-2">
+              <h4>Bio:</h4>
+              <div>
+                <textarea
+                  {...register("bio")}
+                  type="text"
+                  className=" inputTag"
+                  placeholder="bio"
+                  rows={4}
                 />
-                <Camera
-                  color="#ffffff"
-                  className=""
-                  size={70}
-                />
+                {errors?.bio && (
+                  <div className=" text-red-500 text-sm">
+                    {errors?.bio?.message}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* current position  */}
+        <div className=" grid gap-2">
+          <h4>Current Position:</h4>
+          <div className=" grid grid-cols-2 gap-2">
+            <div>
+              <input
+                {...register("currentPosTitle")}
+                type="text"
+                className=" inputTag"
+                placeholder="currentPosTitle"
+              />
+              {errors?.currentPosTitle && (
+                <div className=" text-red-500 text-sm">
+                  {errors?.currentPosTitle?.message}
+                </div>
+              )}
+            </div>
+            <div>
+              <input
+                {...register("currentPosAt")}
+                type="text"
+                className=" inputTag"
+                placeholder="currentPosAt"
+              />
+              {errors?.currentPosAt && (
+                <div className=" text-red-500 text-sm">
+                  {errors?.currentPosAt?.message}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        {/* about  */}
+        <div className=" grid gap-2">
+          <h4>About:</h4>
+          <div>
+            <textarea
+              {...register("about")}
+              type="text"
+              className=" inputTag w-full"
+              placeholder="about"
+              rows={8}
+            />
+            {errors?.about && (
+              <div className=" text-red-500 text-sm">
+                {errors?.about?.message}
               </div>
             )}
-            {userInfo?.avatar || avatar.url ? (
-              <Image
-                width={150}
-                height={150}
-                src={avatar.url ? avatar.url : `/media${userInfo?.avatar}`}
-                alt="DP"
-                className="rounded-full aspect-square"
+          </div>
+        </div>
+        {/* contact  */}
+        <div className=" grid gap-2">
+          <h4>Contact:</h4>
+          <div className=" grid grid-cols-2 gap-2">
+            <div>
+              <input
+                {...register("email")}
+                type="text"
+                className=" inputTag"
+                placeholder="email"
               />
-            ) : (
-              <CircleUserRound size={150} strokeWidth={1} stroke="#595959" />
-            )}
-          </div>
-          <div
-            className={`${
-              isEdit ? "gap-1 " : ""
-            } flex flex-col items-start w-full`}
-          >
-            {isEdit ? (
-              <>
-                <label className="labelTag">Name:</label>
-                <input
-                  className="inputTag w-full"
-                  type="text"
-                  value={name.value}
-                  onChange={(e) => {
-                    handleChangeName(e);
-                  }}
-                />
-              </>
-            ) : (
-              <h1 className="font-bold text-2xl mb-6">{userInfo?.name}</h1>
-            )}
-            {isEdit ? (
-              <>
-                <label className="labelTag">Username:</label>
-                <input
-                  className="inputTag w-full"
-                  type="text"
-                  value={username.value}
-                  onChange={(e) => {
-                    handleChangeUsername(e);
-                  }}
-                />
-              </>
-            ) : (
-              <h1 className="font-semibold text-lg">{userInfo?.username}</h1>
-            )}
+              {errors?.email && (
+                <div className=" text-red-500 text-sm">
+                  {errors?.email?.message}
+                </div>
+              )}
+            </div>
+            <div>
+              <input
+                {...register("phone")}
+                type="number"
+                className=" inputTag"
+                placeholder="Phone # e.g: 923101234567"
+              />
+              {errors?.phone && (
+                <div className=" text-red-500 text-sm">
+                  {errors?.phone?.message}
+                </div>
+              )}
+            </div>
           </div>
         </div>
-        <div className={`${isEdit && "w-[85%]"}`}>
-          <div className="">
-            {isEdit ? (
-              <>
-                <label className="block labelTag">Bio:</label>
-                <input
-                  className="inputTag w-full"
-                  type="text"
-                  value={bio.value}
-                  onChange={(e) => {
-                    handleChangeBio(e);
-                  }}
-                />
-              </>
-            ) : (
-              <p className="leading-6 font-semibold text-lg">{userInfo?.bio}</p>
-            )}
-            {isEdit ? (
-              <>
-                <label className="block labelTag">About:</label>
-                <textarea
-                  className="inputTag w-full"
-                  value={about.value}
-                  onChange={(e) => {
-                    handleChangeAbout(e);
-                  }}
-                ></textarea>
-              </>
-            ) : (
-              <p className="leading-8 mt-4">{userInfo?.about}</p>
-            )}
+        {/* socials links  */}
+        <div className="grid gap-2">
+          <h4>Social Links:</h4>
+          <div className=" grid gap-2 grid-cols-2">
+            <div>
+              <input
+                {...register("instagram")}
+                type="text"
+                className=" inputTag"
+                placeholder="instagram"
+              />
+              {errors?.instagram && (
+                <div className=" text-red-500 text-sm">
+                  {errors?.instagram?.message}
+                </div>
+              )}
+            </div>
+            <div>
+              <input
+                {...register("twitter")}
+                type="text"
+                className=" inputTag"
+                placeholder="twitter"
+              />
+              {errors?.twitter && (
+                <div className=" text-red-500 text-sm">
+                  {errors?.twitter?.message}
+                </div>
+              )}
+            </div>
+            <div>
+              <input
+                {...register("facebook")}
+                type="text"
+                className=" inputTag"
+                placeholder="facebook"
+              />
+              {errors?.facebook && (
+                <div className=" text-red-500 text-sm">
+                  {errors?.facebook?.message}
+                </div>
+              )}
+            </div>
+            <div>
+              <input
+                {...register("linkedin")}
+                type="text"
+                className=" inputTag"
+                placeholder="linkedin"
+              />
+              {errors?.linkedin && (
+                <div className=" text-red-500 text-sm">
+                  {errors?.linkedin?.message}
+                </div>
+              )}
+            </div>
+
+            <div>
+              <input
+                {...register("github")}
+                type="text"
+                className=" inputTag"
+                placeholder="github"
+              />
+              {errors?.github && (
+                <div className=" text-red-500 text-sm">
+                  {errors?.github?.message}
+                </div>
+              )}
+            </div>
+            <div>
+              <input
+                {...register("googleScholar")}
+                type="text"
+                className=" inputTag"
+                placeholder="googleScholar"
+              />
+              {errors?.googleScholar && (
+                <div className=" text-red-500 text-sm">
+                  {errors?.googleScholar?.message}
+                </div>
+              )}
+            </div>
+            <div>
+              <input
+                {...register("researchGate")}
+                type="text"
+                className=" inputTag"
+                placeholder="researchGate"
+              />
+              {errors?.researchGate && (
+                <div className=" text-red-500 text-sm">
+                  {errors?.researchGate?.message}
+                </div>
+              )}
+            </div>
           </div>
         </div>
-        {isEdit && (
-          <div className="flex items-end gap-6 justify-end w-[85%]">
-            <button
-              className="normalButtonTag bg-red-500 w-[16%]"
-              onClick={() => {
-                setIsEdit(false);
-              }}
-            >
-              Cancel
-            </button>
-            <button
-              disabled={isLoading}
-              className="actionButtonTag w-[16%]"
-              onClick={handleUpdateProfile}
-            >
-              {isLoading ?
-              <Loader2Icon className='animate-spin' />:
-              'Update' }
-            </button>
-          </div>
-        )}
-      <ChangePassword />
-      </div>
+
+        {/* form submit btn  */}
+        <button
+          disabled={isSubmitting}
+          type="submit"
+          className=" actionButtonTag"
+        >
+          {isSubmitting ? "Loading..." : "Update"}
+        </button>
+      </form>
     </div>
   );
 }
-
-export default dynamic(() => Promise.resolve(ProfileData), { ssr: false });
