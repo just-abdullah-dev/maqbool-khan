@@ -96,14 +96,24 @@ export default function Dashboard({ children }) {
   ];
 
   return (
-    <div className=" flex items-start">
+    <div className=" flex items-start relative">
+      {/* <div  className={`${
+          openSidebar
+            ? "w-[64%] sm:w-[44%] md:w-[30%] lg:w-[16%]"
+            : "w-[10%] sm:w-[8%] md:w-[6%] lg:w-[4%]"
+        }`}
+      >
+
+      </div> */}
       <div
         className={`${
           openSidebar
             ? "w-[64%] sm:w-[44%] md:w-[30%] lg:w-[16%]"
             : "w-[10%] sm:w-[8%] md:w-[6%] lg:w-[4%]"
-        } transition-all duration-1000 border-r h-screen border-black dark:border-white flex flex-col overflow-hidden`}
+        } `}
       >
+        <div className="border-r h-screen border-black dark:border-white flex flex-col overflow-hidden fixed  transition-all duration-1000" >
+          {/* side bar open & close btn  */}
         <button
           onClick={() => {
             setOpenSidebar(!openSidebar);
@@ -126,6 +136,7 @@ export default function Dashboard({ children }) {
             </div>
           )}
         </button>
+        {/* all options  */}
         {options.map((opt, index) => {
           return (
             <Link
@@ -146,6 +157,7 @@ export default function Dashboard({ children }) {
             </Link>
           );
         })}
+        {/* logout btn  */}
         <button
           className={`${
             !openSidebar && " justify-center"
@@ -157,6 +169,7 @@ export default function Dashboard({ children }) {
           <LogOut size={28} />
           {openSidebar && <p>Log Out</p>}
         </button>
+        </div>
       </div>
       <div
         className={`${

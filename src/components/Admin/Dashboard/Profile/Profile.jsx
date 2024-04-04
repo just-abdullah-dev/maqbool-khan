@@ -1,10 +1,13 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { userActions } from "@/store/reducers/userReducer";
+import toast from "react-hot-toast";
+import { Upload } from "lucide-react";
 
 const schema = z.object({
   title: z.string(),
@@ -22,12 +25,21 @@ const schema = z.object({
   currentPosAt: z.string(),
   currentPosTitle: z.string(),
   email: z.string().email(),
+  phone: z.string(),
+  about: z.string(),
 });
 
 export default function Profile() {
   let { userInfo } = useSelector((state) => state.user);
   userInfo = userInfo?.data;
   console.log(userInfo);
+  const dispatch = useDispatch();
+
+  const [avatar, setAvatar] = useState({
+    url: "",
+    value: null,
+    error: "",
+  });
 
   const {
     register,
@@ -44,7 +56,7 @@ export default function Profile() {
       currentPosTitle: userInfo?.currentPosition?.title,
       currentPosAt: userInfo?.currentPosition?.at,
       email: userInfo?.contact?.email,
-      phone: userInfo?.contact?.phone,
+      phone: userInfo?.contact?.phone + "",
       instagram: userInfo?.socials?.instagram,
       twitter: userInfo?.socials?.twitter,
       facebook: userInfo?.socials?.facebook,
@@ -57,25 +69,82 @@ export default function Profile() {
   });
 
   const submitHandler = async (data) => {
-    try {
-      var formdata = new FormData();
-formdata.append("files", fileInput.files[0], "abbas2.jpg");
-formdata.append("body", body);
-
-var requestOptions = {
-  method: 'PUT',
-  body: formdata,
-  redirect: 'follow'
-};
-
-fetch("/api/personal/maqboolkhan", requestOptions)
-  .then(response => response.text())
-  .then(result => console.log(result))
-  
-    } catch (error) {
-      toast.error(error?.message);
+    let formdata = new FormData();
+    if (avatar.url) {
+      formdata.append("files", avatar.value, avatar.value?.name);
     }
+    const body = {
+      name: {
+        title: data?.title,
+        first: data?.first,
+        middle: data?.middle,
+        last: data?.last,
+      },
+      currentPosition: {
+        title: data?.currentPosTitle,
+        at: data?.currentPosAt,
+      },
+      contact: {
+        email: data?.email,
+        phone: parseInt(data?.phone),
+      },
+      socials: {
+        instagram: data?.instagram,
+        twitter: data?.twitter,
+        facebook: data?.facebook,
+        linkedin: data?.linkedin,
+        github: data?.github,
+        googleScholar: data?.googleScholar,
+        researchGate: data?.researchGate,
+      },
+      bio: data?.bio,
+      about: data?.about,
+    };
+
+    formdata.append("body", JSON.stringify(body));
+
+    var requestOptions = {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+      body: formdata,
+      redirect: "follow",
+    };
+
+    await fetch("/api/personal/maqboolkhan", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        if (result?.success) {
+          dispatch(userActions.setUserInfo(result));
+          localStorage.setItem("account", JSON.stringify(result));
+          console.log(result);
+          toast.success(result?.message);
+        } else {
+          toast.error(data?.message);
+        }
+      })
+      .catch((error) => console.log("error", error));
+    setAvatar({
+      url: "",
+      value: null,
+      error: "",
+    });
   };
+
+  function handleChangeAvatar(event) {
+    const input = event.target;
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        setAvatar(() => {
+          return { url: e.target.result, error: "", value: input.files[0] };
+        });
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
   return (
     <div>
       <form
@@ -85,14 +154,29 @@ fetch("/api/personal/maqboolkhan", requestOptions)
         {/* avatar, name & bio  */}
         <div className=" flex p-8 bg-ray-500">
           {/* avatar  */}
-          <div className=" w-[25%] flex items-center justify-center">
+          <div className=" w-[25%] relative flex flex-col gap-6">
             <Image
               className=" rounded-full"
-              src={`/uploads/${userInfo?.avatar}`}
+              src={avatar?.url ? avatar?.url : `/uploads/${userInfo?.avatar}`}
               height={250}
               width={250}
               alt="Profile picture"
             />
+            <label htmlFor="avatar" className=" flex gap-2 cursor-pointer p-2 rounded-lg outline outline-1 dark:outline-primary_bg_light outline-primary_bg_dark">
+        <Upload />
+        Update Picture
+      </label>
+             <input
+            className=" absolute opacity-0"
+              type="file"
+              name="avatar"
+              id="avatar"
+              accept="image/*"
+              onChange={(event) => {
+                handleChangeAvatar(event);
+              }}
+            />
+            
           </div>
 
           {/* name & bio  */}

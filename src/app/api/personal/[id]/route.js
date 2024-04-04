@@ -23,16 +23,16 @@ export async function GET(req, { params }) {
 export async function PUT(req, { params }) {
   try {
     await connectDB();
-    const data = await userAuthGuard(req);
-    if (!data?.success) {
-      return resError(data?.message);
+    const authData = await userAuthGuard(req);
+    if (!authData?.success) {
+      return resError(authData?.message);
     }
 
     const { id } = params;
     const formData = await req.formData();
     let body = formData.getAll("body")[0];
     body = JSON.parse(body);
-    const { name, bio, about, currentPosition, contact, socials, password } =
+    const { name, bio, about, currentPosition, contact, socials } =
       body;
     const uploadedFiles = await uploadFiles(formData);
 
@@ -40,15 +40,16 @@ export async function PUT(req, { params }) {
     if (!user) {
       return resError(`${id} not found in database.`);
     }
+    
     user.name = name || user.name;
     user.bio = bio || user.bio;
     user.about = about || user.about;
     user.currentPosition = currentPosition || user.currentPosition;
     user.contact = contact || user.contact;
     user.socials = socials || user.socials;
-    user.password = password || user.password;
 
-    if (uploadedFiles[0] !== "") {
+    if (uploadedFiles.length > 0) {
+      console.log("I guess this works");
       if (user.avatar) {
         fileRemover(user.avatar);
       }
@@ -56,12 +57,12 @@ export async function PUT(req, { params }) {
     }
 
     const updatedUser = await user.save();
-    updatedUser.password = "";
+    updatedUser.password = null;
     return NextResponse.json(
       {
         success: true,
         message: `${updatedUser?.name?.first} profile has been updated.`,
-        data: updatedUser,
+        data:  { ...updatedUser?._doc, token: await user.generateJWT() },
       },
       { status: 200 }
     );
