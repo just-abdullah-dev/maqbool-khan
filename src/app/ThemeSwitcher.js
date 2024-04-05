@@ -18,7 +18,7 @@ const ThemeSwitcher = () => {
   }
 
   return (
-    <div className=" flex w-full justify-between items-center dark:bg-gray-950 p-2">
+    <div className=" flex w-full justify-between items-center dark:bg-gray-950 p-2 sticky z-50 top-0 ">
       The current theme is: {theme}
       <br />
       {theme === "light" && (

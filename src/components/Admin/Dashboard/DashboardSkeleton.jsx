@@ -96,23 +96,14 @@ export default function Dashboard({ children }) {
   ];
 
   return (
-    <div className=" flex items-start relative">
-      {/* <div  className={`${
-          openSidebar
-            ? "w-[64%] sm:w-[44%] md:w-[30%] lg:w-[16%]"
-            : "w-[10%] sm:w-[8%] md:w-[6%] lg:w-[4%]"
-        }`}
-      >
-
-      </div> */}
+    <div className=" flex items-start">
       <div
         className={`${
           openSidebar
             ? "w-[64%] sm:w-[44%] md:w-[30%] lg:w-[16%]"
             : "w-[10%] sm:w-[8%] md:w-[6%] lg:w-[4%]"
-        } `}
+        } border-r h-screen border-black dark:border-white flex flex-col overflow-hidden sticky top-10 z-50 transition-all duration-1000 `}
       >
-        <div className="border-r h-screen border-black dark:border-white flex flex-col overflow-hidden fixed  transition-all duration-1000" >
           {/* side bar open & close btn  */}
         <button
           onClick={() => {
@@ -169,7 +160,7 @@ export default function Dashboard({ children }) {
           <LogOut size={28} />
           {openSidebar && <p>Log Out</p>}
         </button>
-        </div>
+        
       </div>
       <div
         className={`${

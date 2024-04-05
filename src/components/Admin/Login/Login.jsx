@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-
+import Link from "next/link";
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -15,14 +15,14 @@ export default function Login() {
   const { userInfo } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  useEffect(()=>{
-    if(userInfo?.success){
-      toast('Already logged in!', {
-        icon: '🔓',
+  useEffect(() => {
+    if (userInfo?.success) {
+      toast("Already logged in!", {
+        icon: "🔓",
       });
-      router.push('/admin/pin/dashboard');
+      router.push("/admin/pin/dashboard");
     }
-  },[]);
+  }, []);
 
   const handleLogin = async (e) => {
     try {
@@ -51,24 +51,37 @@ export default function Login() {
       }
       setIsLoading(false);
     } catch (error) {
-      toast.error(error?.message)
+      toast.error(error?.message);
       console.error("Error during login:", error);
       setIsLoading(false);
     }
   };
 
   return (
-    <div>
-      <div>Content Management System of maqboolkhan.com</div>
-      <div>
-        <div>
-          <h2>Login</h2>
+    <div className="flex p-4 h-[600px]">
+      <div className=" w-1/3 flex items-center justify-center">
+        <div className=" grid gap-4">
+          <h1 className=" text-6xl font-bold">CMS</h1>
+          <h2 className=" text-xl">(Content Management System)</h2>
+          <Link
+            target="_blank"
+            href={"https://just-abdullah.vercel.app"}
+            className=" text-lg font-semibold"
+          >
+            By Just Abdullah
+          </Link>
+        </div>
+      </div>
+      <div className=" w-2/3 flex items-center justify-center">
+        <div className="w-[400px] grid gap-6">
+          <h2 className=" text-2xl font-semibold">Login as Admin</h2>
           <form
+            className=" grid gap-6"
             onSubmit={(e) => {
               handleLogin(e);
             }}
           >
-            <div>
+            <div className=" ">
               <input
                 className="inputTag w-full"
                 type="text"
@@ -102,8 +115,10 @@ export default function Login() {
               )}
             </div>
             <button
-            disabled={isLoading}
-            className="actionButtonTag" type="submit">
+              disabled={isLoading}
+              className="actionButtonTag w-full"
+              type="submit"
+            >
               Login
             </button>
           </form>
