@@ -20,13 +20,14 @@ export async function GET(req, { params }) {
 export async function PUT (req, {params}) {
   try {
     await connectDB();
-    const data = await userAuthGuard(req);
-    if(!data?.success){
-      return resError(data?.message);
+    const authData = await userAuthGuard(req);
+    if(!authData?.success){
+      return resError(authData?.message);
     }
     const {id} = params;
     const body = await req.json();
     const {title, company, desc, from, to, link} = body;
+    console.log(id);
     
     let exper = await Experience.findOne({_id: id});
     if(!exper){

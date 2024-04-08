@@ -74,7 +74,7 @@ export default function Login() {
       </div>
       <div className=" w-2/3 flex items-center justify-center">
         <div className="w-[400px] grid gap-6">
-          <h2 className=" text-2xl font-semibold">Login as Admin</h2>
+          <h2 className=" text-2xl font-semibold">Login</h2>
           <form
             className=" grid gap-6"
             onSubmit={(e) => {

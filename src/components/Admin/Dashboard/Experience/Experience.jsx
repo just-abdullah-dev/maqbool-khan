@@ -78,7 +78,7 @@ export default function Experience() {
             />
           ) : isEdit ? (
             <EditExperience
-              data={selectedObj}
+            prevData={selectedObj}
               goBack={() => {
                 setIsEdit(false);
                 setSelectedObj(null);
@@ -153,7 +153,8 @@ export default function Experience() {
                           </div>
                         </li>
                       );
-                    } else {
+                    } 
+                    else {
                       return (
                         <li key={index} className=" flex gap-4 items-start">
                           <div
@@ -179,3 +180,4 @@ export default function Experience() {
     </div>
   );
 }
+
