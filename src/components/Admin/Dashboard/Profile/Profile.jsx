@@ -123,10 +123,9 @@ export default function Profile() {
         if (result?.success) {
           dispatch(userActions.setUserInfo(result));
           localStorage.setItem("account", JSON.stringify(result));
-          console.log(result);
           toast.success(result?.message);
         } else {
-          toast.error(data?.message);
+          toast.error(result?.message);
         }
       })
       .catch((error) => console.log("error", error));

@@ -13,4 +13,4 @@ function promisify(func) {
   };
 }
 
-  export default { promisify };
+export default { promisify };

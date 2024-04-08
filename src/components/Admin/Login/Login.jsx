@@ -100,14 +100,14 @@ export default function Login() {
               />
               {showPassword ? (
                 <a
-                  className="absolute right-6 bottom-3 cursor-pointer"
+                  className="absolute right-4 bottom-2 cursor-pointer"
                   onClick={() => setShowPassowrd(false)}
                 >
                   <Eye />
                 </a>
               ) : (
                 <a
-                  className="absolute right-6 bottom-3 cursor-pointer"
+                  className="absolute right-4 bottom-2 cursor-pointer"
                   onClick={() => setShowPassowrd(true)}
                 >
                   <EyeOff />
