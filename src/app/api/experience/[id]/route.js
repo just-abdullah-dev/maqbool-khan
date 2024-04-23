@@ -37,7 +37,7 @@ export async function PUT (req, {params}) {
     exper.desc = desc || exper.desc;
     exper.company = company || exper.company;
     exper.from = from || exper.from;
-    exper.to = to || exper.to;
+    exper.to = to;
     exper.link = link || exper.link;
     
     const updatedExper = await exper.save();

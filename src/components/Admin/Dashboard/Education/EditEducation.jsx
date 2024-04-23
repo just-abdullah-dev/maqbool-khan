@@ -6,7 +6,7 @@ import { toast } from 'react-hot-toast';
 import { revalidateTagFunc } from "@/services/utils";
 
 
-export default function EditExperience({ goBack, prevData }) {
+export default function EditEducation({ goBack, prevData }) {
   const { userInfo } = useSelector((state) => state.user);
   const [ isWorking, setIsWorking ] = useState(false);
   const [ startDate, setStartDate ] = useState(prevData?.from ? prevData?.from.substring(0, 10) : "");
@@ -18,32 +18,36 @@ export default function EditExperience({ goBack, prevData }) {
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues:{
-      title: prevData?.title,
-      link: prevData?.link,
+      degree: prevData?.degree,
       desc: prevData?.desc,
-      company: prevData?.company,  
+      link: prevData?.link,
+      institute: prevData?.institute,
+      country: prevData?.country,
+      field: prevData?.field 
     }
   });
 
   const submitHandler = async (data) => {
-    const urlRegex = /^(https?:\/\/)?([\w-]+(\.[\w-]+)+\/?|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:\d+)?(\/\S*)?$/;
     
-    if(!data?.title || !data?.company || !startDate || !urlRegex.test(data?.link)){
+    if (!data?.degree || !data?.institute || !startDate || !data?.field || !data?.country) {
       toast.error("Kindly fill the fields.");
       return;
     }
-    if(!isWorking && !endDate){
-      toast.error("Kindly enter end date.");
+    if (!isWorking && !endDate) {
+      toast.error("Kindly enter the end date.");
       return;
     }
+
     let body = {
-      title: data?.title,
+      degree: data?.degree,
       desc: data?.desc,
-      from: startDate,
       link: data?.link,
-      company: data?.company,
+      institute: data?.institute,
+      country: data?.country,
+      field: data?.field,
+      from: startDate
     };
-    if(!isWorking){
+    if (!isWorking) {
       body.to = endDate;
     }else{
       body.to = undefined;
@@ -58,14 +62,12 @@ export default function EditExperience({ goBack, prevData }) {
       redirect: "follow",
     };
 
-    await fetch(`/api/experience/${prevData?._id}`, requestOptions)
+    await fetch(`/api/education/${prevData?._id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
-
         if (result?.success) {
           toast.success(result?.message);
-          revalidateTagFunc("experience")
+          revalidateTagFunc("education")
           window.location.reload();
         } else {
           toast.error(result?.message);
@@ -80,39 +82,51 @@ export default function EditExperience({ goBack, prevData }) {
         className=" grid gap-4 px-12 py-4"
       >
         <div className=" grid gap-4 grid-cols-2">
-          <div className=" grid gap-2">
-            <h4>Title:</h4>
+        <div className=" grid gap-2">
+            <h4>Degree:</h4>
             <div>
               <input
-                {...register("title")}
+                {...register("degree")}
                 type="text"
                 className=" inputTag"
-                placeholder="Title"
+                placeholder="Degree Name"
               />
             </div>
           </div>
           <div className=" grid gap-2">
-            <h4>Organization:</h4>
+            <h4>Field:</h4>
             <div>
               <input
-                {...register("company")}
+                {...register("field")}
                 type="text"
                 className=" inputTag"
-                placeholder="Organization"
+                placeholder="Field or Subject"
               />
             </div>
           </div>
           <div className=" grid gap-2">
-            <h4>Link:</h4>
+            <h4>Institute:</h4>
             <div>
               <input
-                {...register("link")}
+                {...register("institute")}
                 type="text"
                 className=" inputTag"
-                placeholder="Organization Link"
+                placeholder="Institute"
               />
             </div>
           </div>
+          <div className=" grid gap-2">
+            <h4>Country:</h4>
+            <div>
+              <input
+                {...register("country")}
+                type="text"
+                className=" inputTag"
+                placeholder="Country"
+              />
+            </div>
+          </div>
+          {/* start date  */}
           <div className=" grid gap-2">
             <h4>Starting Date:</h4>
             <div>
@@ -127,7 +141,7 @@ export default function EditExperience({ goBack, prevData }) {
             </div>
           </div>
           <div className=" grid gap-2">
-            <h4>Currently Working:</h4>
+            <h4>Currently Enrolled:</h4>
             <input type="checkbox" checked={isWorking} onChange={(e)=>{
             setIsWorking(e.target.checked);
           }} name="isWorking" id="isWorking" />
@@ -161,6 +175,7 @@ export default function EditExperience({ goBack, prevData }) {
             />
           </div>
         </div>
+        {/* btns  */}
         <div className=" flex items-center gap-4 py-4">
           {/* close btn  */}
         <button

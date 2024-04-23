@@ -36,7 +36,7 @@ export async function PUT (req, {params}) {
     edu.desc = desc || edu.desc;
     edu.institute = institute || edu.institute;
     edu.from = from || edu.from;
-    edu.to = to || edu.to;
+    edu.to = to;
     edu.field = field || edu.field;
     edu.country = country || edu.country;
     

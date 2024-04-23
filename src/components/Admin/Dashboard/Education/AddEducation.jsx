@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 
-export default function AddExperience({ goBack }) {
+export default function AddEducation({ goBack }) {
   const { userInfo } = useSelector((state) => state.user);
   const [isWorking, setIsWorking] = useState(false);
 
@@ -14,15 +14,9 @@ export default function AddExperience({ goBack }) {
   } = useForm();
 
   const submitHandler = async (data) => {
-    const urlRegex =
-      /^(https?:\/\/)?([\w-]+(\.[\w-]+)+\/?|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:\d+)?(\/\S*)?$/;
 
-    if (!data?.title || !data?.company || !data?.from) {
+    if (!data?.degree || !data?.institute || !data?.from || !data?.field || !data?.country) {
       toast.error("Kindly fill the fields.");
-      return;
-    }
-    if (!urlRegex.test(data?.link)) {
-      toast.error("Invalid URL");
       return;
     }
     if (!isWorking && !data?.to) {
@@ -30,11 +24,13 @@ export default function AddExperience({ goBack }) {
       return;
     }
     let body = {
-      title: data?.title,
+      degree: data?.degree,
       desc: data?.desc,
       from: data?.from,
       link: data?.link,
-      company: data?.company,
+      institute: data?.institute,
+      country: data?.country,
+      field: data?.field
     };
     if (!isWorking) {
       body.to = data?.to;
@@ -49,7 +45,7 @@ export default function AddExperience({ goBack }) {
       redirect: "follow",
     };
 
-    await fetch("/api/experience/maqboolkhan", requestOptions)
+    await fetch("/api/education/maqboolkhan", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
@@ -69,35 +65,46 @@ export default function AddExperience({ goBack }) {
       >
         <div className=" grid gap-4 grid-cols-2">
           <div className=" grid gap-2">
-            <h4>Title:</h4>
+            <h4>Degree:</h4>
             <div>
               <input
-                {...register("title")}
+                {...register("degree")}
                 type="text"
                 className=" inputTag"
-                placeholder="Title"
+                placeholder="Degree Name"
               />
             </div>
           </div>
           <div className=" grid gap-2">
-            <h4>Organization:</h4>
+            <h4>Field:</h4>
             <div>
               <input
-                {...register("company")}
+                {...register("field")}
                 type="text"
                 className=" inputTag"
-                placeholder="Organization"
+                placeholder="Field or Subject"
               />
             </div>
           </div>
           <div className=" grid gap-2">
-            <h4>Link:</h4>
+            <h4>Institute:</h4>
             <div>
               <input
-                {...register("link")}
+                {...register("institute")}
                 type="text"
                 className=" inputTag"
-                placeholder="Organization Link"
+                placeholder="Institute"
+              />
+            </div>
+          </div>
+          <div className=" grid gap-2">
+            <h4>Country:</h4>
+            <div>
+              <input
+                {...register("country")}
+                type="text"
+                className=" inputTag"
+                placeholder="Country"
               />
             </div>
           </div>
@@ -108,7 +115,7 @@ export default function AddExperience({ goBack }) {
             </div>
           </div>
           <div className=" grid gap-2">
-            <h4>Currently Working:</h4>
+            <h4>Currently Enrolled:</h4>
             <input
               type="checkbox"
               checked={isWorking}

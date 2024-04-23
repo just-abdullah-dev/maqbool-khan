@@ -6,22 +6,23 @@ import toast from "react-hot-toast";
 import { getAll, revalidateTagFunc } from "@/services/utils";
 import Loading from "@/components/Utils/Loading";
 import Error from "@/components/Utils/Error";
-import AddExperience from "./AddExperience";
-import EditExperience from "./EditExperience";
+import AddEducation from "./AddEducation";
+import EditEducation from "./EditEducation";
 import getFormatDate from "@/utils/formateDate";
 import { ChevronDown, ChevronUp, SquarePen, Trash } from "lucide-react";
 
-export default function Experience() {
+export default function Education() {
   const [isAdd, setIsAdd] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [selectedID, setSelectedID] = useState("");
-  const [allExperiences, setAllExperiences] = useState([]);
+  const [allEducations, setAllEducations] = useState([]);
   const [isError, setIsError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [selectedObj, setSelectedObj] = useState(null);
   const { userInfo } = useSelector((state) => state.user);
+  console.log(allEducations);
 
-  const deleteExperience = async (_id) => {
+  const deleteEducation = async (_id) => {
     if (!window.confirm("Are you sure to delete it?")) {
       return;
     } else {
@@ -33,13 +34,13 @@ export default function Experience() {
         redirect: "follow",
       };
 
-      await fetch(`/api/experience/${_id}`, requestOptions)
+      await fetch(`/api/education/${_id}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {
             toast.success(result?.message);
             window.location.reload();
-            revalidateTagFunc('experience');
+            revalidateTagFunc('education');
           } else {
             toast.error(result?.message);
           }
@@ -51,9 +52,9 @@ export default function Experience() {
   useEffect(() => {
     const main = async () => {
       setIsLoading(true);
-      const data = await getAll("maqboolkhan", "experience");
+      const data = await getAll("maqboolkhan", "education");
       if (data?.success) {
-        setAllExperiences(data?.data);
+        setAllEducations(data?.data);
       } else {
         setIsError(data?.message);
       }
@@ -71,13 +72,13 @@ export default function Experience() {
       ) : (
         <div>
           {isAdd ? (
-            <AddExperience
+            <AddEducation
               goBack={() => {
                 setIsAdd(false);
               }}
             />
           ) : isEdit ? (
-            <EditExperience
+            <EditEducation
             prevData={selectedObj}
               goBack={() => {
                 setIsEdit(false);
@@ -100,8 +101,8 @@ export default function Experience() {
               </div>
 
               <ul className=" p-12 grid gap-6">
-                {allExperiences.length > 0 &&
-                  allExperiences.map((item, index) => {
+                {allEducations.length > 0 &&
+                  allEducations.map((item, index) => {
                     if (selectedID === item?._id) {
                       return (
                         <li key={index} className=" flex items-start gap-4">
@@ -117,11 +118,11 @@ export default function Experience() {
                           <div className=" w-full">
                             <div className=" flex items-center justify-between">
                               <h1 className=" text-2xl font-semibold">
-                                {item?.title}
+                                {item?.degree}
                               </h1>
                               <div className="">
                                 {getFormatDate(item?.from)} ---{" "}
-                                {item?.to ? getFormatDate(item?.to) : "Present"}
+                                {item?.to ? getFormatDate(item?.to) : "Currently Enrolled"}
                               </div>
                               <div className="  flex gap-4 ">
                                 <button
@@ -136,7 +137,7 @@ export default function Experience() {
                                 <button
                                   type="button"
                                   onClick={() => {
-                                    deleteExperience(item?._id);
+                                    deleteEducation(item?._id);
                                   }}
                                 >
                                   <Trash />
@@ -144,11 +145,16 @@ export default function Experience() {
                               </div>
                             </div>
 
-                            <Link target={"_blank"} href={item?.link}>
-                              <h1 className="text-lg font-semibold">
-                                {item?.company}
+                              <h1 className="text-xl font-semibold">
+                                {item?.field}
                               </h1>
-                            </Link>
+                              
+                              <div className="text-lg font-semibold flex gap-2">
+                              <h1>
+                                {item?.institute},
+                              </h1>
+                                <p className=" font-bold">{item?.country}</p>
+                              </div>
                             <p>{item?.desc}</p>
                           </div>
                         </li>
@@ -166,7 +172,7 @@ export default function Experience() {
                             <ChevronDown size={32} />
                           </div>
                           <h1 className=" text-2xl font-semibold">
-                            {item?.title}
+                            {item?.degree}
                           </h1>
                         </li>
                       );
