@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
+import { ArrowRight } from "lucide-react";
 
-export default function AddEducation({ goBack }) {
+export default function AddPublication({ goBack }) {
   const { userInfo } = useSelector((state) => state.user);
-  const [isWorking, setIsWorking] = useState(false);
+  const [members, setMembers] = useState([]);
 
   const {
     register,
@@ -14,27 +15,25 @@ export default function AddEducation({ goBack }) {
   } = useForm();
 
   const submitHandler = async (data) => {
+    const urlRegex =
+    /^(https?:\/\/)?([\w-]+(\.[\w-]+)+\/?|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:\d+)?(\/\S*)?$/;
 
-    if (!data?.degree || !data?.institute || !data?.from || !data?.field || !data?.country) {
+    if (!data?.title || !data?.year || members.length === 0) {
       toast.error("Kindly fill the fields.");
       return;
     }
-    if (!isWorking && !data?.to) {
-      toast.error("Kindly enter the end date.");
+    
+    if (!urlRegex.test(data?.link)) {
+      toast.error("Invalid URL");
       return;
     }
+
     let body = {
-      degree: data?.degree,
-      desc: data?.desc,
-      from: data?.from,
+      title: data?.title,
       link: data?.link,
-      institute: data?.institute,
-      country: data?.country,
-      field: data?.field
+      year: data?.year,
+      members
     };
-    if (!isWorking) {
-      body.to = data?.to;
-    }
 
     const requestOptions = {
       method: "POST",
@@ -45,7 +44,7 @@ export default function AddEducation({ goBack }) {
       redirect: "follow",
     };
 
-    await fetch("/api/education/maqboolkhan", requestOptions)
+    await fetch("/api/publications/maqboolkhan", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
@@ -57,6 +56,24 @@ export default function AddEducation({ goBack }) {
       })
       .catch((error) => console.log("error", error));
   };
+
+  const handleKeyDown = (e) => {
+    const value = e.target.value;
+    if (e.key === 'Tab'){
+      setMembers((prev)=>[...prev, value]);
+      e.target.value = "";
+    }
+  }
+
+  const handleDeleteMember = (value) => {
+    let membersArr = [];
+    members.map((item)=>{
+      if(item !== value){
+        membersArr.push(item);
+      }
+    })
+      setMembers(membersArr);
+  }
   return (
     <div>
       <form
@@ -64,92 +81,60 @@ export default function AddEducation({ goBack }) {
         className=" grid gap-4 px-12 py-4"
       >
         <div className=" grid gap-4 grid-cols-2">
+          {/* title  */}
           <div className=" grid gap-2">
-            <h4>Degree:</h4>
+            <h4>Title:</h4>
             <div>
               <input
-                {...register("degree")}
+                {...register("title")}
                 type="text"
                 className=" inputTag"
-                placeholder="Degree Name"
+                placeholder="Title"
               />
             </div>
           </div>
           <div className=" grid gap-2">
-            <h4>Field:</h4>
+            <h4>Link:</h4>
             <div>
               <input
-                {...register("field")}
+                {...register("link")}
                 type="text"
                 className=" inputTag"
-                placeholder="Field or Subject"
+                placeholder="Link"
               />
             </div>
           </div>
           <div className=" grid gap-2">
-            <h4>Institute:</h4>
+            <h4>Year:</h4>
             <div>
               <input
-                {...register("institute")}
+                {...register("year")}
                 type="text"
                 className=" inputTag"
-                placeholder="Institute"
+                placeholder="Year e.g 2020"
               />
             </div>
           </div>
           <div className=" grid gap-2">
-            <h4>Country:</h4>
+            <h4>Type members name & press TAB to add:</h4>
             <div>
               <input
-                {...register("country")}
                 type="text"
                 className=" inputTag"
-                placeholder="Country"
-              />
-            </div>
-          </div>
-          <div className=" grid gap-2">
-            <h4>Starting Date:</h4>
-            <div>
-              <input {...register("from")} type="date" className=" inputTag" />
-            </div>
-          </div>
-          <div className=" grid gap-2">
-            <h4>Currently Enrolled:</h4>
-            <input
-              type="checkbox"
-              checked={isWorking}
-              onChange={(e) => {
-                setIsWorking(e.target.checked);
-              }}
-              name="isWorking"
-              id="isWorking"
-            />
-          </div>
-          <div className=" grid gap-2">
-            <h4>Ending Date:</h4>
-            <div className="">
-              <input
-                disabled={isWorking}
-                {...register("to")}
-                type="date"
-                className=" inputTag disabled:opacity-60 disabled:cursor-not-allowed"
+                onKeyDown={handleKeyDown}
+                placeholder="Type members name & press TAB to add."
               />
             </div>
           </div>
         </div>
-
         <div className=" grid gap-2">
-          <h4>Description:</h4>
-          <div>
-            <textarea
-              {...register("desc")}
-              type="text"
-              className=" inputTag"
-              placeholder="Description"
-              rows={4}
-            />
-          </div>
+            <h4>Members:</h4>
+            <ul className=" px-6">
+              {members.length > 0 && members.map((item, index)=>{
+                return <li className=" flex gap-2 items-center" key={index}>
+                <ArrowRight size={18} />{item} <p className=" cursor-pointer text-red-500" onClick={()=>handleDeleteMember(item)}>Remove</p></li>
+              })}
+            </ul>
         </div>
         <div className=" flex items-center gap-4 py-4">
           {/* close btn  */}

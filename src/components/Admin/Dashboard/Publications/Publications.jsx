@@ -6,22 +6,24 @@ import toast from "react-hot-toast";
 import { getAll, revalidateTagFunc } from "@/services/utils";
 import Loading from "@/components/Utils/Loading";
 import Error from "@/components/Utils/Error";
-import AddEducation from "./AddEducation";
-import EditEducation from "./EditEducation";
+import AddEducation from "./AddPublication";
+import EditEducation from "./EditPublication";
 import getFormatDate from "@/utils/formateDate";
 import { ChevronDown, ChevronUp, SquarePen, Trash } from "lucide-react";
+import AddPublication from "./AddPublication";
+import EditPublication from "./EditPublication";
 
-export default function Education() {
+export default function Publications() {
   const [isAdd, setIsAdd] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [selectedID, setSelectedID] = useState("");
-  const [allEducations, setAllEducations] = useState([]);
+  const [allPublications, setAllPublications] = useState([]);
   const [isError, setIsError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [selectedObj, setSelectedObj] = useState(null);
   const { userInfo } = useSelector((state) => state.user);
 
-  const deleteEducation = async (_id) => {
+  const deletePublication = async (_id) => {
     if (!window.confirm("Are you sure to delete it?")) {
       return;
     } else {
@@ -33,13 +35,13 @@ export default function Education() {
         redirect: "follow",
       };
 
-      await fetch(`/api/education/${_id}`, requestOptions)
+      await fetch(`/api/publications/${_id}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {
             toast.success(result?.message);
             window.location.reload();
-            revalidateTagFunc("education");
+            revalidateTagFunc("publications");
           } else {
             toast.error(result?.message);
           }
@@ -51,9 +53,9 @@ export default function Education() {
   useEffect(() => {
     const main = async () => {
       setIsLoading(true);
-      const data = await getAll("maqboolkhan", "education");
+      const data = await getAll("maqboolkhan", "publications");
       if (data?.success) {
-        setAllEducations(data?.data);
+        setAllPublications(data?.data);
       } else {
         setIsError(data?.message);
       }
@@ -61,7 +63,7 @@ export default function Education() {
     };
     main();
   }, []);
-
+  
   return (
     <div className=" px-12 py-6">
       {isError ? (
@@ -71,13 +73,13 @@ export default function Education() {
       ) : (
         <div>
           {isAdd ? (
-            <AddEducation
+            <AddPublication
               goBack={() => {
                 setIsAdd(false);
               }}
             />
           ) : isEdit ? (
-            <EditEducation
+            <EditPublication
               prevData={selectedObj}
               goBack={() => {
                 setIsEdit(false);
@@ -100,8 +102,8 @@ export default function Education() {
               </div>
 
               <ul className=" p-12 grid gap-6">
-                {allEducations.length > 0 &&
-                  allEducations.map((item, index) => {
+                {allPublications.length > 0 &&
+                  allPublications.map((item, index) => {
                     if (selectedID === item?._id) {
                       return (
                         <li key={index} className=" flex items-start gap-4">
@@ -117,13 +119,10 @@ export default function Education() {
                           <div className=" w-full">
                             <div className=" flex items-center justify-between">
                               <h1 className=" text-2xl font-semibold">
-                                {item?.degree}
+                                {item?.title}
                               </h1>
                               <div className="">
-                                {getFormatDate(item?.from)} ---{" "}
-                                {item?.to
-                                  ? getFormatDate(item?.to)
-                                  : "Currently Enrolled"}
+                                {item?.year}
                               </div>
                               <div className="  flex gap-4 ">
                                 <button
@@ -138,7 +137,7 @@ export default function Education() {
                                 <button
                                   type="button"
                                   onClick={() => {
-                                    deleteEducation(item?._id);
+                                    deletePublication(item?._id);
                                   }}
                                 >
                                   <Trash />
@@ -146,15 +145,15 @@ export default function Education() {
                               </div>
                             </div>
 
-                            <h1 className="text-xl font-semibold">
-                              {item?.field}
+                           <div>
+                           {item?.members.map((ele, index)=>{
+                              return <h1 key={index} className="font-semibold">
+                              {ele}
                             </h1>
+                            })}
+                           </div>
 
-                            <div className="text-lg font-semibold flex gap-2">
-                              <h1>{item?.institute},</h1>
-                              <p className=" font-bold">{item?.country}</p>
-                            </div>
-                            <p>{item?.desc}</p>
+                            <Link className=" text-blue-500 hover:text-blue-600" href={item?.link}>{item?.link}</Link>
                           </div>
                         </li>
                       );
@@ -170,7 +169,7 @@ export default function Education() {
                             <ChevronDown size={32} />
                           </div>
                           <h1 className=" text-2xl font-semibold">
-                            {item?.degree}
+                            {item?.title}
                           </h1>
                         </li>
                       );
