@@ -6,22 +6,22 @@ import toast from "react-hot-toast";
 import { getAll, revalidateTagFunc } from "@/services/utils";
 import Loading from "@/components/Utils/Loading";
 import Error from "@/components/Utils/Error";
-import AddEducation from "./AddEducation";
-import EditEducation from "./EditEducation";
+import AddSkill from "./AddSkill";
+import EditSkill from "./EditSkills";
 import getFormatDate from "@/utils/formateDate";
-import { ChevronDown, ChevronUp, SquarePen, Trash } from "lucide-react";
+import { ArrowRight, ChevronDown, ChevronUp, SquarePen, Trash } from "lucide-react";
 
-export default function Education() {
+export default function Skills() {
   const [isAdd, setIsAdd] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [selectedID, setSelectedID] = useState("");
-  const [allEducations, setAllEducations] = useState([]);
+  const [allSkills, setAllSkills] = useState([]);
   const [isError, setIsError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [selectedObj, setSelectedObj] = useState(null);
   const { userInfo } = useSelector((state) => state.user);
 
-  const deleteEducation = async (_id) => {
+  const deleteSkill = async (_id) => {
     if (!window.confirm("Are you sure to delete it?")) {
       return;
     } else {
@@ -33,13 +33,13 @@ export default function Education() {
         redirect: "follow",
       };
 
-      await fetch(`/api/education/${_id}`, requestOptions)
+      await fetch(`/api/skills/${_id}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {
             toast.success(result?.message);
             window.location.reload();
-            revalidateTagFunc("education");
+            revalidateTagFunc("skills");
           } else {
             toast.error(result?.message);
           }
@@ -51,9 +51,9 @@ export default function Education() {
   useEffect(() => {
     const main = async () => {
       setIsLoading(true);
-      const data = await getAll("maqboolkhan", "education");
+      const data = await getAll("maqboolkhan", "skills");
       if (data?.success) {
-        setAllEducations(data?.data);
+        setAllSkills(data?.data);
       } else {
         setIsError(data?.message);
       }
@@ -71,13 +71,13 @@ export default function Education() {
       ) : (
         <div>
           {isAdd ? (
-            <AddEducation
+            <AddSkill
               goBack={() => {
                 setIsAdd(false);
               }}
             />
           ) : isEdit ? (
-            <EditEducation
+            <EditSkill
               prevData={selectedObj}
               goBack={() => {
                 setIsEdit(false);
@@ -100,8 +100,8 @@ export default function Education() {
               </div>
 
               <ul className=" p-12 grid gap-6">
-                {allEducations.length > 0 &&
-                  allEducations.map((item, index) => {
+                {allSkills.length > 0 &&
+                  allSkills.map((item, index) => {
                     if (selectedID === item?._id) {
                       return (
                         <li key={index} className=" flex items-start gap-4">
@@ -117,14 +117,8 @@ export default function Education() {
                           <div className=" w-full">
                             <div className=" flex items-center justify-between">
                               <h1 className=" text-2xl font-semibold">
-                                {item?.degree}
+                                {item?.title}
                               </h1>
-                              <div className="">
-                                {getFormatDate(item?.from)} ---{" "}
-                                {item?.to
-                                  ? getFormatDate(item?.to)
-                                  : "Currently Enrolled"}
-                              </div>
                               <div className="  flex gap-4 ">
                                 <button
                                   type="button"
@@ -138,23 +132,19 @@ export default function Education() {
                                 <button
                                   type="button"
                                   onClick={() => {
-                                    deleteEducation(item?._id);
+                                    deleteSkill(item?._id);
                                   }}
                                 >
                                   <Trash />
                                 </button>
                               </div>
                             </div>
-
-                            <h1 className="text-xl font-semibold">
-                              {item?.field}
-                            </h1>
-
-                            <div className="text-lg font-semibold flex gap-2">
-                              <h1>{item?.institute},</h1>
-                              <p className=" font-bold">{item?.country}</p>
-                            </div>
-                            <p>{item?.desc}</p>
+                            <ul className=" px-6">
+                              {item?.items.map((skill, index)=>{
+                                return <li className=" flex gap-2 items-center" key={index}>
+                                  <ArrowRight size={18} />{skill}</li>
+                              })}
+                            </ul>
                           </div>
                         </li>
                       );
@@ -170,7 +160,7 @@ export default function Education() {
                             <ChevronDown size={32} />
                           </div>
                           <h1 className=" text-2xl font-semibold">
-                            {item?.degree}
+                            {item?.title}
                           </h1>
                         </li>
                       );
