@@ -6,7 +6,7 @@ const courseSchema = mongoose.Schema({
   parent: { type: String, required: true },
 });
 
-let Course;
+let Course; 
 try {
   Course = mongoose.model("Course");
 } catch (e) {

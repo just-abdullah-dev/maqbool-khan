@@ -14,7 +14,7 @@ let Specialization;
 try {
   Specialization = mongoose.model('Specialization');
 } catch (e) {
-  Specialization = mongoose.model('Specialization', specializationSchema);
+  Specialization = mongoose.model('Specialization', specializationSchema); 
 }
 
 export default Specialization;
