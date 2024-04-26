@@ -81,7 +81,8 @@ export async function PUT(req, { params }) {
     certi.seriesId = seriesId || certi.seriesId;
     certi.link = link || certi.link;
     certi.certificationId = certificationId || certi.certificationId;
-    if(uploadedFiles[0] !== null){
+    
+    if(uploadedFiles.length > 0){
       if(certi.image !== ""){
         fileRemover(certi.image);
       }

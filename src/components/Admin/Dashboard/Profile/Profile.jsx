@@ -9,7 +9,6 @@ import { userActions } from "@/store/reducers/userReducer";
 import toast from "react-hot-toast";
 import { Upload } from "lucide-react";
 import ChangePassword from "./ChangePassword";
-import { X } from "lucide-react";
 
 const schema = z.object({
   title: z.string(),

@@ -49,7 +49,6 @@ export async function PUT(req, { params }) {
     user.socials = socials || user.socials;
 
     if (uploadedFiles.length > 0) {
-      console.log("I guess this works");
       if (user.avatar) {
         fileRemover(user.avatar);
       }

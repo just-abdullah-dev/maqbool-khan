@@ -10,7 +10,7 @@ const userAuthGuard = async (req) => {
             const data = await Personal.findById(id).select("-password");
             return {success: true, message: "Token verified", data};
         } catch(error) {
-            return {success: false, message: "Invalid Token"};
+            return {success: false, message: "Invalid Token - Login Again"};
         }
 }
 
