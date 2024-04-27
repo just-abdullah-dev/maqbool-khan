@@ -19,12 +19,12 @@ export default function AddCourse({ goBack, _id }) {
     const urlRegex =
     /^(https?:\/\/)?([\w-]+(\.[\w-]+)+\/?|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:\d+)?(\/\S*)?$/;
     
-    if (!urlRegex.test(data?.link)) {
-      toast.error("Invalid URL");
-      return;
-    }
     if (!data?.title) {
       toast.error("Title cannot be left emptyy.");
+      return;
+    }
+    if (!urlRegex.test(data?.link)) {
+      toast.error("Invalid URL");
       return;
     }
 
