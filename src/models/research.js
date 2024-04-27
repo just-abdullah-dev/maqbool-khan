@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const memberSchema = mongoose.Schema({
   title: {type: String},
   link: {type: String}
-});
+}); 
 
 const researchSchema = mongoose.Schema(
   {
@@ -12,7 +12,8 @@ const researchSchema = mongoose.Schema(
     professorId: {type : String},
     organizationChair: {type: [String]},
     sessionChair: {type : [String]},
-    member: {type: [memberSchema]}
+    member: {type: [memberSchema]},
+    members: {type: [Object]}, 
   }
 );
 

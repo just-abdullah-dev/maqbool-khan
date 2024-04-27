@@ -3,6 +3,7 @@ import userAuthGuard from "@/middleware/userAuth";
 import Research from "@/models/research";
 import resError from "@/utils/resError";
 import { NextResponse } from "next/server";
+import { object } from "zod";
 
 export async function GET(req, { params }) {
   try {
@@ -24,7 +25,8 @@ export async function POST(req, { params }) {
     }
     const { id } = params;
     const body = await req.json();
-    let { interest, reviewer, organizationChair, sessionChair, member } = body;
+    // member means subschema & members means simple object 
+    let { interest, reviewer, organizationChair, sessionChair, member, members } = body;
     if (!interest) {
       return resError("Please enter your areas of interest.");
     }
@@ -35,6 +37,7 @@ export async function POST(req, { params }) {
       member,
       sessionChair,
       professorId: id,
+      members
     });
 
     return NextResponse.json(
@@ -60,7 +63,7 @@ export async function PUT(req, { params }) {
 
     const { id } = params;
     const body = await req.json();
-    const { interest, reviewer, organizationChair, sessionChair } = body;
+    const { interest, reviewer, organizationChair, sessionChair, members } = body;
 
     let research = await Research.findOne({ _id: id });
     if (!research) {
@@ -71,6 +74,7 @@ export async function PUT(req, { params }) {
     research.organizationChair =
       organizationChair || research.organizationChair;
     research.sessionChair = sessionChair || research.sessionChair;
+    research.members = members || research.members;
 
     const updatedResearch = await research.save();
 
