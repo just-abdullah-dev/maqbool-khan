@@ -9,7 +9,7 @@ import { NextResponse } from "next/server";
 export async function GET(req, { params }) {
   try {
     await connectDB();
-    const { id } = params;
+    const { id } = params; 
     const data = await Gallery.find({ professorId: id });
     return NextResponse.json({ success: true, data }, { status: 200 });
   } catch (error) {
