@@ -73,6 +73,7 @@ export async function PUT(req, { params }) {
 // only for developer
 export async function POST(req, { params }) {
   try {
+    await connectDB();
     const { id } = params;
     let user = await Personal.findOne({ id });
     if (user) {
