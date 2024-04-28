@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
-import { Upload } from "lucide-react";
+import { Trash, Upload } from "lucide-react";
 import Image from "next/image";
 import { revalidateTagFunc } from "@/services/utils";
 
@@ -25,7 +25,23 @@ export default function AddGallery({ goBack }) {
       setImagePreviews(previews.concat(imagePreviews))
     }
   }
+  const handleDeleteImage = (name)=>{
+    let images1 = [];
+    images.map((img)=>{
+      if(img?.name !== name){
+        images1.push(img);
+      }
+    })
+    setImages(images1);
 
+    let images2 = [];
+    imagePreviews.map((img)=>{
+      if(img?.file?.name !== name){
+        images2.push(img);
+      }
+    })
+    setImagePreviews(images2);
+  }
   const {
     register,
     handleSubmit,
@@ -33,14 +49,12 @@ export default function AddGallery({ goBack }) {
   } = useForm();
 
   const submitHandler = async (data) => {
-    console.log(data);
     if (!data?.countryName || !data?.slug ) {
       toast.error("Kindly fill the fields.");
       return;
     }
 
     let formData = new FormData();
-    console.log(images);
     images.forEach((img) => {
       formData.append("files", img, img.name);
     });
@@ -123,20 +137,31 @@ export default function AddGallery({ goBack }) {
               }}
             />
           </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Image previews */}
           {imagePreviews.map((preview, index) => (
-            <div key={index} className="w-full flex items-center justify-center">
+            <div key={index} className="w-full flex items-center justify-center relative">
+              
               <Image
-                className="rounded-full aspect-square"
+                className="rounded-lg aspect-auto"
                 width={200}
                 height={200}
                 alt={`Image ${index + 1}`}
                 src={preview?.url}
               />
+              <div 
+              className=" absolute top-4 right-8 text-red-500 cursor-pointer p-2 bg-gray-300 rounded-lg">
+              <Trash
+              size={18}
+              onClick={()=>{
+                handleDeleteImage(preview?.file?.name);
+              }}
+              />
+                </div>
             </div>
           ))}
-        </div>
-
+</div>
         <div className="flex items-center gap-4 py-4">
           {/* Close button */}
           <button
