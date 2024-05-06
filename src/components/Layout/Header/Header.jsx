@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import ThemeSwitcher from "@/components/Utils/ThemeSwitcher";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,12 +20,10 @@ const Header = () => {
   ];
 
   return (
-    <header className="p-6 md:px-16 flex justify-between items-center relative">
-      {/* Name */}
-      <div className="text-xl font-bold">Name</div>
+    <header className="p-4 md:px-16 flex justify-end md:justify-center items-center relative">
 
       {/* Desktop Menu */}
-      <nav className="hidden md:flex space-x-8">
+      <nav className="hidden md:flex space-x-12">
         {nav_links.map((item, index) => {
           return (
             <Link onClick={()=>setIsMenuOpen(false)} key={index} href={`/${item.link}`} className="">
@@ -33,9 +32,11 @@ const Header = () => {
           );
         })}
       </nav>
-
+        <div className=" mx-4">
+        <ThemeSwitcher />
+        </div>
       {/* Mobile Menu */}
-      <div className="md:hidden">
+      <div className="md:hidden mt-2">
         <button name="" onClick={toggleMenu} className="">
           {isMenuOpen ? <X/> : <Menu />}
         </button>
@@ -44,7 +45,7 @@ const Header = () => {
       {/* Mobile Menu Content */}
       <div
         id="sidebar"
-        className=" absolute top-full z-50 -right-36 bg-gray-800 duration-500 w-fit h-screen"
+        className=" absolute top-full z-50 -right-36  bg-gray-200 dark:bg-gray-800 duration-500 w-fit h-screen"
       >
         {isMenuOpen && (
           <nav className="flex flex-col space-y-2 p-6 pr-12">
@@ -63,6 +64,7 @@ const Header = () => {
           </nav>
         )}
       </div>
+
     </header>
   );
 };

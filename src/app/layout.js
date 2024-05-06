@@ -1,7 +1,6 @@
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import Providers from "./providers";
-import ThemeSwitcher from "./ThemeSwitcher";
 import ReduxProvider from "@/store/ReduxProvider";
 
 export const metadata = {
@@ -15,7 +14,6 @@ export default function RootLayout({ children }) {
       <body className=" dark:bg-gray-900 bg-gray-100 text-gray-900 dark:text-white">
         <Providers>
           <ReduxProvider>
-          <ThemeSwitcher />
           {children}
           <Toaster />
           </ReduxProvider>
