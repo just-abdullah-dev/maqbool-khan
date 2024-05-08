@@ -9,6 +9,7 @@ import { userActions } from "@/store/reducers/userReducer";
 import toast from "react-hot-toast";
 import { Upload } from "lucide-react";
 import ChangePassword from "./ChangePassword";
+import { revalidateTagFunc } from "@/services/utils";
 
 const schema = z.object({
   title: z.string(),
@@ -123,6 +124,7 @@ export default function Profile() {
           dispatch(userActions.setUserInfo(result));
           localStorage.setItem("account", JSON.stringify(result));
           toast.success(result?.message);
+          revalidateTagFunc("personal")
         } else {
           toast.error(result?.message);
         }

@@ -1,12 +1,10 @@
 
+'use server';
+
+import { revalidateTag } from "next/cache";
 
 export async function revalidateTagFunc(tag){
-  const requestOptions = {
-      method: 'GET',
-      redirect: "follow",
-    };
-  const data = await fetch(`/revalidate/${tag}`, requestOptions);
-  return data.json();
+  revalidateTag(tag)
 }
 
 export async function getAll(professorId, tableName){
@@ -15,6 +13,6 @@ export async function getAll(professorId, tableName){
       redirect: "follow",
       next: { tags: [tableName] }
     };
-  const data = await fetch(`/api/${tableName}/${professorId}`, requestOptions);
+  const data = await fetch(`http://localhost:3000/api/${tableName}/${professorId}`, requestOptions);
   return data.json();
 }

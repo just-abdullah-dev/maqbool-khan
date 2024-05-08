@@ -19,8 +19,8 @@ import {
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
+import AdminHeader from "../AdminHeader";
 
 export default function Dashboard({ children }) {
   const dispatch = useDispatch();
@@ -96,7 +96,9 @@ export default function Dashboard({ children }) {
   ];
 
   return (
-    <div className=" flex items-start">
+    <div>
+      <AdminHeader />
+      <div className=" flex items-start">
       <div
         className={`${
           openSidebar
@@ -171,6 +173,7 @@ export default function Dashboard({ children }) {
       >
         {children}
       </div>
+    </div>
     </div>
   );
 }
