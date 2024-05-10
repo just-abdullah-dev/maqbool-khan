@@ -21,6 +21,7 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AdminHeader from "../AdminHeader";
+import toast from "react-hot-toast";
 
 export default function Dashboard({ children }) {
   const dispatch = useDispatch();
@@ -31,10 +32,31 @@ export default function Dashboard({ children }) {
   const currentWindow = arr[arr.length-1];
 
   useEffect(() => {
-    if (!userInfo?.success) {
-      router.back();
+    const main = async () => {
+      if (!userInfo?.success) {
+        router.push("/admin/pin/login");
+        return;
+      }
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${userInfo?.data?.token}`,
+        },
+        redirect: "follow",
+      };
+      await fetch("/api/auth/session", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        if (!result?.success) {
+          toast.error(result?.message);
+          router.push("/admin/pin/login");
+        }
+      })
+      .catch((error) => console.log("error", error));
     }
+    main();
   }, []);
+
   const logoutHandler = () => {
     dispatch(logout());
     router.push("/admin/pin/login");

@@ -3,7 +3,6 @@ import Image from 'next/image';
 import React from 'react'
 
 export default function AboutData({data}) {
-    console.log(data);
     if(!data?.success){
         return <Error message={data?.message} />
     }
@@ -12,6 +11,7 @@ export default function AboutData({data}) {
   return (
     <div className=' flex items-center justify-center'>
         <div className=' w-fit flex items-center flex-col gap-6 bg-gray-60 px-12 py-6 rounded-2xl'>
+            {/* avatar image  */}
             <div className=' w-fit aspect-square flex items-center justify-center rounded-full border-4 border-mountain-meadow-500 overflow-hidden'>
                 <Image
                 src={`/uploads/${data?.avatar}`}

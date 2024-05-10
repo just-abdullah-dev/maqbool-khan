@@ -93,7 +93,7 @@ export default function Experience() {
                     setIsAdd(!isAdd);
                   }}
                   type="button"
-                  className={`bg-blue-500 normalButtonTag w-[10%] float right-0`}
+                  className={` actionButtonTag w-[10%] float right-0`}
                 >
                   Add
                 </button>
@@ -158,7 +158,7 @@ export default function Experience() {
                       return (
                         <li key={index} className=" flex gap-4 items-start">
                           <div
-                            className="flex items-center justify-center"
+                            className="flex items-center justify-center cursor-pointer"
                             onClick={() => {
                               setSelectedID(item?._id);
                             }}

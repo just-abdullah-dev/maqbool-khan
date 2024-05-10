@@ -16,12 +16,27 @@ export default function Login() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (userInfo?.success) {
-      toast("Already logged in!", {
-        icon: "🔓",
-      });
-      router.push("/admin/pin/dashboard");
+    const main = async () => {
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${userInfo?.data?.token}`,
+      },
+      redirect: "follow",
+    };
+    await fetch("/api/auth/session", requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      if (result?.success) {
+          toast("Already logged in!", {
+            icon: "🔓",
+          });
+          router.push("/admin/pin/dashboard");
+      }
+    })
+    .catch((error) => console.log("error", error));
     }
+    main();
   }, []);
 
   const handleLogin = async (e) => {

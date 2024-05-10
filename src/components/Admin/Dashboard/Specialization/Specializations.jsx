@@ -9,8 +9,6 @@ import Error from "@/components/Utils/Error";
 import { ArrowRight, ChevronDown, ChevronUp, SquarePen, Trash } from "lucide-react";
 import AddSpecialization from "./AddSpecialization";
 import EditSpecialization from "./EditSpecialization";
-import EditCourse from "./EditCourse";
-import AddCourse from "./AddCourse";
 
 export default function Specializations() {
   const [isAdd, setIsAdd] = useState(false);
@@ -94,7 +92,7 @@ export default function Specializations() {
                     setIsAdd(!isAdd);
                   }}
                   type="button"
-                  className={`bg-blue-500 normalButtonTag w-[10%] float right-0`}
+                  className={` actionButtonTag w-[10%] float right-0`}
                 >
                   Add
                 </button>

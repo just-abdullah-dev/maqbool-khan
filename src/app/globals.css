@@ -32,7 +32,7 @@ input[type="number"] {
   @apply font-semibold text-primary_light dark:text-primary_dark;
 }
 .actionButtonTag {
-  @apply p-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center;
+  @apply p-2 rounded-lg bg-mountain-meadow-500 text-white hover:bg-mountain-meadow-600 disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center;
 }
 .normalButtonTag {
   @apply p-2 rounded-lg text-white disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center;

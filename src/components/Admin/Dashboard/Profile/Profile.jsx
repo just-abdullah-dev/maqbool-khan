@@ -175,7 +175,7 @@ export default function Profile() {
             {/* avatar  */}
             <div className=" w-[25%] relative flex flex-col gap-6">
               <Image
-                className=" rounded-full"
+                className=" rounded-full aspect-square"
                 src={avatar?.url ? avatar?.url : `/uploads/${userInfo?.avatar}`}
                 height={250}
                 width={250}
