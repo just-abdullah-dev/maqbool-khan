@@ -13,6 +13,7 @@ export async function getAll(professorId, tableName){
       redirect: "follow",
       next: { tags: [tableName] }
     };
-  const data = await fetch(`/api/${tableName}/${professorId}`, requestOptions);
+const baseUrl = process.env.ENV === "production" ? "https://maqbool-khan.vercel.app" : process.env.ENV === "development" ? "http://localhost:3000" : "";
+  const data = await fetch(`${baseUrl}/api/${tableName}/${professorId}`, requestOptions);
   return data.json();
 }
