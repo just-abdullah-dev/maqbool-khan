@@ -13,6 +13,6 @@ export async function getAll(professorId, tableName){
       redirect: "follow",
       next: { tags: [tableName] }
     };
-  const data = await fetch(`http://localhost:3000/api/${tableName}/${professorId}`, requestOptions);
+  const data = await fetch(`/api/${tableName}/${professorId}`, requestOptions);
   return data.json();
 }
