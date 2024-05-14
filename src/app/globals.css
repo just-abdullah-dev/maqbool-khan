@@ -108,3 +108,7 @@ input[type="number"] {
   fill: #fff;
 }
 
+
+#about-div{
+  background-image: url('../../public/uploads/mk_about_bg_1.jpeg');
+}

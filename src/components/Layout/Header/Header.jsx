@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import ThemeSwitcher from "@/components/Utils/ThemeSwitcher";
+import LinkWrapper from "./LinkWrapper";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,15 +21,18 @@ const Header = () => {
   ];
 
   return (
-    <header className="p-4 md:px-16 flex justify-end md:justify-center items-center relative">
+    <header className="p-4 md:px-16 flex justify-end md:justify-center items-center bg-white dark:bg-gray-900 bg-opacity-50 dark:bg-opacity-50 z-50 sticky top-0 left-0">
 
       {/* Desktop Menu */}
       <nav className="hidden md:flex space-x-12">
         {nav_links.map((item, index) => {
           return (
-            <Link onClick={()=>setIsMenuOpen(false)} key={index} href={`/${item.link}`} className="">
+            <Link onClick={()=>setIsMenuOpen(false)} key={index} href={`/${item.link}`} className="hover:text-mountain-meadow-900 dark:hover:text-mountain-meadow-400 duration-200">
               {item.name}
             </Link>
+            // <LinkWrapper key={index} handleClick={()=>setIsMenuOpen(false)} href={`/${item.link}`} >
+            //   {item.name}
+            // </LinkWrapper>
           );
         })}
       </nav>
@@ -55,7 +59,7 @@ const Header = () => {
                   onClick={()=>setIsMenuOpen(false)}
                   key={index}
                   href={`/${item.link}`}
-                  className=" "
+                  className=" hover:"
                 >
                   {item.name}
                 </Link>

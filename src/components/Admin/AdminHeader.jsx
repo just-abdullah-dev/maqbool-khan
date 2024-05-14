@@ -9,7 +9,7 @@ export default function AdminHeader() {
             <Link
             href={"/"}
             className=' font-bold text-2xl text-mountain-meadow-500'>Maqbool Khan</Link>
-            <p className=' text-white'>(CMS)</p>
+            <p className=' dark:text-white'>(CMS)</p>
         </div>
         <ThemeSwitcher />
     </div>
