@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import { ArrowRight } from "lucide-react";
+import { revalidateTagFunc } from "@/services/utils";
 
 export default function AddSkill({ goBack }) {
   const { userInfo } = useSelector((state) => state.user);
@@ -39,6 +40,7 @@ export default function AddSkill({ goBack }) {
       .then((result) => {
         if (result?.success) {
           toast.success(result?.message);
+          revalidateTagFunc("skills");
           window.location.reload();
         } else {
           toast.error(result?.message);

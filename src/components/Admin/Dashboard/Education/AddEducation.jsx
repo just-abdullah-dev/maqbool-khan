@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
+import { revalidateTagFunc } from "@/services/utils";
 
 export default function AddEducation({ goBack }) {
   const { userInfo } = useSelector((state) => state.user);
@@ -50,6 +51,7 @@ export default function AddEducation({ goBack }) {
       .then((result) => {
         if (result?.success) {
           toast.success(result?.message);
+          revalidateTagFunc("education")
           window.location.reload();
         } else {
           toast.error(result?.message);

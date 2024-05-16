@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import { Upload } from "lucide-react";
 import Image from "next/image";
+import { revalidateTagFunc } from "@/services/utils";
 
 export default function AddCertification({ goBack }) {
   const { userInfo } = useSelector((state) => state.user);
@@ -73,6 +74,7 @@ export default function AddCertification({ goBack }) {
       .then((result) => {
         if (result?.success) {
           toast.success(result?.message);
+          revalidateTagFunc("certifications")
           window.location.reload();
         } else {
           toast.error(result?.message);

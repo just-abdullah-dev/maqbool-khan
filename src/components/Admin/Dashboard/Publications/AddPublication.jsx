@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import { ArrowRight } from "lucide-react";
+import { revalidateTagFunc } from "@/services/utils";
 
 export default function AddPublication({ goBack }) {
   const { userInfo } = useSelector((state) => state.user);
@@ -49,6 +50,7 @@ export default function AddPublication({ goBack }) {
       .then((result) => {
         if (result?.success) {
           toast.success(result?.message);
+          revalidateTagFunc("publications")
           window.location.reload();
         } else {
           toast.error(result?.message);

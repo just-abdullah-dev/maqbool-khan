@@ -83,6 +83,7 @@ export default function EditCertification({ goBack, prevData }) {
       .then((result) => {
         if (result?.success) {
           toast.success(result?.message);
+          revalidateTagFunc("certifications");
           window.location.reload();
         } else {
           toast.error(result?.message);

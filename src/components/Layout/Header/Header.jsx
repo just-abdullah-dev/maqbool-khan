@@ -3,7 +3,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import ThemeSwitcher from "@/components/Utils/ThemeSwitcher";
-import LinkWrapper from "./LinkWrapper";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -27,12 +26,9 @@ const Header = () => {
       <nav className="hidden md:flex space-x-12">
         {nav_links.map((item, index) => {
           return (
-            <Link onClick={()=>setIsMenuOpen(false)} key={index} href={`/${item.link}`} className="hover:text-mountain-meadow-900 dark:hover:text-mountain-meadow-400 duration-200">
+            <Link onClick={()=>setIsMenuOpen(false)} key={index} href={`/${item.link}`} className="hover:text-mountain-meadow-500 dark:hover:text-mountain-meadow-400 duration-200">
               {item.name}
             </Link>
-            // <LinkWrapper key={index} handleClick={()=>setIsMenuOpen(false)} href={`/${item.link}`} >
-            //   {item.name}
-            // </LinkWrapper>
           );
         })}
       </nav>
@@ -49,7 +45,7 @@ const Header = () => {
       {/* Mobile Menu Content */}
       <div
         id="sidebar"
-        className=" absolute top-full z-50 -right-36  bg-gray-200 dark:bg-gray-800 duration-500 w-fit h-screen"
+        className=" absolute top-full z-50 -right-36  bg-gray-200 dark:bg-gray-900 duration-500 w-fit h-screen"
       >
         {isMenuOpen && (
           <nav className="flex flex-col space-y-2 p-6 pr-12">

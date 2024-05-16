@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { revalidateTagFunc } from "@/services/utils";
 
 export default function AddSpecialization({ goBack }) {
   const { userInfo } = useSelector((state) => state.user);
@@ -50,6 +51,7 @@ export default function AddSpecialization({ goBack }) {
       .then((result) => {
         if (result?.success) {
           toast.success(result?.message);
+          revalidateTagFunc("specialization");
           window.location.reload();
         } else {
           toast.error(result?.message);

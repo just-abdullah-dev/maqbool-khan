@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
+import { revalidateTagFunc } from "@/services/utils";
 
 export default function AddExperience({ goBack }) {
   const { userInfo } = useSelector((state) => state.user);
@@ -54,6 +55,7 @@ export default function AddExperience({ goBack }) {
       .then((result) => {
         if (result?.success) {
           toast.success(result?.message);
+          revalidateTagFunc("experience");
           window.location.reload();
         } else {
           toast.error(result?.message);
