@@ -3,7 +3,7 @@ import SeeMoreBtn from '@/components/Utils/SeeMoreBtn';
 import getFormatDate from '@/utils/formateDate';
 import React from 'react';
 
-export default function Education({data}) {
+export default function Education({data, limit}) {
     if (!data?.success) {
         return <Error message={data?.message} />;
       }
@@ -14,7 +14,7 @@ export default function Education({data}) {
         <h1 className=' text-5xl lg:text-6xl text-mountain-meadow-500 font-serif'>Education</h1>
         <ul className='grid gap-8'>
             {data.map((item, index) => {
-                if(index === 2){
+                if(index === limit){
                     return <li key={index} className=' w-full '>
                        <SeeMoreBtn link={"/about#education"} />
                     </li>;

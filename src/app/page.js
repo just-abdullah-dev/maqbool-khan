@@ -6,8 +6,9 @@ export default async function Page() {
   const aboutData = await getAll("maqboolkhan", "personal");
   const eduData = await getAll("maqboolkhan", "education");
   const publiData = await getAll("maqboolkhan", "publications");
+  const projectData = await getAll("maqboolkhan", "projects");
 
   return <Layout>
-    <Home aboutData={aboutData} eduData={eduData} publiData={publiData} />
+    <Home aboutData={aboutData} eduData={eduData} publiData={publiData} projectData={projectData} />
   </Layout>
 }
