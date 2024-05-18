@@ -13,9 +13,9 @@ const Header = () => {
     sidebar.classList.toggle("right-0");
   };
   const nav_links = [
-    { name: "Publications", link: "publications" },
-    { name: "Research", link: "research" },
     { name: "About", link: "about" },
+    { name: "Publications", link: "publications" },
+    { name: "Projects", link: "projects" },
     { name: "Contact", link: "contact" },
   ];
 
