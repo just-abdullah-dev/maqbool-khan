@@ -73,8 +73,8 @@ export default function Login() {
   };
 
   return (
-    <div className="flex p-4 h-[600px]">
-      <div className=" w-1/3 flex items-center justify-center">
+    <div className="md:flex py-24 grid gap-6 md:py-0 p-4 h-[600px]">
+      <div className=" w-full md:w-1/3 flex items-center justify-center">
         <div className=" grid gap-4">
           <h1 className=" text-6xl font-bold">CMS</h1>
           <h2 className=" text-xl">(Content Management System)</h2>
@@ -87,7 +87,7 @@ export default function Login() {
           </Link>
         </div>
       </div>
-      <div className=" w-2/3 flex items-center justify-center">
+      <div className=" w-full md:w-2/3 flex items-center justify-center overflow-x-hidden overflow-y-visible">
         <div className="w-[400px] grid gap-6">
           <h2 className=" text-2xl font-semibold">Login</h2>
           <form
@@ -105,7 +105,7 @@ export default function Login() {
                 onChange={(e) => setUsername(e.target.value)}
               />
             </div>
-            <div className="relative">
+            <div className="relative ">
               <input
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -131,7 +131,7 @@ export default function Login() {
             </div>
             <button
               disabled={isLoading}
-              className="actionButtonTag w-full"
+              className="actionButtonTag w-full "
               type="submit"
             >
               Login
