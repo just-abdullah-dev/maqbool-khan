@@ -12,7 +12,10 @@ export default async function Page() {
   const skillsData = await getAll("maqboolkhan", "skills");
 
   return <Layout>
-    <Socials css={" flex"} data={aboutData?.data?.socials} />
+    <div className=" relative">
+      
+    <Socials css={" flex flex-col fixed top-36 z-50 right-0 text-whit bg-white dark:bg-gray-900 bg-opacity-50 dark:bg-opacity-50"} data={aboutData?.data?.socials} />
     <Home aboutData={aboutData} eduData={eduData} publiData={publiData} projectData={projectData} expeData={expeData} skillsData={skillsData} />
+    </div>
   </Layout>
 }
