@@ -36,6 +36,9 @@ module.exports = {
       },
       
       },
+      screens: {
+        'xsm': {'min': '450px', 'max': '639px'},
+      },
     },
   },
   plugins: [],

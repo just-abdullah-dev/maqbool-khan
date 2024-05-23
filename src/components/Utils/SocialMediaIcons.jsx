@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Facebook, Github, Instagram, Linkedin, Twitter } from "lucide-react";
 import Image from 'next/image';
 
-function Socials({css, data}) {
+function Socials({css, altNameCss, data}) {
 
     const social_links = [
         { jsx: <Linkedin />, link: data?.linkedin, name: "LinkedIn" },
@@ -37,7 +37,7 @@ function Socials({css, data}) {
             )}
           </Link>
           <span
-            className="font-semibold absolute right-full opacity-0 group-hover:opacity-100 group-hover:right-[calc(100%+0.7rem)] transition-all duration-300"
+            className={`${altNameCss} font-semibold absolute opacity-0 group-hover:opacity-100 transition-all duration-300 dark:bg-gray-900 bg-white p-2`}
           >
             {item?.name}
           </span>

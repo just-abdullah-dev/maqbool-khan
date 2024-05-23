@@ -1,13 +1,17 @@
 import React from "react";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
+import { getAll } from "@/services/utils";
 
-export default function Layout({ children }) {
+export default async function Layout({ children }) {
+  
+  const aboutData = await getAll("maqboolkhan", "personal");
+
   return (
     <div>
       <Header />
       {children}
-      <Footer />
+      <Footer socials={aboutData?.data?.socials} />
     </div>
   );
 }
