@@ -16,9 +16,9 @@ export default function Skills({ data, limit }) {
       </h1>
       <ul className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {data.map((item, index) => {
-          if (index > limit) {
-            return;
-          }
+          // if (index > limit) {
+          //   return;
+          // }
           return (
             <li
               key={index}
@@ -39,11 +39,11 @@ export default function Skills({ data, limit }) {
           );
         })}
       </ul>
-      {limit == 3 && (
+      {/* {limit == 3 && (
         <div key={"4"} className=" w-full ">
           <SeeMoreBtn link={"/about#skills"} />
         </div>
-      )}
+      )} */}
     </div>
   );
 }

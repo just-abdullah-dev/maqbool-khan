@@ -19,7 +19,10 @@ export default function Footer({ socials }) {
         <div className=" bg-gray-900 dark:bg-white h-[2px] w-[10%] xsm:w-[25%] sm:w-[40%] md:w-[90%]"></div>
       </div>
       <div>
-        <h1 className=" text-center text-lg font-semibold">Maqbool Khan</h1>
+        <Link 
+        href={"/"}
+        alt="Home Page"
+        className=" flex items-center justify-center text-lg font-semibold">Maqbool Khan</Link>
         <p className=" flex items-center gap-2 text-sm font-semibold">
           <span className="text-lg">&copy;</span> {fullYear} --- Designed and
           Developed By{" "}

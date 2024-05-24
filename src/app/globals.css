@@ -28,11 +28,18 @@ input[type="number"] {
 .inputTag {
   @apply block p-2 outline-none rounded-lg dark:bg-gray-700 bg-gray-300 w-full;
 }
+.inputTag2 {
+  @apply block py-2 px-4 outline-none rounded-2xl bg-white dark:bg-gray-900 w-full border-b-2 border-gray-900 dark:border-white;
+}
+
 .labelTag {
   @apply font-semibold text-primary_light dark:text-primary_dark;
 }
 .actionButtonTag {
   @apply p-2 rounded-lg bg-mountain-meadow-500 text-white hover:bg-mountain-meadow-600 disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center;
+}
+.contactBtn {
+  @apply p-2 rounded-2xl text-mountain-meadow-500 disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-4 border-b-2 border-mountain-meadow-600 dark:border-mountain-meadow-500;
 }
 .normalButtonTag {
   @apply p-2 rounded-lg text-white disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center;
