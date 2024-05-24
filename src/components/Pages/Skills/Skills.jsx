@@ -9,7 +9,7 @@ export default function Skills({ data, limit }) {
   data = data?.data;
 
   return (
-    <div className="p-4 lg:p-12 grid gap-4">
+    <div className="p-4 lg:p-12 grid gap-2">
       <h1 className=" text-5xl lg:text-6xl text-mountain-meadow-500 font-serif relative">
         <div className="absolute bottom-0 left-0 h-[51%] z-50 w-[330px] bg-white dark:bg-gray-900 bg-opacity-40 dark:bg-opacity-40"></div>
         SKILLS
@@ -22,9 +22,9 @@ export default function Skills({ data, limit }) {
           return (
             <li
               key={index}
-              className="grid gap-2 hover:bg-mountain-meadow-200 dark:hover:bg-mountain-meadow-900 dark: hover:bg-opacity-50 border border-mountain-meadow-500 rounded-3xl p-4 lg:px-8 lg:py-6 transition-all duration-300"
+              className=" grid gap-1 border-mountain-meadow-500  rounded-b-3xl p-4 lg:px-8 lg:py-6 border-b-[1.5px] md:border-b-2"
             >
-              <h1 className=" text-2xl font-semibold">{item?.title}</h1>
+              <h1 className=" text-xl md:text-2xl font-semibold">{item?.title}</h1>
 
               <ul className=" px-6">
                 {item?.items.map((ele, index) => {

@@ -11,19 +11,19 @@ export default function Projects({ data, limit }) {
   data = data?.data;
 
   return (
-    <div className="p-4 lg:p-12 grid gap-4">
+    <div className="p-4 lg:p-12 grid gap-2">
       <h1 className=" text-5xl lg:text-6xl text-mountain-meadow-500 font-serif relative">
         <div className="absolute bottom-0 left-0 h-[51%] z-50 w-[330px] bg-white dark:bg-gray-900 bg-opacity-40 dark:bg-opacity-40"></div>
         PROJECTS
       </h1>
-      <ul className="grid gap-8">
+      <ul className="grid">
         {data.map((item, index) => {
           if (index > limit) {
             return;
           }
           if (index === limit) {
             return (
-              <li key={index} className=" w-full ">
+              <li key={index} className=" w-full mt-4">
                 <SeeMoreBtn link={"/projects"} />
               </li>
             );
@@ -31,14 +31,14 @@ export default function Projects({ data, limit }) {
           return (
             <li
               key={index}
-              className="grid gap-3 hover:bg-mountain-meadow-200 dark:hover:bg-mountain-meadow-900 dark: hover:bg-opacity-50 border border-mountain-meadow-500 rounded-3xl p-4 lg:px-8 lg:py-6 transition-all duration-300"
+              className="grid gap-1 border-mountain-meadow-500  rounded-b-3xl p-4 lg:px-8 lg:py-6 border-b-[1.5px] md:border-b-2"
             >
               <div className="">
                 <div className=" flex items-center justify-between flex-wrap">
                   <Link
                     target="_blank"
                     href={item?.link}
-                    className=" text-2xl font-semibold hover:text-mountain-meadow-500 duration-150"
+                    className=" text-xl md:text-2xl font-semibold hover:text-mountain-meadow-500 duration-150"
                   >
                     {item?.title}
                   </Link>
@@ -52,7 +52,7 @@ export default function Projects({ data, limit }) {
                 <div className=" font-semibold text-lg">{item?.institute}</div>
               </div>
               <div className="">
-                <h1 className=" text-2xl font-semibold text-mountain-meadow-500">
+                <h1 className=" text-lg md:text-xl font-semibold text-mountain-meadow-500">
                   Responsibilities:
                 </h1>
                 <ul className=" px-6">
@@ -65,7 +65,7 @@ export default function Projects({ data, limit }) {
                   })}
                 </ul>
               </div>
-              <p>{item?.desc}</p>
+              <p className=" mt-2">{item?.desc}</p>
             </li>
           );
         })}
