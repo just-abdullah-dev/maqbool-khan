@@ -121,3 +121,14 @@ input[type="number"] {
 #about-div{
   background-image: url('../../public/uploads/mk_about_bg_1.jpeg');
 }
+
+/* css for section animation on scroll */
+
+.hide{
+  opacity: 0;
+}
+
+.show{
+  opacity: 1;
+  transition: all 3s;
+}
