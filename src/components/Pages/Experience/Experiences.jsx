@@ -10,8 +10,6 @@ export default function Experiences({data, limit}) {
         return <Error message={data?.message} />;
       }
       data = data?.data;
-    
-     limit = limit + 5;
 
   return (
      <div className='p-4 lg:p-12 grid gap-2'>
@@ -28,7 +26,7 @@ export default function Experiences({data, limit}) {
                        <SeeMoreBtn link={"/about#experience"} />
                     </li>;
                 }
-                return <Experience index={index} item={item} />
+                return <Experience key={index} item={item} />
             })}
         </ul>
     </div>

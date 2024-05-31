@@ -24,7 +24,7 @@ export default function Experience({item, index}) {
         opacity: opacityProgess,
         // x: slideProgress
       }}
-    key={index} className='grid gap-1 border-mountain-meadow-500  rounded-b-3xl p-4 lg:px-8 lg:py-6 border-b-[1.5px] md:border-b-2'>
+      className='grid gap-1 border-mountain-meadow-500  rounded-b-3xl p-4 lg:px-8 lg:py-6 border-b-[1.5px] md:border-b-2'>
                     <div>
                     <div className=' flex items-center justify-between flex-wrap'>
                         <h1 className=' text-xl md:text-2xl font-semibold'>{item?.title}</h1>
