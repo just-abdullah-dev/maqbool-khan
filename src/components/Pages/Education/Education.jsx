@@ -4,13 +4,13 @@ import getFormatDate from '@/utils/formateDate';
 import React, {useRef} from 'react';
 import { motion, useScroll, useTransform } from "framer-motion";
 
-export default function Education({item, index}) {
+export default function Education({item}) {
     const ref = useRef(null);
     const { scrollYProgress } = useScroll({
       target: ref,
-      offset: ["0.3 1", "1.33 0.90"],
+      offset: ["0.3 1", "1.33 0.93"],
     });
-    const scaleProgess = useTransform(scrollYProgress, [0, 1], [0.80, 1]);
+    const scaleProgess = useTransform(scrollYProgress, [0, 1], [0.75, 1]);
     const opacityProgess = useTransform(scrollYProgress, [0, 1], [0.4, 1]);
 
   return (
