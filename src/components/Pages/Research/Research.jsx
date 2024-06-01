@@ -4,11 +4,11 @@ import React, {useRef} from 'react';
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-export default function Publication({item}) {
+export default function Research({item}) {
     const ref = useRef(null);
     const { scrollYProgress } = useScroll({
       target: ref,
-      offset: ["0.3 1", "1.15 1"],
+      offset: ["0.3 1", "1.15 0.93"],
     });
     const scaleProgess = useTransform(scrollYProgress, [0, 1], [0.75, 1]);
     const opacityProgess = useTransform(scrollYProgress, [0, 1], [0.4, 1]);

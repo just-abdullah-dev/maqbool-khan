@@ -7,7 +7,7 @@ export default function Skill({item}) {
     const ref = useRef(null);
     const { scrollYProgress } = useScroll({
       target: ref,
-      offset: ["0.3 1", "1.33 0.93"],
+      offset: ["0.3 1", "1.15 0.93"],
     });
     const scaleProgess = useTransform(scrollYProgress, [0, 1], [0.75, 1]);
     const opacityProgess = useTransform(scrollYProgress, [0, 1], [0.4, 1]);
