@@ -1,14 +1,40 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, {useRef} from 'react';
+import { motion, useScroll, useTransform } from "framer-motion";
 
-const ScatteredImages = ({images}) => {
+// side (left || right)
+const ScatteredImages = ({images, side}) => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["0.3 1", "1.15 0.93"],
+  });
+  const scaleProgess = useTransform(scrollYProgress, [0, 1], [0.75, 1]);
+  const opacityProgess = useTransform(scrollYProgress, [0, 1], [0.4, 1]);
+  let slideProgress = useTransform(scrollYProgress, [0, 1], [-100, 0]);
+
+  if(side == 'left'){
+    slideProgress = useTransform(scrollYProgress, [0, 1], [100, 0]);
+  }else if(side == 'right'){
+    slideProgress = useTransform(scrollYProgress, [0, 1], [-100, 0]);
+  }
 
       function getRandomNumber() {
         return Math.floor(Math.random() * 6);
       }
       
   return (
+    <motion.li
+    ref={ref}
+     style={{
+        // scale: scaleProgess,
+        opacity: opacityProgess,
+        x: slideProgress
+      }}
+  >
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mx-24">
           {images.map((item, i) => {
             const index = getRandomNumber();
@@ -47,6 +73,7 @@ const ScatteredImages = ({images}) => {
             );
           })}
         </div>
+    </motion.li>
   );
 };
 

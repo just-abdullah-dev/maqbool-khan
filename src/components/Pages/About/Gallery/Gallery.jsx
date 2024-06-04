@@ -67,28 +67,24 @@ export default function Gallery() {
     //   author: 'Hutomo Abrianto',
     // },
   ];
-  function getRandomNumber() {
-    return Math.floor(Math.random() * 6);
-  }
-  
 
   return (
     <div className=" grid g">
       <div className=" w-full p-4 grid md:flex">
-      <div className=" w-full md:w-4/12 lg:w-1/3 flex flex-col items-center justify-center">
+      <div className={`${italiana.className}  w-full md:w-4/12 lg:w-1/3 flex flex-col items-center justify-center text-6xl`}>
         <h1 className=" flex items-center flex-wrap gap-2 w-fit relative font-bold text-5xl lg:text-6xl text-mountain-meadow-500 ">
-          Gallery
+          GALLERY
           <div className="dark:border-white border-black border-b-[3px] absolute -bottom-0 right-0 left-0 -z-10"></div>
         </h1>
-        <p>Travel Memories from Around the World</p>
+        {/* <p className=" text-4xl flex flex-wrap w-72">Travel Memories from Around the World</p> */}
       </div>
       <div className="w-full md:w-8/12 lg:w-2/3 flex items-center justify-center pr-28">
-        <ScatteredImages images={images} />
+        <ScatteredImages images={images} side={'left'} />
       </div>
     </div>
      <div className=" w-full p-4 grid md:flex">
-     <div className="w-full md:w-8/12 lg:w-2/3 flex items-center justify-center pr-28">
-       <ScatteredImages images={images} />
+     <div className="w-full md:w-8/12 lg:w-2/3 flex items-center justify-center pl-28">
+       <ScatteredImages images={images} side={'right'} />
      </div>
      <div className=" w-full md:w-4/12 lg:w-1/3 flex flex-col items-center justify-center">
        <h1 className={`${cinzel.className} flex items-center flex-wrap gap-2 relative font-bold text-6xl w-96 lg:text-6xl text-mountain-meadow-500`}>
