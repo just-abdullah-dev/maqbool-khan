@@ -27,7 +27,7 @@ export default function Footer({ socials }) {
           <span className="text-lg">&copy;</span> {fullYear} --- Designed and
           Developed By{" "}
           <Link
-            href={"https:just-abdullah.vercel.app"}
+            href={"https://just-abdullah.vercel.app"}
             target="_blank"
             className="text-2xl text-mountain-meadow-500"
           >
