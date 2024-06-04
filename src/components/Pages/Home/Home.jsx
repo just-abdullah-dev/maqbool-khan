@@ -7,7 +7,7 @@ import Experiences from '../Experience/Experiences';
 import Educations from '../Education/Educations';
 import Gallery from '../About/Gallery/Gallery';
 
-export default function Home({aboutData, eduData, publiData, projectData, expeData, skillsData}) {
+export default function Home({aboutData, eduData, publiData, projectData, expeData, skillsData, countriesData}) {
   return (
    <div className=' grid gap-4'>
     <AboutData data={aboutData} />
@@ -16,7 +16,7 @@ export default function Home({aboutData, eduData, publiData, projectData, expeDa
     <Publications data={publiData} limit={2} />
     <Projects data={projectData} limit={2} />
     <Skills data={skillsData} limit={3} />
-    <Gallery />
+    <Gallery data={countriesData} />
    </div>
   )
 }

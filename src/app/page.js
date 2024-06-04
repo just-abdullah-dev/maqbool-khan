@@ -10,6 +10,7 @@ export default async function Page() {
   const projectData = await getAll("maqboolkhan", "projects");
   const expeData = await getAll("maqboolkhan", "experience");
   const skillsData = await getAll("maqboolkhan", "skills");
+  const countriesData = await getAll("maqboolkhan", "gallery");
 
   return (
     <Layout>
@@ -28,6 +29,7 @@ export default async function Page() {
           projectData={projectData}
           expeData={expeData}
           skillsData={skillsData}
+          countriesData={countriesData}
         />
       </div>
     </Layout>
