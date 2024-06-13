@@ -33,7 +33,7 @@ export default function Experience() {
         redirect: "follow",
       };
 
-      await fetch(`/api/experience/${_id}`, requestOptions)
+      await fetch(`/api/v1/experience/${_id}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {

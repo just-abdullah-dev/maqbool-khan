@@ -7,7 +7,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 // side (left || right)
 const ScatteredImages = ({images, side}) => {
-  console.log(images);
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -58,7 +57,7 @@ const ScatteredImages = ({images, side}) => {
                 zIndex: -index,
                 transform: `rotate(${(index % 6) * 10 - 20}deg)`,
               }}
-              className=" text-xl font-semibold px-2 py-1 bg-gray-600 bg-opacity-30 w-fit"
+              className=" px-2 bg-gray-600 bg-opacity-30 w-fit"
               >
                 {item?.countryName}
               </h1>

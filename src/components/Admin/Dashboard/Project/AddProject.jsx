@@ -57,7 +57,7 @@ export default function AddProject({ goBack }) {
       redirect: "follow",
     };
 
-    await fetch("/api/projects/maqboolkhan", requestOptions)
+    await fetch("/api/v1/projects/maqboolkhan", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {

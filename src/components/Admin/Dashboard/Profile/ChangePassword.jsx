@@ -40,7 +40,7 @@ function ChangePassword() {
       redirect: "follow",
     };
 
-    await fetch("/api/personal/changePassword/maqboolkhan", requestOptions)
+    await fetch("/api/v1/personal/changePassword/maqboolkhan", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {

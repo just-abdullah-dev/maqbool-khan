@@ -31,7 +31,7 @@ export default function Research() {
         redirect: "follow",
       };
 
-      await fetch(`/api/research/${_id}`, requestOptions)
+      await fetch(`/api/v1/research/${_id}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {

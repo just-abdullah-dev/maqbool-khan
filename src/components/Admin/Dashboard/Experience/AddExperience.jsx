@@ -50,7 +50,7 @@ export default function AddExperience({ goBack }) {
       redirect: "follow",
     };
 
-    await fetch("/api/experience/maqboolkhan", requestOptions)
+    await fetch("/api/v1/experience/maqboolkhan", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {

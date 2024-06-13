@@ -44,7 +44,7 @@ export default function Dashboard({ children }) {
         },
         redirect: "follow",
       };
-      await fetch("/api/auth/session", requestOptions)
+      await fetch("/api/v1/auth/session", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (!result?.success) {

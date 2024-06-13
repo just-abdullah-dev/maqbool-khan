@@ -46,7 +46,7 @@ export default function EditCourse({ goBack, prevData }) {
       redirect: "follow",
     };
 
-    await fetch(`/api/specialization/course/${prevData?._id}`, requestOptions)
+    await fetch(`/api/v1/specialization/course/${prevData?._id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {

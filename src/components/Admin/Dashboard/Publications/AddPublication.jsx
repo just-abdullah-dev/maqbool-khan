@@ -45,7 +45,7 @@ export default function AddPublication({ goBack }) {
       redirect: "follow",
     };
 
-    await fetch("/api/publications/maqboolkhan", requestOptions)
+    await fetch("/api/v1/publications/maqboolkhan", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {

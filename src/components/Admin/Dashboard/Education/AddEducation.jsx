@@ -46,7 +46,7 @@ export default function AddEducation({ goBack }) {
       redirect: "follow",
     };
 
-    await fetch("/api/education/maqboolkhan", requestOptions)
+    await fetch("/api/v1/education/maqboolkhan", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {

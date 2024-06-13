@@ -33,7 +33,7 @@ export default function Certifications() {
         redirect: "follow",
       };
 
-      await fetch(`/api/certifications/${_id}`, requestOptions)
+      await fetch(`/api/v1/certifications/${_id}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {

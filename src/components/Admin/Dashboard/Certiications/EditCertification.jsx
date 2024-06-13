@@ -78,7 +78,7 @@ export default function EditCertification({ goBack, prevData }) {
       redirect: "follow",
     };
 
-    await fetch(`/api/certifications/${prevData?._id}`, requestOptions)
+    await fetch(`/api/v1/certifications/${prevData?._id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {

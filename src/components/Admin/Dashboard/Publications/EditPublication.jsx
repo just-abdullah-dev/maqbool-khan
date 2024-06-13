@@ -55,7 +55,7 @@ export default function EditPublication({ goBack, prevData }) {
       redirect: "follow",
     };
 
-    await fetch(`/api/publications/${prevData?._id}`, requestOptions)
+    await fetch(`/api/v1/publications/${prevData?._id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {

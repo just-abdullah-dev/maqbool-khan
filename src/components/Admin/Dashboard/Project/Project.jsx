@@ -33,7 +33,7 @@ export default function Project() {
         redirect: "follow",
       };
 
-      await fetch(`/api/projects/${_id}`, requestOptions)
+      await fetch(`/api/v1/projects/${_id}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {

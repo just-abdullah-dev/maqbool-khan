@@ -24,7 +24,7 @@ export default function Login() {
       },
       redirect: "follow",
     };
-    await fetch("/api/auth/session", requestOptions)
+    await fetch("/api/v1/auth/session", requestOptions)
     .then((response) => response.json())
     .then((result) => {
       if (result?.success) {
@@ -48,7 +48,7 @@ export default function Login() {
         setIsLoading(false);
         return;
       }
-      const res = await fetch("/api/auth/login", {
+      const res = await fetch("/api/v1/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

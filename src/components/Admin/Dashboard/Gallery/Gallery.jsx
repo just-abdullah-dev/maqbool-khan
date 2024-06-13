@@ -33,7 +33,7 @@ export default function Gallery() {
         redirect: "follow",
       };
 
-      await fetch(`/api/gallery/${_id}`, requestOptions)
+      await fetch(`/api/v1/gallery/${_id}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {

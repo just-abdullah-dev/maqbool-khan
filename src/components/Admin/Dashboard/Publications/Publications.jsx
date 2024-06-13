@@ -35,7 +35,7 @@ export default function Publications() {
         redirect: "follow",
       };
 
-      await fetch(`/api/publications/${_id}`, requestOptions)
+      await fetch(`/api/v1/publications/${_id}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {

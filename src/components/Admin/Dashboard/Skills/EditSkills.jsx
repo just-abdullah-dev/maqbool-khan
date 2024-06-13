@@ -42,7 +42,7 @@ export default function EditSkill({ goBack, prevData }) {
       redirect: "follow",
     };
 
-    await fetch(`/api/skills/${prevData?._id}`, requestOptions)
+    await fetch(`/api/v1/skills/${prevData?._id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {

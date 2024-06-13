@@ -83,7 +83,7 @@ const handleDeleteDuty = (value) => {
       redirect: "follow",
     };
 
-    await fetch(`/api/projects/${prevData?._id}`, requestOptions)
+    await fetch(`/api/v1/projects/${prevData?._id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {

@@ -58,7 +58,7 @@ export default function EditExperience({ goBack, prevData }) {
       redirect: "follow",
     };
 
-    await fetch(`/api/experience/${prevData?._id}`, requestOptions)
+    await fetch(`/api/v1/experience/${prevData?._id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result);

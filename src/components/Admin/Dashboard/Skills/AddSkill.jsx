@@ -35,7 +35,7 @@ export default function AddSkill({ goBack }) {
       redirect: "follow",
     };
 
-    await fetch("/api/skills/maqboolkhan", requestOptions)
+    await fetch("/api/v1/skills/maqboolkhan", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {

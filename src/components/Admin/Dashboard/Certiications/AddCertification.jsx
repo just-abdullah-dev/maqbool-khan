@@ -69,7 +69,7 @@ export default function AddCertification({ goBack }) {
       redirect: "follow",
     };
 
-    await fetch("/api/certifications/maqboolkhan", requestOptions)
+    await fetch("/api/v1/certifications/maqboolkhan", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {

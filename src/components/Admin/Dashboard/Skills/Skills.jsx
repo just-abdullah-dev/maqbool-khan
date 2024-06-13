@@ -33,7 +33,7 @@ export default function Skills() {
         redirect: "follow",
       };
 
-      await fetch(`/api/skills/${_id}`, requestOptions)
+      await fetch(`/api/v1/skills/${_id}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {

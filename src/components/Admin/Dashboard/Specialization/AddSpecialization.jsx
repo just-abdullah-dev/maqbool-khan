@@ -46,7 +46,7 @@ export default function AddSpecialization({ goBack }) {
       redirect: "follow",
     };
 
-    await fetch("/api/specialization/maqboolkhan", requestOptions)
+    await fetch("/api/v1/specialization/maqboolkhan", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {

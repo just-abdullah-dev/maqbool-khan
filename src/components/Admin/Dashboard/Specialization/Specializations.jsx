@@ -32,7 +32,7 @@ export default function Specializations() {
         redirect: "follow",
       };
 
-      await fetch(`/api/specialization/${_id}`, requestOptions)
+      await fetch(`/api/v1/specialization/${_id}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {

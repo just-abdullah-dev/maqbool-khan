@@ -74,7 +74,7 @@ export default function AddGallery({ goBack }) {
       redirect: "follow",
     };
 
-    await fetch("/api/gallery/maqboolkhan", requestOptions)
+    await fetch("/api/v1/gallery/maqboolkhan", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {

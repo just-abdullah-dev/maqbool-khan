@@ -33,7 +33,7 @@ export default function Education() {
         redirect: "follow",
       };
 
-      await fetch(`/api/education/${_id}`, requestOptions)
+      await fetch(`/api/v1/education/${_id}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {

@@ -14,6 +14,6 @@ export async function getAll(professorId, tableName){
       next: { tags: [tableName] }
     };
 const baseUrl = process.env.ENV === "production" ? "https://maqbool-khan.vercel.app" : process.env.ENV === "development" ? "http://localhost:3000" : "";
-  const data = await fetch(`${baseUrl}/api/${tableName}/${professorId}`, requestOptions);
+  const data = await fetch(`${baseUrl}/api/v1/${tableName}/${professorId}`, requestOptions);
   return data.json();
 }

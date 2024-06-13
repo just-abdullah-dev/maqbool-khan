@@ -158,7 +158,7 @@ export default function EditResearch({ goBack, prevData }) {
       redirect: "follow",
     };
 
-    await fetch(`/api/research/${prevData?._id}`, requestOptions)
+    await fetch(`/api/v1/research/${prevData?._id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {

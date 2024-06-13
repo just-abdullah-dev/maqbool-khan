@@ -89,7 +89,7 @@ export default function EditGallery({ goBack, prevData }) {
       redirect: "follow",
     };
 
-    await fetch(`/api/gallery/${prevData?._id}`, requestOptions)
+    await fetch(`/api/v1/gallery/${prevData?._id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {

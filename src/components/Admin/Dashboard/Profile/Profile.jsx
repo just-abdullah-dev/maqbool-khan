@@ -117,7 +117,7 @@ export default function Profile() {
       redirect: "follow",
     };
 
-    await fetch("/api/personal/maqboolkhan", requestOptions)
+    await fetch("/api/v1/personal/maqboolkhan", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
