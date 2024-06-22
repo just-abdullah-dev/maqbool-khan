@@ -32,7 +32,7 @@ export default function Contact() {
       toast.error("Please type a message");
       return;
     }
-    
+     
     setIsLoading(true);
     const options = {
       method: "POST",
