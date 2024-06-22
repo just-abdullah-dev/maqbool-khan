@@ -3,8 +3,8 @@ import { pipeline } from "stream";
 import { promisify } from "util";
 const pump = promisify(pipeline);
 
-export default async function uploadFiles(formData){
-    const files = formData.getAll("files");
+export default async function uploadMentionedFile(formData, type = "files"){
+    const files = formData.getAll(type);
     let fileNames = [];
     const uploadPromises = files.map(async (file)=>{
       const fileName = `${Date.now()}-${file.name}`;
@@ -15,5 +15,5 @@ export default async function uploadFiles(formData){
     // waiting for the upload of files
     await Promise.all(uploadPromises);
     return fileNames;
-}
-
+  }
+  

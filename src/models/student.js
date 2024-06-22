@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const nameSchema = mongoose.Schema({
-  title: { type: String, required: true },
+  title: { type: String, required: false },
   first: { type: String, required: true },
   middle: { type: String, required: false },
   last: { type: String, required: false },

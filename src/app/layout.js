@@ -4,8 +4,8 @@ import Providers from "./providers";
 import ReduxProvider from "@/store/ReduxProvider";
 
 export const metadata = {
-  title: "Maqbool Khan",
-  description: "Maqbool Khan POrtfolio Website",
+  title: "Maqbool Khan-Portfolio",
+  description: "Maqbool Khan Portfolio Website",
 };
 
 export default function RootLayout({ children }) {
