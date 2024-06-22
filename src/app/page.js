@@ -12,6 +12,7 @@ export default async function Page() {
   // const skillsData = await getAll("maqboolkhan", "skills");
   // const countriesData = await getAll("maqboolkhan", "gallery");
 
+  return <div>Home page</div>;
   return (
     <Layout>
       <div className=" relative font-san">
