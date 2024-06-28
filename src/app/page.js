@@ -14,7 +14,7 @@ export default async function Page() {
 
   return (
     <Layout>
-      <div className=" relative font-san">
+      <div className=" relative">
         <Socials
           css={
             " flex flex-col fixed top-36 z-50 right-0 text-whit bg-white dark:bg-gray-900 bg-opacity-50 dark:bg-opacity-50"

@@ -15,6 +15,7 @@ import {
   SquareGantt,
   UserRound,
   UserRoundCog,
+  BookUser,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -115,10 +116,11 @@ export default function Dashboard({ children }) {
       icon: <SearchCheck size={28} />,
     },
     { name: "Gallery", path: "gallery", icon: <Images size={28} /> },
+    { name: "Students", path: "students", icon: <BookUser size={28} /> },
   ];
 
   return (
-    <div>
+    <div className="">
       <AdminHeader />
       <div className=" flex items-start">
       <div
@@ -126,7 +128,14 @@ export default function Dashboard({ children }) {
           openSidebar
             ? "w-[64%] sm:w-[44%] md:w-[30%] lg:w-[16%]"
             : "w-[10%] sm:w-[8%] md:w-[6%] lg:w-[4%]"
-        } border-r h-screen border-black dark:border-white flex flex-col overflow-hidden sticky top-10 z-50 transition-all duration-1000 `}
+        } h-screen overflow-hidden `}
+      ></div>
+      <div
+        className={`${
+          openSidebar
+            ? "w-[64%] sm:w-[44%] md:w-[30%] lg:w-[16%]"
+            : "w-[10%] sm:w-[8%] md:w-[6%] lg:w-[4%]"
+        } border-r h-screen border-black dark:border-white flex flex-col overflow-hidden fixed top-12 z-50 transition-all duration-1000 `}
       >
           {/* side bar open & close btn  */}
         <button
@@ -191,7 +200,7 @@ export default function Dashboard({ children }) {
           openSidebar
             ? "w-[36%] sm:w-[56%] md:w-[70%] lg:w-[84%]"
             : "w-[90%] sm:w-[92%] md:w-[94%] lg:w-[96%]"
-        } transition-all duration-1000 h-fit min-h-screen`}
+        } transition-all duration-1000 h-fit min-h-screen mt-16`}
       >
         {children}
       </div>

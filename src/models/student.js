@@ -27,26 +27,29 @@ const socialsSchema = mongoose.Schema({
   researchGate: { type: String, default: "" },
 });
 
-const stdSchema = mongoose.Schema(
-  {
-    showOnHome: {type: Boolean, default: false},
-    avatar: { type: String, default: "" },
-    cover: { type: String, default: "" },
-    name: { type: nameSchema, required: true },
-    bio: { type: String, default: "" },
-    about: { type: String, default: "" },
-    currentPosition: { type: positionSchema },
-    contact: { type: contactSchema },
-    socials: { type: socialsSchema },
-    professorId: {type: String, required: true}
-  }
-);
+const stdSchema = mongoose.Schema({
+  typeOfStd: {
+    type: String,
+    enum: ["undergraduate", "graduated", "master", "phd"],
+    required: true,
+  },
+  showOnHome: { type: Boolean, default: false },
+  avatar: { type: String, default: "" },
+  cover: { type: String, default: "" },
+  name: { type: nameSchema, required: true },
+  bio: { type: String, default: "" },
+  about: { type: String, default: "" },
+  currentPosition: { type: positionSchema },
+  contact: { type: contactSchema },
+  socials: { type: socialsSchema },
+  professorId: { type: String, required: true },
+});
 
 let Student;
 try {
-  Student = mongoose.model('Student');
+  Student = mongoose.model("Student");
 } catch (e) {
-  Student = mongoose.model('Student', stdSchema);
+  Student = mongoose.model("Student", stdSchema);
 }
 
 export default Student;

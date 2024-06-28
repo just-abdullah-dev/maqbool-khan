@@ -3,6 +3,7 @@ import userAuthGuard from "@/middleware/userAuth";
 import Personal from "@/models/personal";
 import Student from "@/models/student";
 import fileRemover from "@/utils/fileRemover";
+import getSearchParams from "@/utils/getSearchParams";
 import resError from "@/utils/resError";
 import uploadMentionedFile from "@/utils/uploadMentionedFile";
 import { NextResponse } from "next/server";
@@ -11,18 +12,26 @@ export async function GET(req, { params }) {
   try {
     await connectDB();
 
-    // const authData = await userAuthGuard(req);
-    // if (!authData?.success) {
-    //   return resError(authData?.message);
-    // }
+    const { id } = params;
 
-    const { id, showOnHome } = params;
-    
+    const searchParams = getSearchParams(req);
+
+    const typeOfStd = searchParams.get('typeOfStd');
+    const showOnHome = searchParams.get('showOnHome');
+
     let query;
-    if(showOnHome){
-      query = { professorId: id, showOnHome: true };
+    if(showOnHome === 'yes'){
+      if(typeOfStd){
+        query = { professorId: id, showOnHome: true, typeOfStd: typeOfStd };
+      }else{
+        query = { professorId: id, showOnHome: true };
+      }
     }else{
-      query = { professorId: id };
+      if(typeOfStd){
+        query = { professorId: id, typeOfStd: typeOfStd };
+      }else{
+        query = { professorId: id };
+      }
     }
 
     const data = await Student.find(query);
@@ -40,10 +49,10 @@ export async function POST(req, { params }) {
   try {
     await connectDB();
 
-    const authData = await userAuthGuard(req);
-    if (!authData?.success) {
-      return resError(authData?.message);
-    }
+    // const authData = await userAuthGuard(req);
+    // if (!authData?.success) {
+    //   return resError(authData?.message);
+    // }
 
     const { id } = params;
 
@@ -51,14 +60,14 @@ export async function POST(req, { params }) {
     let body = formData.getAll("body")[0];
     body = JSON.parse(body);
 
-    const { name, bio, about, currentPosition, contact, socials, showOnHome } =
+    const { name, bio, about, currentPosition, contact, socials, showOnHome, typeOfStd } =
       body;
 
     const uploadedAvatar = await uploadMentionedFile(formData, "avatar");
     const uploadedCover = await uploadMentionedFile(formData, "cover");
 
     const std = await Student.create({
-      name, bio, about, currentPosition, contact, socials, professorId: id
+      name, bio, about, currentPosition, contact, socials, professorId: id, typeOfStd
     });
 
     let user = await Student.findById(std?._id);
@@ -165,6 +174,7 @@ export async function DELETE(req, { params }) {
   try {
     const { id } = params;
     await connectDB();
+
      const authData = await userAuthGuard(req);
     if (!authData?.success) {
       return resError(authData?.message);
@@ -182,7 +192,7 @@ export async function DELETE(req, { params }) {
     }
 
     return NextResponse.json(
-      { success: true, message: `${id} student has been deleted.` },
+      { success: true, message: `${data?.name?.first} student has been deleted.` },
       { status: 200 }
     );
   } catch (error) {

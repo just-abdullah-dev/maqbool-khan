@@ -18,7 +18,7 @@ export async function revalidateTagFunc(tag){
 //   return data.json();
 // }
 
-export async function getAll(professorId, tableName) {
+export async function getAll(professorId, tableName, searchParams = []) {
   const requestOptions = {
     method: 'GET',
     redirect: 'follow',
@@ -31,8 +31,19 @@ export async function getAll(professorId, tableName) {
     ? 'http://localhost:3000' 
     : '';
 
+    let searchParamsString = "";
+    if(searchParams.length > 0){
+       searchParamsString = `?`;
+       searchParams.map((item, index)=>{
+        searchParamsString += item?.name + "=" + item?.value;
+        if(index + 1 !== searchParams.length){
+          searchParamsString += "&";
+        }
+       })
+    }
+
   try {
-    const response = await fetch(`${baseUrl}/api/v1/${tableName}/${professorId}`, requestOptions);
+    const response = await fetch(`${baseUrl}/api/v1/${tableName}/${professorId}${searchParamsString !== "" ? searchParamsString : ""}`, requestOptions);
     
     // Check if the response is ok (status is in the range 200-299)
     if (!response.ok) {
