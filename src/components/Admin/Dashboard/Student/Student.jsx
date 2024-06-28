@@ -6,7 +6,6 @@ import toast from "react-hot-toast";
 import { getAll, revalidateTagFunc } from "@/services/utils";
 import Loading from "@/components/Utils/Loading";
 import Error from "@/components/Utils/Error";
-import getFormatDate from "@/utils/formateDate";
 import { ChevronDown, ChevronUp, SquarePen, Trash } from "lucide-react";
 import AddStudent from "./AddStudent";
 import EditStudent from "./EditStudent";
@@ -113,7 +112,7 @@ export default function Student() {
                     if (selectedID === item?._id) {
                       return (
                         // detail view
-                        <li key={index} className=" flex items-start gap-4 rounded border border-black p-4 pl-2 dark:border-white">
+                        <li key={index} className=" flex flex-wrap items-start gap-4 rounded border border-black p-4 pl-2 dark:border-white">
                           <button
                             onClick={() => {
                               setSelectedID("");
@@ -128,7 +127,7 @@ export default function Student() {
                               <div className=" flex gap-2 items-center">
                                 {/* name  */}
                                 <h1 className=" text-2xl font-semibold">
-                                  {item?.name?.title && item?.name?.title + ","}{" "}
+                                  {item?.name?.title && item?.name?.title + "."}{" "}
                                   {item?.name?.first} {item?.name?.middle}{" "}
                                   {item?.name?.last}{" "}
                                 </h1>
@@ -307,7 +306,7 @@ export default function Student() {
                           <div className=" flex gap-4 items-center">
                             {/* name  */}
                             <h1 className=" text-2xl font-semibold">
-                              {item?.name?.title && item?.name?.title + ","}{" "}
+                              {item?.name?.title && item?.name?.title + "."}{" "}
                               {item?.name?.first} {item?.name?.middle}{" "}
                               {item?.name?.last}{" "}
                             </h1>

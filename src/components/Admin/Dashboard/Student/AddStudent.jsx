@@ -4,11 +4,10 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useDispatch, useSelector } from "react-redux";
-import { userActions } from "@/store/reducers/userReducer";
+import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { Upload } from "lucide-react";
-import { getAll, revalidateTagFunc } from "@/services/utils";
+import { ArrowLeftCircle, Upload } from "lucide-react";
+import { revalidateTagFunc } from "@/services/utils";
 
 const schema = z.object({
   title: z.string(),
@@ -32,10 +31,9 @@ const schema = z.object({
   typeOfStd: z.string(),
 });
 
-export default function AddStudent() {
+export default function AddStudent({goBack}) {
   let { userInfo } = useSelector((state) => state.user);
   userInfo = userInfo?.data;
-  const dispatch = useDispatch();
   
   const [avatar, setAvatar] = useState({
     url: "",
@@ -54,27 +52,6 @@ export default function AddStudent() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({
-    defaultValues: {
-      title: userInfo?.name?.title,
-      first: userInfo?.name?.first,
-      middle: userInfo?.name?.middle,
-      last: userInfo?.name?.last,
-      bio: userInfo?.bio,
-      about: userInfo?.about,
-      currentPosTitle: userInfo?.currentPosition?.title,
-      currentPosAt: userInfo?.currentPosition?.at,
-      email: userInfo?.contact?.email,
-      phone: userInfo?.contact?.phone + "",
-      instagram: userInfo?.socials?.instagram,
-      twitter: userInfo?.socials?.twitter,
-      facebook: userInfo?.socials?.facebook,
-      linkedin: userInfo?.socials?.linkedin,
-      github: userInfo?.socials?.github,
-      researchGate: userInfo?.socials?.researchGate,
-      googleScholar: userInfo?.socials?.googleScholar,
-      typeOfStd: userInfo?.typeOfStd,
-      showOnHome: userInfo?.showOnHome,
-    },
     resolver: zodResolver(schema),
   });
 
@@ -121,7 +98,7 @@ export default function AddStudent() {
     formdata.append("body", JSON.stringify(body));
 
     var requestOptions = {
-      method: "PUT",
+      method: "POST",
       headers: {
         Authorization: `Bearer ${userInfo?.token}`,
       },
@@ -133,10 +110,10 @@ export default function AddStudent() {
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
-          dispatch(userActions.setUserInfo(result));
-          localStorage.setItem("account", JSON.stringify(result));
           toast.success(result?.message);
           revalidateTagFunc("student");
+          goBack();
+          window.location.reload();
         } else {
           toast.error(result?.message);
         }
@@ -147,6 +124,11 @@ export default function AddStudent() {
       value: null,
       error: "",
     });
+    setCover({
+      url: "",
+      value: null,
+      error: "",
+    })
   };
 
   function handleChangeAvatar(event) {
@@ -176,6 +158,8 @@ export default function AddStudent() {
   }
 
   return (
+    <div>
+      <button onClick={goBack}><ArrowLeftCircle size={32} /></button>
     <form
       onSubmit={handleSubmit(submitHandler)}
       className=" grid gap-4 px-12 py-4"
@@ -184,7 +168,7 @@ export default function AddStudent() {
       <div className=" w-full relative flex flex-col gap-6 ">
         <Image
           className=" rounded h-[250px] w-full border dark:border-white border-black"
-          src={cover?.url ? cover?.url : `/uploads/${userInfo?.cover}`}
+          src={cover?.url ? cover?.url : "/uploads/sample.jpeg"}
           height={250}
           width={250}
           alt="Cover Picture width(any) x height(250px max)"
@@ -214,7 +198,7 @@ export default function AddStudent() {
         <div className=" w-[25%] relative flex flex-col gap-6">
           <Image
             className=" rounded-full aspect-square border dark:border-white border-black"
-            src={avatar?.url ? avatar?.url : `/uploads/${userInfo?.avatar}`}
+            src={avatar?.url ? avatar?.url : `/uploads/sample.jpeg`}
             height={250}
             width={250}
             alt="Profile picture"
@@ -548,5 +532,6 @@ export default function AddStudent() {
         {isSubmitting ? "Loading..." : "Update"}
       </button>
     </form>
+    </div>
   );
 }

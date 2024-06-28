@@ -49,10 +49,10 @@ export async function POST(req, { params }) {
   try {
     await connectDB();
 
-    // const authData = await userAuthGuard(req);
-    // if (!authData?.success) {
-    //   return resError(authData?.message);
-    // }
+    const authData = await userAuthGuard(req);
+    if (!authData?.success) {
+      return resError(authData?.message);
+    }
 
     const { id } = params;
 

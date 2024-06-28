@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { ArrowLeftCircle, Upload } from "lucide-react";
 import { revalidateTagFunc } from "@/services/utils";
+import { useSelector } from "react-redux";
 
 const schema = z.object({
   title: z.string(),
@@ -31,6 +32,8 @@ const schema = z.object({
 });
 
 export default function EditStudent({prevData, goBack}) {
+  let { userInfo } = useSelector((state) => state.user);
+  userInfo = userInfo?.data;
   
   const [avatar, setAvatar] = useState({
     url: "",
@@ -118,28 +121,25 @@ export default function EditStudent({prevData, goBack}) {
     var requestOptions = {
       method: "PUT",
       headers: {
-        Authorization: `Bearer ${prevData?.token}`,
+        Authorization: `Bearer ${userInfo?.token}`,
       },
       body: formdata,
       redirect: "follow",
     };
 
-    await fetch("/api/v1/student/maqboolkhan", requestOptions)
+    await fetch(`/api/v1/student/${prevData?._id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
           toast.success(result?.message);
           revalidateTagFunc("student");
+          goBack();
+          window.location.reload();
         } else {
           toast.error(result?.message);
         }
       })
       .catch((error) => console.log("error", error));
-    setAvatar({
-      url: "",
-      value: null,
-      error: "",
-    });
   };
 
   function handleChangeAvatar(event) {
