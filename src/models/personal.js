@@ -40,6 +40,7 @@ const personalSchema = mongoose.Schema(
     contact: { type: contactSchema },
     socials: { type: socialsSchema },
     password: { type: String, default: '' },
+    cv: { type: String, default: '' },
   }
 );
 personalSchema.pre('save', async function (next) {

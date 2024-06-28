@@ -1,5 +1,6 @@
 import Error from "@/components/Utils/Error";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 export default function AboutData({ data }) {
@@ -37,6 +38,9 @@ export default function AboutData({ data }) {
             <p className=" font-semibold text-sm  lg:text-md">{data?.currentPosition?.at}</p>
           </div>
           <p className="text-sm leading-6 lg:text-base">{data?.about}</p>
+          <div>
+            <Link target="_blank" href={`/uploads/${data?.cv}`} download={`/uploads/${data?.cv}`} className=" actionButtonTag w-36">Download CV</Link>
+          </div>
         </div>
       </div>
 
