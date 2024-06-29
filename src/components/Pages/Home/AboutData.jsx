@@ -12,7 +12,7 @@ export default function AboutData({ data }) {
   return (
     <div className=" flex py-6 px-3 lg:p-32 relative w-full lg:h-[650px] h-[450px] overflow-hidden">
       <BGSlideImages
-        images={data?.bgImages.length > 0 ? data?.bgImages : []}
+        images={data?.bgImages !== null || undefined ? data?.bgImages : []}
         className={"w-full absolute top-0 left-0 lg:h-[650px] h-[450px]"}
       />
 
