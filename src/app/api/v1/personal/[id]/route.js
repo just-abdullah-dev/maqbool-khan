@@ -4,6 +4,7 @@ import Personal from "@/models/personal";
 import fileRemover from "@/utils/fileRemover";
 import resError from "@/utils/resError";
 import uploadFiles from "@/utils/uploadFiles";
+import uploadMentionedFile from "@/utils/uploadMentionedFile";
 import { NextResponse } from "next/server";
 
 export async function GET(req, { params }) {
@@ -30,11 +31,18 @@ export async function PUT(req, { params }) {
 
     const { id } = params;
     const formData = await req.formData();
+
     let body = formData.getAll("body")[0];
     body = JSON.parse(body);
-    const { name, bio, about, currentPosition, contact, socials } =
+    const { name, bio, about, currentPosition, contact, socials, deletingBGImages } =
       body;
-    const uploadedFiles = await uploadFiles(formData);
+
+
+    const uploadedAvatar = await uploadMentionedFile(formData, "avatar");
+
+    const uploadedBGImages = await uploadMentionedFile(formData, "bgImages");
+
+    const uploadedCV = await uploadMentionedFile(formData, "cv");
 
     let user = await Personal.findOne({ id });
     if (!user) {
@@ -48,12 +56,35 @@ export async function PUT(req, { params }) {
     user.contact = contact || user.contact;
     user.socials = socials || user.socials;
 
-    if (uploadedFiles.length > 0) {
+    if (uploadedAvatar.length > 0) {
       if (user.avatar) {
         fileRemover(user.avatar);
       }
-      user.avatar = uploadedFiles[0];
+      user.avatar = uploadedAvatar[0];
     }
+    if (uploadedCV.length > 0) {
+      if (user.cv) {
+        fileRemover(user.cv);
+      }
+      user.cv = uploadedCV[0];
+    }
+
+
+    if (uploadedBGImages.length > 0) {
+      user.bgImages = user.bgImages.concat(uploadedBGImages);
+    }
+//Now deleting BG Images on demand
+if (deletingBGImages) {
+  if (deletingBGImages.length > 0) {
+    deletingBGImages.map((image) => {
+      fileRemover(image);
+    });
+  }
+  user.bgImages = user.bgImages.filter(
+    (item) => !deletingBGImages.includes(item)
+  );
+}
+
 
     const updatedUser = await user.save();
     updatedUser.password = null;

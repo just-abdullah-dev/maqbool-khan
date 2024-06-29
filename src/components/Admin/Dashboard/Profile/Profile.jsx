@@ -10,6 +10,8 @@ import toast from "react-hot-toast";
 import { Upload } from "lucide-react";
 import ChangePassword from "./ChangePassword";
 import { revalidateTagFunc } from "@/services/utils";
+import BGImages from "./BGImages";
+import Link from "next/link";
 
 const schema = z.object({
   title: z.string(),
@@ -32,6 +34,10 @@ const schema = z.object({
 });
 
 export default function Profile() {
+  const [newImages, setNewImages] = useState([]);
+  const [deletingImages, setDeletingImages] = useState([]);
+  const [isChangeBGImages, setIsChangeBGImages] = useState(false);
+
   const [isChangePassword, setIsChangePassword] = useState(false);
   const handlePasswordBtn = () => {
     setIsChangePassword(!isChangePassword);
@@ -43,6 +49,12 @@ export default function Profile() {
 
   const [avatar, setAvatar] = useState({
     url: "",
+    value: null,
+    error: "",
+  });
+
+  const [resume, setResume] = useState({
+    name:"",
     value: null,
     error: "",
   });
@@ -77,8 +89,15 @@ export default function Profile() {
   const submitHandler = async (data) => {
     let formdata = new FormData();
     if (avatar.url) {
-      formdata.append("files", avatar.value, avatar.value?.name);
+      formdata.append("avatar", avatar.value, avatar.value?.name);
     }
+    if (resume.name) {
+      formdata.append("cv", resume.value, resume.value?.name);
+    }
+    newImages.forEach((img) => {
+      formdata.append("bgImages", img, img.name);
+    });
+
     const body = {
       name: {
         title: data?.title,
@@ -105,6 +124,7 @@ export default function Profile() {
       },
       bio: data?.bio,
       about: data?.about,
+      deletingBGImages: deletingImages,
     };
     formdata.append("body", JSON.stringify(body));
 
@@ -124,7 +144,7 @@ export default function Profile() {
           dispatch(userActions.setUserInfo(result));
           localStorage.setItem("account", JSON.stringify(result));
           toast.success(result?.message);
-          revalidateTagFunc("personal")
+          revalidateTagFunc("personal");
         } else {
           toast.error(result?.message);
         }
@@ -149,6 +169,23 @@ export default function Profile() {
       reader.readAsDataURL(input.files[0]);
     }
   }
+
+  function handleChangeResume(event) {
+    const input = event.target;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      if (file.type === 'application/pdf' || file.type === 'application/msword' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        setResume(() => {
+          return { name: file.name, error: "", value: file };
+        });
+      } else {
+        setResume(() => {
+          return { name: "", error: "Invalid file type. Please upload a PDF or Word document.", value: null };
+        });
+      }
+    }
+  }
+  
 
   return (
     <div>
@@ -461,13 +498,76 @@ export default function Profile() {
             </div>
           </div>
 
+          {/* cv input  */}
+          <div className="grid gap-2">
+            <h1>Resume/CV: </h1>
+            <div className=" w-full grid grid-cols-2 relative gap-6">
+              <Link
+              className=" p-2 rounded-lg outline outline-1 dark:outline-primary_bg_light outline-primary_bg_dark text-center"
+                href={`/uploads/${userInfo?.cv}`}
+               target="_blank"
+              >View Previous CV</Link>
+              <label
+                htmlFor="avatar"
+                className=" flex gap-2 cursor-pointer p-2 rounded-lg outline outline-1 dark:outline-primary_bg_light outline-primary_bg_dark overflow-hidden"
+              >
+                <Upload />
+                Upload New Resume
+              <input
+                className=" absolute opacity-0 cursor-pointer"
+                type="file"
+                name="resume"
+                id="resume"
+                onChange={(event) => {
+                  handleChangeResume(event);
+                }}
+              />
+              {resume?.error ?
+              <p className=" text-red-500 text-sm">{resume?.error}</p>:
+              resume?.name ?
+              <p className=" text-sm">{resume?.name}</p>:
+              <p className=" text-sm">No File Chosen</p>}
+              </label>
+
+            </div>
+          </div>
+
+          {/* home page bg images  */}
+          <div className=" grid place-items-center gap-2">
+            <h1 className=" text-lg font-semibold">
+              Home Page Background Images:
+            </h1>
+            {isChangeBGImages ? (
+              <BGImages
+                saveBGImages={(newImagesParams, deletingImagesParams) => {
+                  setDeletingImages(deletingImagesParams);
+                  setNewImages(newImagesParams);
+                  setIsChangeBGImages(!isChangeBGImages);
+                }}
+                bgImages={userInfo?.bgImages}
+                goBack={() => {
+                  setIsChangeBGImages(!isChangeBGImages);
+                }}
+              />
+            ) : (
+              <button
+                className=" seeMoreTag w-96"
+                onClick={() => {
+                  setIsChangeBGImages(!isChangeBGImages);
+                }}
+              >
+                Update BG Images
+              </button>
+            )}
+          </div>
+
           {/* form submit btn  */}
           <button
             disabled={isSubmitting}
             type="submit"
             className=" actionButtonTag"
           >
-            {isSubmitting ? "Loading..." : "Update"}
+            {isSubmitting ? "Loading..." : "Update Profile"}
           </button>
         </form>
       )}

@@ -114,6 +114,7 @@ export async function PUT(req, { params }) {
     }
 
     const { id } = params;
+    
     const formData = await req.formData();
     let body = formData.getAll("body")[0];
     body = JSON.parse(body);

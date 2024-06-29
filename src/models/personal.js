@@ -41,6 +41,7 @@ const personalSchema = mongoose.Schema(
     socials: { type: socialsSchema },
     password: { type: String, default: '' },
     cv: { type: String, default: '' },
+    bgImages: { type: [String] },
   }
 );
 personalSchema.pre('save', async function (next) {
