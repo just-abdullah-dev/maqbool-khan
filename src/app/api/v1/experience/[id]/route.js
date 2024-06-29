@@ -30,6 +30,43 @@ export async function GET(req, { params }) {
   }
 }
 
+export async function POST(req, { params }) {
+  try {
+    await connectDB();
+    const data = await userAuthGuard(req);
+    if (!data?.success) {
+      return resError(data?.message);
+    }
+    const { id } = params;
+    const body = await req.json();
+    const { title, company, desc, from, to, link, showOnHome } = body;
+    if (!title || !company || !from || !link) {
+      return resError("Please fill all fields.");
+    }
+    const experience = await Experience.create({
+      title,
+      company,
+      desc,
+      from,
+      to,
+      link,
+      professorId: id,
+      showOnHome: showOnHome === "yes" ? true : false,
+    });
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: `${title} experience has been added.`,
+        data: experience,
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    return resError(error?.message);
+  }
+}
+
 export async function PUT(req, { params }) {
   try {
     await connectDB();
@@ -67,43 +104,6 @@ export async function PUT(req, { params }) {
         data: updatedExper,
       },
       { status: 200 }
-    );
-  } catch (error) {
-    return resError(error?.message);
-  }
-}
-
-export async function POST(req, { params }) {
-  try {
-    await connectDB();
-    const data = await userAuthGuard(req);
-    if (!data?.success) {
-      return resError(data?.message);
-    }
-    const { id } = params;
-    const body = await req.json();
-    const { title, company, desc, from, to, link, showOnHome } = body;
-    if (!title || !company || !from || !link) {
-      return resError("Please fill all fields.");
-    }
-    const experience = await Experience.create({
-      title,
-      company,
-      desc,
-      from,
-      to,
-      link,
-      professorId: id,
-      showOnHome: showOnHome === "yes" ? true : false,
-    });
-
-    return NextResponse.json(
-      {
-        success: true,
-        message: `${title} experience has been added.`,
-        data: experience,
-      },
-      { status: 201 }
     );
   } catch (error) {
     return resError(error?.message);
