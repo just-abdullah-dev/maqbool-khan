@@ -51,14 +51,7 @@ export default function Student() {
   useEffect(() => {
     const main = async () => {
       setIsLoading(true);
-      const data = await getAll("maqboolkhan", "student", [
-        // {
-        //   title:"showonHom", value: "palestine1"
-        // },
-        // {
-        //   title:"title2", value: "palestine2"
-        // }
-      ]);
+      const data = await getAll("maqboolkhan", "student");
       if (data?.success) {
         setAllStudents(data?.data);
       } else {
@@ -141,7 +134,7 @@ export default function Student() {
                                   {item?.typeOfStd === "phd" && "PhD"}
                                 </h3>
                                 -
-                            <p>
+                            <p className=" mt-1">
                               Show on Home: {item?.showOnHome?"True":"False"}
                             </p>
                               </div>
@@ -319,7 +312,7 @@ export default function Student() {
                               {item?.typeOfStd === "phd" && "PhD"}
                             </h3>
                             -
-                            <p>
+                            <p className=" mt-1">
                               Show on Home: {item?.showOnHome?"True":"False"}
                             </p>
                           </div>

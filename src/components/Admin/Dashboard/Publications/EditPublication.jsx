@@ -19,7 +19,8 @@ export default function EditPublication({ goBack, prevData }) {
     defaultValues:{
       title: prevData?.title,
       year: prevData?.year,
-      link: prevData?.link
+      link: prevData?.link,
+      showOnHome: prevData?.showOnHome,
     }
   });
 
@@ -43,7 +44,8 @@ export default function EditPublication({ goBack, prevData }) {
       title: data?.title,
       link: data?.link,
       year: data?.year,
-      members
+      members,
+      showOnHome: data?.showOnHome ? "yes" : "no",
     };
 
     const requestOptions = {
@@ -125,6 +127,17 @@ export default function EditPublication({ goBack, prevData }) {
                 type="text"
                 className=" inputTag"
                 placeholder="Year e.g 2020"
+              />
+            </div>
+          </div>
+          {/* show on home */}
+          <div className=" grid gap-2 overflow-hidden">
+            <h1>Show On Home Page</h1>
+            <div>
+              <input
+                {...register("showOnHome")}
+                type="checkbox"
+                className="inputTag scale-150"
               />
             </div>
           </div>

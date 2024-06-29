@@ -14,6 +14,7 @@ const researchSchema = mongoose.Schema(
     sessionChair: {type : [String]},
     member: {type: [memberSchema]},
     members: {type: [Object]}, 
+    showOnHome: { type: Boolean, default: false },
   }
 );
 

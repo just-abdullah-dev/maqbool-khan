@@ -61,8 +61,10 @@ export default function AddGallery({ goBack }) {
 
     const body = {
       name: data?.countryName,
-      slug: data?.slug.replace(/\s/g, "")
+      slug: data?.slug.replace(/\s/g, ""),
+      showOnHome: data?.showOnHome ? "yes" : "no",
     }
+    
     formData.append("body", JSON.stringify(body));
 
     const requestOptions = {
@@ -114,6 +116,17 @@ export default function AddGallery({ goBack }) {
                 type="text"
                 className="inputTag"
                 placeholder="Slug without spaces"
+              />
+            </div>
+          </div>
+           {/* show on home */}
+           <div className=" grid gap-2 overflow-hidden">
+            <h1>Show On Home Page</h1>
+            <div>
+              <input
+                {...register("showOnHome")}
+                type="checkbox"
+                className="inputTag scale-150"
               />
             </div>
           </div>

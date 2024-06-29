@@ -23,7 +23,8 @@ export default function EditEducation({ goBack, prevData }) {
       link: prevData?.link,
       institute: prevData?.institute,
       country: prevData?.country,
-      field: prevData?.field 
+      field: prevData?.field,
+      showOnHome: prevData?.showOnHome,
     }
   });
 
@@ -45,7 +46,8 @@ export default function EditEducation({ goBack, prevData }) {
       institute: data?.institute,
       country: data?.country,
       field: data?.field,
-      from: startDate
+      from: startDate,
+      showOnHome: data?.showOnHome ? "yes" : "no",
     };
     if (!isWorking) {
       body.to = endDate;
@@ -161,6 +163,17 @@ export default function EditEducation({ goBack, prevData }) {
             
           </div>
           </div>
+          {/* show on home */}
+        <div className=" grid gap-2 overflow-hidden">
+          <h1>Show On Home Page</h1>
+          <div>
+              <input
+                {...register("showOnHome")}
+                type="checkbox"
+                className="inputTag scale-150"
+              />
+          </div>
+        </div>
         </div>
         
         <div className=" grid gap-2">

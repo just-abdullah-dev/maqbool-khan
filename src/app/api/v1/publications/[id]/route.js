@@ -1,6 +1,7 @@
 import connectDB from "@/lib/db";
 import userAuthGuard from "@/middleware/userAuth";
 import Publications from "@/models/publications";
+import getSearchParams from "@/utils/getSearchParams";
 import resError from "@/utils/resError";
 import { NextResponse } from "next/server";
 
@@ -8,7 +9,21 @@ export async function GET(req, { params }) {
   try {
     await connectDB();
     const { id } = params;
-    const data = await Publications.find({ professorId: id });
+
+    const searchParams = getSearchParams(req);
+    const showOnHome = searchParams.get("showOnHome");
+
+    let query;
+    if (showOnHome === "yes") {
+      query = { professorId: id, showOnHome: true };
+    }
+
+    const data = await Publications.find(query);
+
+    if (!data) {
+      return resError(`No publications was found.`);
+    }
+
     return NextResponse.json({ success: true, data }, { status: 200 });
   } catch (error) {
     return resError(error?.message);
@@ -24,7 +39,7 @@ export async function PUT(req, { params }) {
     }
     const { id } = params;
     const body = await req.json();
-    const { title, solo, members, link, year } = body;
+    const { title, solo, members, link, year, showOnHome } = body;
 
     let publi = await Publications.findOne({ _id: id });
     if (!publi) {
@@ -34,10 +49,17 @@ export async function PUT(req, { params }) {
     publi.members = members || publi.members;
     publi.link = link || publi.link;
     publi.year = year || publi.year;
-    if(solo === "yes"){
+
+    if (solo === "yes") {
       publi.solo = true;
-    }else if(solo === "no"){
+    } else if (solo === "no") {
       publi.solo = false;
+    }
+
+    if (showOnHome === "yes") {
+      publi.showOnHome = true;
+    } else if (showOnHome === "no") {
+      publi.showOnHome = false;
     }
 
     const updatedPubli = await publi.save();
@@ -64,18 +86,23 @@ export async function POST(req, { params }) {
     }
     const { id } = params;
     const body = await req.json();
-    let { title, solo, members, link, year } = body;
+    let { title, solo, members, link, year, showOnHome } = body;
     if (!title || !link) {
       return resError("Please fill all fields.");
     }
-    if(solo === "yes"){
+    if (solo === "yes") {
       solo = true;
-    }else if(solo === "no"){
+    } else if (solo === "no") {
       solo = false;
     }
     const publi = await Publications.create({
-      title, solo, members, link, year,
+      title,
+      solo,
+      members,
+      link,
+      year,
       professorId: id,
+      showOnHome: showOnHome === "yes" ? true : false,
     });
 
     return NextResponse.json(
@@ -105,7 +132,10 @@ export async function DELETE(req, { params }) {
       return resError(`${id} not found in database.`);
     }
     return NextResponse.json(
-      { success: true, message: `${data?.title} publication has been deleted.` },
+      {
+        success: true,
+        message: `${data?.title} publication has been deleted.`,
+      },
       { status: 200 }
     );
   } catch (error) {

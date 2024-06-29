@@ -7,6 +7,7 @@ const publicationSchema = mongoose.Schema(
     link: {type : String, default: ""},
     year: {type: String, default: ""},
     members: {type: [String]},
+    showOnHome: { type: Boolean, default: false },
   }
 );
 

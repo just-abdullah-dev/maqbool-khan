@@ -24,7 +24,8 @@ export default function EditProject({ goBack, prevData }) {
       title: prevData?.title,
       desc: prevData?.desc,
       link: prevData?.link,
-      institute: prevData?.institute
+      institute: prevData?.institute,
+      showOnHome: prevData?.showOnHome,
     }
   });
   const handleAddDuty = (e) => {
@@ -64,7 +65,8 @@ const handleDeleteDuty = (value) => {
       from: startDate,
       link: data?.link,
       institute: data?.institute,
-      responsibilities: duties
+      responsibilities: duties,
+      showOnHome: data?.showOnHome ? "yes" : "no",
     };
     if (!isWorking) {
       body.to = endDate;
@@ -169,6 +171,17 @@ const handleDeleteDuty = (value) => {
                 }}
                 type="date"
                 className=" inputTag disabled:opacity-60 disabled:cursor-not-allowed"
+              />
+            </div>
+          </div>
+          {/* show on home */}
+          <div className=" grid gap-2 overflow-hidden">
+            <h1>Show On Home Page</h1>
+            <div>
+              <input
+                {...register("showOnHome")}
+                type="checkbox"
+                className="inputTag scale-150"
               />
             </div>
           </div>

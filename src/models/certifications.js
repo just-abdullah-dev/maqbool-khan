@@ -7,7 +7,8 @@ const certificationSchema = mongoose.Schema(
     professorId: {type : String, required: true},
     title: {type: String, required: true},
     link: {type : String, default: ""},
-    image: {type: String, default: ""}
+    image: {type: String, default: ""},
+    showOnHome: { type: Boolean, default: false },
   }
 );
 

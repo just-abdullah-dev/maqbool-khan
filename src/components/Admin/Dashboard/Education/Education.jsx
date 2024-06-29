@@ -104,6 +104,7 @@ export default function Education() {
                   allEducations.map((item, index) => {
                     if (selectedID === item?._id) {
                       return (
+                        // detail view 
                         <li key={index} className=" flex items-start gap-4">
                           <button
                             onClick={() => {
@@ -119,6 +120,9 @@ export default function Education() {
                               <h1 className=" text-2xl font-semibold">
                                 {item?.degree}
                               </h1>
+                              <p className="mt-1">
+                              Show on Home: {item?.showOnHome?"True":"False"}
+                            </p>
                               <div className="">
                                 {getFormatDate(item?.from)} ---{" "}
                                 {item?.to
@@ -160,6 +164,7 @@ export default function Education() {
                       );
                     } else {
                       return (
+                        // short view 
                         <li key={index} className=" flex gap-4 items-start">
                           <div
                             className="flex items-center justify-center cursor-pointer"
@@ -172,6 +177,9 @@ export default function Education() {
                           <h1 className=" text-2xl font-semibold">
                             {item?.degree}
                           </h1>
+                          <p className="mt-1">
+                              Show on Home: {item?.showOnHome?"True":"False"}
+                            </p>
                         </li>
                       );
                     }

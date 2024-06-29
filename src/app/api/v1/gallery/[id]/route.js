@@ -2,6 +2,7 @@ import connectDB from "@/lib/db";
 import userAuthGuard from "@/middleware/userAuth";
 import Gallery from "@/models/gallery";
 import fileRemover from "@/utils/fileRemover";
+import getSearchParams from "@/utils/getSearchParams";
 import resError from "@/utils/resError";
 import uploadFiles from "@/utils/uploadFiles";
 import { NextResponse } from "next/server";
@@ -9,8 +10,22 @@ import { NextResponse } from "next/server";
 export async function GET(req, { params }) {
   try {
     await connectDB();
-    const { id } = params; 
-    const data = await Gallery.find({ professorId: id });
+    const { id } = params;
+
+    const searchParams = getSearchParams(req);
+    const showOnHome = searchParams.get("showOnHome");
+
+    let query;
+    if (showOnHome === "yes") {
+      query = { professorId: id, showOnHome: true };
+    }
+
+    const data = await Gallery.find(query);
+
+    if (!data) {
+      return resError(`No gallery was found.`);
+    }
+
     return NextResponse.json({ success: true, data }, { status: 200 });
   } catch (error) {
     return resError(error?.message);
@@ -29,7 +44,7 @@ export async function POST(req, { params }) {
     const formData = await req.formData();
     let body = formData.getAll("body")[0];
     body = JSON.parse(body);
-    let { name, slug } = body;
+    let { name, slug, showOnHome } = body;
     if (!name || !slug) {
       return resError("Please fill all fields.");
     }
@@ -40,6 +55,7 @@ export async function POST(req, { params }) {
       slug,
       professorId: id,
       images: uploadedFiles,
+      showOnHome: showOnHome === "yes" ? true : false,
     });
 
     return NextResponse.json(
@@ -68,7 +84,7 @@ export async function PUT(req, { params }) {
 
     let body = formData.getAll("body")[0] ? formData.getAll("body")[0] : {};
     body = JSON.parse(body);
-    let { name, slug, deletingImages } = body;
+    let { name, slug, deletingImages, showOnHome } = body;
 
     const uploadedFiles = await uploadFiles(formData);
 
@@ -78,6 +94,12 @@ export async function PUT(req, { params }) {
     }
     gallery.countryName = name || gallery.countryName;
     gallery.slug = slug || gallery.slug;
+
+    if (showOnHome === "yes") {
+      gallery.showOnHome = true;
+    } else if (showOnHome === "no") {
+      gallery.showOnHome = false;
+    }
 
     if (uploadedFiles.length > 0) {
       gallery.images = gallery.images.concat(uploadedFiles);

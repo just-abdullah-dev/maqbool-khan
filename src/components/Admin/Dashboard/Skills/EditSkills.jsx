@@ -17,7 +17,8 @@ export default function EditSkill({ goBack, prevData }) {
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues:{
-      title: prevData?.title
+      title: prevData?.title,
+      showOnHome: prevData?.showOnHome,
     }
   });
 
@@ -30,7 +31,8 @@ export default function EditSkill({ goBack, prevData }) {
 
     let body = {
       title: data?.title,
-      items: skills
+      items: skills,
+      showOnHome: data?.showOnHome ? "yes" : "no",
     }
 
     const requestOptions = {
@@ -46,8 +48,8 @@ export default function EditSkill({ goBack, prevData }) {
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
-          toast.success(result?.message);
           revalidateTagFunc("skills")
+          toast.success(result?.message);
           window.location.reload();
         } else {
           toast.error(result?.message);
@@ -89,6 +91,17 @@ export default function EditSkill({ goBack, prevData }) {
                 type="text"
                 className=" inputTag"
                 placeholder="Title"
+              />
+            </div>
+          </div>
+          {/* show on home */}
+          <div className=" grid gap-2 overflow-hidden">
+            <h1>Show On Home Page</h1>
+            <div>
+              <input
+                {...register("showOnHome")}
+                type="checkbox"
+                className="inputTag scale-150"
               />
             </div>
           </div>

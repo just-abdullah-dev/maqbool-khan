@@ -1,6 +1,7 @@
 import connectDB from "@/lib/db";
 import userAuthGuard from "@/middleware/userAuth";
 import Skills from "@/models/skills";
+import getSearchParams from "@/utils/getSearchParams";
 import resError from "@/utils/resError";
 import { NextResponse } from "next/server";
 
@@ -8,7 +9,20 @@ export async function GET(req, { params }) {
   try {
     await connectDB();
     const { id } = params;
-    const data = await Skills.find({ professorId: id });
+
+    const searchParams = getSearchParams(req);
+    const showOnHome = searchParams.get("showOnHome");
+
+    let query;
+    if (showOnHome === "yes") {
+      query = { professorId: id, showOnHome: true };
+    }
+
+    const data = await Skills.find(query);
+
+    if (!data) {
+      return resError(`No Skills was found.`);
+    }
     return NextResponse.json({ success: true, data }, { status: 200 });
   } catch (error) {
     return resError(error?.message);
@@ -24,7 +38,7 @@ export async function PUT(req, { params }) {
     }
     const { id } = params;
     const body = await req.json();
-    const { title, items } = body;
+    const { title, items, showOnHome } = body;
 
     let skill = await Skills.findOne({ _id: id });
     if (!skill) {
@@ -32,6 +46,12 @@ export async function PUT(req, { params }) {
     }
     skill.title = title || skill.title;
     skill.items = items || skill.items;
+
+    if (showOnHome === "yes") {
+      skill.showOnHome = true;
+    } else if (showOnHome === "no") {
+      skill.showOnHome = false;
+    }
 
     const updatedSkill = await skill.save();
 
@@ -57,7 +77,7 @@ export async function POST(req, { params }) {
     }
     const { id } = params;
     const body = await req.json();
-    const { title, items } = body;
+    const { title, items, showOnHome } = body;
     if (!title) {
       return resError("Please fill all fields.");
     }
@@ -65,6 +85,7 @@ export async function POST(req, { params }) {
       title,
       items,
       professorId: id,
+      showOnHome: showOnHome === "yes" ? true : false,
     });
 
     return NextResponse.json(

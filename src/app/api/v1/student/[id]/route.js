@@ -1,6 +1,5 @@
 import connectDB from "@/lib/db";
 import userAuthGuard from "@/middleware/userAuth";
-import Personal from "@/models/personal";
 import Student from "@/models/student";
 import fileRemover from "@/utils/fileRemover";
 import getSearchParams from "@/utils/getSearchParams";

@@ -16,14 +16,14 @@ export default function AddSkill({ goBack }) {
   } = useForm();
 
   const submitHandler = async (data) => {
-
     if (!data?.title || skills.length === 0) {
       toast.error("Kindly fill the fields.");
       return;
     }
     let body = {
       title: data?.title,
-      items: skills
+      items: skills,
+      showOnHome: data?.showOnHome ? "yes" : "no",
     };
 
     const requestOptions = {
@@ -51,21 +51,21 @@ export default function AddSkill({ goBack }) {
 
   const handleKeyDown = (e) => {
     const value = e.target.value;
-    if (e.key === 'Tab'){
-      setSkills((prevSkills)=>[...prevSkills, value]);
+    if (e.key === "Tab") {
+      setSkills((prevSkills) => [...prevSkills, value]);
       e.target.value = "";
     }
-  }
+  };
 
   const handleDeleteSkill = (value) => {
     let skillsArr = [];
-    skills.map((item)=>{
-      if(item !== value){
+    skills.map((item) => {
+      if (item !== value) {
         skillsArr.push(item);
       }
-    })
-      setSkills(skillsArr);
-  }
+    });
+    setSkills(skillsArr);
+  };
 
   return (
     <div>
@@ -85,6 +85,17 @@ export default function AddSkill({ goBack }) {
               />
             </div>
           </div>
+          {/* show on home */}
+          <div className=" grid gap-2 overflow-hidden">
+            <h1>Show On Home Page</h1>
+            <div>
+              <input
+                {...register("showOnHome")}
+                type="checkbox"
+                className="inputTag scale-150"
+              />
+            </div>
+          </div>
           <div className=" grid gap-2">
             <h4>Type skill & press TAB to add:</h4>
             <div>
@@ -98,14 +109,25 @@ export default function AddSkill({ goBack }) {
           </div>
         </div>
         <div className=" grid gap-2">
-            <h4>Skills:</h4>
-            <ul className=" px-6">
-              {skills.length > 0 && skills.map((item, index)=>{
-                return <li className=" flex gap-2 items-center" key={index}>
-                <ArrowRight size={18} />{item} <p className=" cursor-pointer text-red-500" onClick={()=>handleDeleteSkill(item)}>Remove</p></li>
+          <h4>Skills:</h4>
+          <ul className=" px-6">
+            {skills.length > 0 &&
+              skills.map((item, index) => {
+                return (
+                  <li className=" flex gap-2 items-center" key={index}>
+                    <ArrowRight size={18} />
+                    {item}{" "}
+                    <p
+                      className=" cursor-pointer text-red-500"
+                      onClick={() => handleDeleteSkill(item)}
+                    >
+                      Remove
+                    </p>
+                  </li>
+                );
               })}
-            </ul>
-          </div>
+          </ul>
+        </div>
         <div className=" flex items-center gap-4 py-4">
           {/* close btn  */}
           <button
@@ -124,7 +146,6 @@ export default function AddSkill({ goBack }) {
           </button>
         </div>
       </form>
-      
     </div>
   );
 }

@@ -10,7 +10,8 @@ const projectSchema = mongoose.Schema(
     from: { type: Date },
     to: { type: Date },
     responsibilities: {type: [String]},
-    professorId: {type: String, required: true}
+    professorId: {type: String, required: true},
+    showOnHome: { type: Boolean, default: false },
   }
 );
 

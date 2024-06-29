@@ -5,12 +5,24 @@ import { getAll } from "@/services/utils";
 
 export default async function Page() {
   const aboutData = await getAll("maqboolkhan", "personal");
-  const eduData = await getAll("maqboolkhan", "education");
-  const publiData = await getAll("maqboolkhan", "publications");
-  const projectData = await getAll("maqboolkhan", "projects");
-  const expeData = await getAll("maqboolkhan", "experience");
-  const skillsData = await getAll("maqboolkhan", "skills");
-  const countriesData = await getAll("maqboolkhan", "gallery");
+  const eduData = await getAll("maqboolkhan", "education", [
+    { name: "showOnHome", value: "yes" },
+  ]);
+  const publiData = await getAll("maqboolkhan", "publications", [
+    { name: "showOnHome", value: "yes" },
+  ]);
+  const projectData = await getAll("maqboolkhan", "projects", [
+    { name: "showOnHome", value: "yes" },
+  ]);
+  const expeData = await getAll("maqboolkhan", "experience", [
+    { name: "showOnHome", value: "yes" },
+  ]);
+  const skillsData = await getAll("maqboolkhan", "skills", [
+    { name: "showOnHome", value: "yes" },
+  ]);
+  const countriesData = await getAll("maqboolkhan", "gallery", [
+    { name: "showOnHome", value: "yes" },
+  ]);
 
   return (
     <Layout>
@@ -21,8 +33,8 @@ export default async function Page() {
           }
           data={aboutData?.data?.socials}
           altNameCss={"right-full group-hover:right-[calc(100%+0.7rem)]"}
-        /> 
-        
+        />
+
         <Home
           aboutData={aboutData}
           eduData={eduData}

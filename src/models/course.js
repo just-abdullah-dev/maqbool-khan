@@ -4,6 +4,7 @@ const courseSchema = mongoose.Schema({
   title: { type: String, required: true },
   link: { type: String, default: "" },
   parent: { type: String, required: true },
+  showOnHome: { type: Boolean, default: false },
 });
 
 let Course; 

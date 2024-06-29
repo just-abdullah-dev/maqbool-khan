@@ -8,7 +8,6 @@ import Loading from "@/components/Utils/Loading";
 import Error from "@/components/Utils/Error";
 import AddSkill from "./AddSkill";
 import EditSkill from "./EditSkills";
-import getFormatDate from "@/utils/formateDate";
 import { ArrowRight, ChevronDown, ChevronUp, SquarePen, Trash } from "lucide-react";
 
 export default function Skills() {
@@ -104,6 +103,7 @@ export default function Skills() {
                   allSkills.map((item, index) => {
                     if (selectedID === item?._id) {
                       return (
+                        // detail view 
                         <li key={index} className=" flex items-start gap-4">
                           <button
                             onClick={() => {
@@ -119,6 +119,9 @@ export default function Skills() {
                               <h1 className=" text-2xl font-semibold">
                                 {item?.title}
                               </h1>
+                              <p className="mt-1">
+                              Show on Home: {item?.showOnHome?"True":"False"}
+                            </p>
                               <div className="  flex gap-4 ">
                                 <button
                                   type="button"
@@ -162,6 +165,9 @@ export default function Skills() {
                           <h1 className=" text-2xl font-semibold">
                             {item?.title}
                           </h1>
+                          <p className="mt-1">
+                              Show on Home: {item?.showOnHome?"True":"False"}
+                            </p>
                         </li>
                       );
                     }

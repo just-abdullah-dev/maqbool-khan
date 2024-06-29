@@ -36,6 +36,7 @@ export default function AddExperience({ goBack }) {
       from: data?.from,
       link: data?.link,
       company: data?.company,
+      showOnHome: data?.showOnHome ? "yes" : "no",
     };
     if (!isWorking) {
       body.to = data?.to;
@@ -54,8 +55,8 @@ export default function AddExperience({ goBack }) {
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
-          toast.success(result?.message);
           revalidateTagFunc("experience");
+          toast.success(result?.message);
           window.location.reload();
         } else {
           toast.error(result?.message);
@@ -114,6 +115,7 @@ export default function AddExperience({ goBack }) {
             <input
               type="checkbox"
               checked={isWorking}
+              className=" scale-75"
               onChange={(e) => {
                 setIsWorking(e.target.checked);
               }}
@@ -129,6 +131,17 @@ export default function AddExperience({ goBack }) {
                 {...register("to")}
                 type="date"
                 className=" inputTag disabled:opacity-60 disabled:cursor-not-allowed"
+              />
+            </div>
+          </div>
+          {/* show on home */}
+          <div className=" grid gap-2 overflow-hidden">
+            <h1>Show On Home Page</h1>
+            <div>
+              <input
+                {...register("showOnHome")}
+                type="checkbox"
+                className="inputTag scale-150"
               />
             </div>
           </div>

@@ -1,6 +1,7 @@
 import connectDB from "@/lib/db";
 import userAuthGuard from "@/middleware/userAuth";
 import Project from "@/models/projects";
+import getSearchParams from "@/utils/getSearchParams";
 import resError from "@/utils/resError";
 import { NextResponse } from "next/server";
 
@@ -8,7 +9,21 @@ export async function GET(req, { params }) {
   try {
     await connectDB();
     const { id } = params;
-    const data = await Project.find({ professorId: id });
+
+    const searchParams = getSearchParams(req);
+    const showOnHome = searchParams.get("showOnHome");
+
+    let query;
+    if (showOnHome === "yes") {
+      query = { professorId: id, showOnHome: true };
+    }
+
+    const data = await Project.find(query);
+
+    if (!data) {
+      return resError(`No project was found.`);
+    }
+
     return NextResponse.json({ success: true, data }, { status: 200 });
   } catch (error) {
     return resError(error?.message);
@@ -32,7 +47,7 @@ export async function POST(req, { params }) {
       from,
       to,
       desc,
-      responsibilities,
+      responsibilities, showOnHome
     } = body;
     if (!title || !link || !from) {
       return resError("Please fill all fields.");
@@ -52,6 +67,7 @@ export async function POST(req, { params }) {
       desc,
       responsibilities,
       professorId: id,
+      showOnHome: showOnHome === "yes" ? true : false,
     });
 
     return NextResponse.json(
@@ -84,7 +100,7 @@ export async function PUT(req, { params }) {
       from,
       to,
       desc,
-      responsibilities,
+      responsibilities, showOnHome
     } = body;
 
     let project = await Project.findOne({ _id: id });
@@ -96,11 +112,19 @@ export async function PUT(req, { params }) {
     project.link = link || project.link;
     project.from = from || project.from;
     project.to = to || project.to;
+    project.institute = institute || project.institute;
     project.responsibilities = responsibilities || project.responsibilities;
+
     if (isCompleted === "yes") {
       project.isCompleted = true;
     } else if (isCompleted === "no") {
       project.isCompleted = false;
+    }
+
+    if (showOnHome === "yes") {
+      project.showOnHome = true;
+    } else if (showOnHome === "no") {
+      project.showOnHome = false;
     }
 
     const updatedProject = await project.save();

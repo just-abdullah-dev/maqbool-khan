@@ -9,6 +9,7 @@ const educationSchema = mongoose.Schema(
     country: { type: String, default: ""},
     from: { type: Date },
     to: { type: Date },
+    showOnHome: { type: Boolean, default: false },
     professorId: {type: String, default: ""}
   }
 );

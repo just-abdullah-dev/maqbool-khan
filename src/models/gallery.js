@@ -5,7 +5,8 @@ const gallerySchema = mongoose.Schema(
     professorId: {type : String, required: true},
     countryName: {type: String, required: true},
     slug: {type: String, required: true},
-    images: {type: [String]}
+    images: {type: [String]},
+    showOnHome: { type: Boolean, default: false },
   }
 );
 

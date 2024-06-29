@@ -6,6 +6,7 @@ const specializationSchema = mongoose.Schema(
     title: {type: String, required: true},
     link: {type: String, required: true},
     courses: {type: [mongoose.Schema.Types.ObjectId], ref: "Course" },
+    showOnHome: { type: Boolean, default: false },
     professorId: {type: String, required: true}
   }
 );

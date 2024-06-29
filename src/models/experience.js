@@ -8,7 +8,8 @@ const experienceSchema = mongoose.Schema(
     company: { type: String, default: "" },
     from: { type: Date},
     to: { type: Date },
-    professorId: {type: String, default: ""}
+    professorId: {type: String, default: ""},
+    showOnHome: { type: Boolean, default: false },
   }
 );
 

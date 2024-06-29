@@ -119,6 +119,9 @@ export default function Gallery() {
                               <h1 className=" text-2xl font-semibold">
                                 {item?.countryName}
                               </h1>
+                              <p className="mt-1">
+                              Show on Home: {item?.showOnHome?"True":"False"}
+                            </p>
                               <div className="  flex gap-4 ">
                                 <button
                                   type="button"
@@ -176,6 +179,9 @@ export default function Gallery() {
                           <h1 className=" text-2xl font-semibold">
                             {item?.countryName}
                           </h1>
+                          <p className="mt-1">
+                              Show on Home: {item?.showOnHome?"True":"False"}
+                            </p>
                         </li>
                       );
                     }

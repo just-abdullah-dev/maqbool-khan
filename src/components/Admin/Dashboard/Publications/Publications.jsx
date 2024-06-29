@@ -6,9 +6,6 @@ import toast from "react-hot-toast";
 import { getAll, revalidateTagFunc } from "@/services/utils";
 import Loading from "@/components/Utils/Loading";
 import Error from "@/components/Utils/Error";
-import AddEducation from "./AddPublication";
-import EditEducation from "./EditPublication";
-import getFormatDate from "@/utils/formateDate";
 import { ChevronDown, ChevronUp, SquarePen, Trash } from "lucide-react";
 import AddPublication from "./AddPublication";
 import EditPublication from "./EditPublication";
@@ -106,6 +103,7 @@ export default function Publications() {
                   allPublications.map((item, index) => {
                     if (selectedID === item?._id) {
                       return (
+                        // detail view 
                         <li key={index} className=" flex items-start gap-4">
                           <button
                             onClick={() => {
@@ -121,6 +119,9 @@ export default function Publications() {
                               <h1 className=" text-2xl font-semibold">
                                 {item?.title}
                               </h1>
+                              <p className="mt-1">
+                              Show on Home: {item?.showOnHome?"True":"False"}
+                            </p>
                               <div className="">
                                 {item?.year}
                               </div>
@@ -159,6 +160,7 @@ export default function Publications() {
                       );
                     } else {
                       return (
+                        // short view 
                         <li key={index} className=" flex gap-4 items-start">
                           <div
                             className="flex items-center justify-center cursor-pointer"
@@ -171,6 +173,9 @@ export default function Publications() {
                           <h1 className=" text-2xl font-semibold">
                             {item?.title}
                           </h1>
+                          <p className="mt-1">
+                              Show on Home: {item?.showOnHome?"True":"False"}
+                            </p>
                         </li>
                       );
                     }
