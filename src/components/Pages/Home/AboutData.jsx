@@ -16,7 +16,7 @@ export default function AboutData({ data }) {
         className={"w-full absolute top-0 left-0 lg:h-[650px] h-[450px]"}
       />
 
-      <div className=" z-40 w-full md:w-2/3 bg-gray-800 bg-opacity-50 h-fit rounded-3xl mx-2 my-auto">
+      <div className=" z-30 md:w-2/3 w-full bg-gray-800 bg-opacity-50 h-fit rounded-3xl mx-2 my-auto relative">
         <div className=" h-fit lg:p-6 py-6 px-3 w-fit grid gap-4 text-white">
           <h1 className=" flex items-center flex-wrap gap-2 font-bold lg:text-6xl w-fit relative text-5xl text-mountain-meadow-500">
             {data?.name?.title && <span>{data?.name?.title}.</span>}
