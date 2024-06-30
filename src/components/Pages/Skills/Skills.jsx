@@ -12,11 +12,7 @@ export default function Skills({ data, limit }) {
 
   return (
     <div className="p-4 lg:p-12 grid gap-2">
-      <h1 className=" text-5xl 
- text-mountain-meadow-500 font-serif relative">
-        <div className="absolute bottom-0 left-0 h-[51%] z-50 w-[330px] bg-white dark:bg-gray-900 bg-opacity-40 dark:bg-opacity-40"></div>
-        SKILLS
-      </h1>
+      <h1 className=" md:text-5xl text-4xl text-mountain-meadow-500 font-serif">Skills</h1>
       <SkillsIcons />
       <ul className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {data.map((item, index) => {

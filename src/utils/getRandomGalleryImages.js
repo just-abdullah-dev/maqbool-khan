@@ -1,5 +1,5 @@
 
-export default function getRandomImages(inputArray) {
+export default function getRandomImages(inputArray, maximumNoOfImages = 8) {
     // Collect unique countries and their images
     let countryImages = {};
 
@@ -14,7 +14,7 @@ export default function getRandomImages(inputArray) {
     let selectedImages = [];
     let countries = Object.keys(countryImages);
 
-    while (selectedImages.length < 8 && countries.length > 0) {
+    while (selectedImages.length < maximumNoOfImages && countries.length > 0) {
         // Select a random country
         let randomCountryIndex = Math.floor(Math.random() * countries.length);
         let country = countries[randomCountryIndex];

@@ -20,18 +20,18 @@ export default function BGSlideImages({ images, className }) {
   }; 
 
   return (
-    <div className={className}>
+    <div id="bg-image-div" className={className}>
       {images.length > 1 ? (
         <Slider {...settings}>
           {images.map((item, index) => {
             return (
               <Image
-                className=""
+                className=" w-full lg:h-[650px] h-[500px] object-cover"
                 alt={item}
                 key={index}
                 src={`/uploads/${item}`}
-                width={3200}
-                height={1000}
+                width={7200}
+                height={7000}
               />
             );
           })}
@@ -42,7 +42,7 @@ export default function BGSlideImages({ images, className }) {
           height={1000}
           alt="hero section image"
           src={`/uploads/${images[0]}`}
-          className=""
+          className=" w-full lg:h-[650px] h-[500px] object-cover "
         />
       )}
     </div>

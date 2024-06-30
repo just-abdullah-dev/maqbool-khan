@@ -12,7 +12,7 @@ export default function Experiences({ data, limit }) {
   return (
     <div className=" p-4 grid gap-2 dark:bg-gray-800 bg-gray-300 rounded-lg bg-opacity-80 h-fit">
         
-        <h1 className=" text-5xl text-mountain-meadow-500 font-serif">EXPERIENCE</h1>
+        <h1 className=" md:text-5xl text-4xl text-mountain-meadow-500 font-serif">Experience</h1>
       <ul className="grid gap-6 py-2 border-l-4 border-mountain-meadow-500">
         {data.map((item, index) => {
           if (index + 1 > limit) {

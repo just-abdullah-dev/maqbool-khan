@@ -13,12 +13,8 @@ export default function Projects({ data, limit }) {
 
   return (
     <div className="p-4 lg:p-12 grid gap-2">
-      <h1 className=" text-5xl 
- text-mountain-meadow-500 font-serif relative">
-        <div className="absolute bottom-0 left-0 h-[51%] z-50 w-[330px] bg-white dark:bg-gray-900 bg-opacity-40 dark:bg-opacity-40"></div>
-        PROJECTS
-      </h1>
-      <ul className="grid">
+      <h1 className=" md:text-5xl text-4xl text-mountain-meadow-500 font-serif">Projects</h1>
+      <ul className="grid gap-6 md:grid-cols-2 ">
         {data.map((item, index) => {
           if (index > limit) {
             return;

@@ -10,9 +10,9 @@ const ScatteredImages = ({images, side}) => {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["0.3 1", "1.15 0.90"],
+    offset: ["0.3 1", "1.15 0.94"],
   });
-  const opacityProgess = useTransform(scrollYProgress, [0, 1], [0.4, 1]);
+  const opacityProgess = useTransform(scrollYProgress, [0, 1], [0.7, 1]);
   const slideProgress = useTransform(scrollYProgress, [0, 1], [side === "left" ? 100: -100, 0]);
 
       function getRandomNumber() {
@@ -27,12 +27,13 @@ const ScatteredImages = ({images, side}) => {
         x: slideProgress
       }}
   >
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mx-24">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:mx-12  w-[90%]">
           {images.map((item, i) => {
             const index = getRandomNumber();
+          
             return (
               <Link
-              className=" relative"
+              className={`${i > 5 && "hidden "} md:block relative`}
               href={`/about/gallery/${item?.slug}`}
               key={i}>
               <Image
@@ -40,7 +41,7 @@ const ScatteredImages = ({images, side}) => {
                 height={500}
                 src={`/uploads${item?.path}`}
                 alt={`Image ${index + 1}`}
-                className={`w-full h-auto bg-mountain-meadow-500 p-[.5px] rounded-xl`}
+                className={`w-full h-auto bg-mountain-meadow-300 p-[.5px] rounded`}
                 style={{
                   position: "relative",
                   left: `${(index % 3) * 20}px`,
@@ -57,7 +58,7 @@ const ScatteredImages = ({images, side}) => {
                 zIndex: -index,
                 transform: `rotate(${(index % 6) * 10 - 20}deg)`,
               }}
-              className=" px-2 bg-gray-600 bg-opacity-30 w-fit"
+              className=" px-2 bg-gray-500 text-sm bg-opacity-30 w-fit"
               >
                 {item?.countryName}
               </h1>
