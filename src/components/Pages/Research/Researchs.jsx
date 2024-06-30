@@ -1,7 +1,6 @@
 import Error from "@/components/Utils/Error";
-import SeeMoreBtn from "@/components/Utils/SeeMoreBtn";
 import React from "react";
-import Publication from "./Research";
+import ResearchSlide from "./ResearchSlide";
 
 export default function Researchs({ data, limit }) {
   if (!data?.success) {
@@ -10,29 +9,12 @@ export default function Researchs({ data, limit }) {
   data = data?.data;
 
   return (
-    <div className="p-4 lg:p-12 grid gap-2 ">
-      <h1 className=" text-5xl 
- text-mountain-meadow-500 font-serif relative">
-        <div className="absolute bottom-0 left-0 h-[44%] z-50 w-[450px] bg-white dark:bg-gray-900 bg-opacity-40 dark:bg-opacity-40"></div>
-        RESEARCH
+    <div className=" p-4 grid gap-2 dark:bg-gray-800 bg-gray-300 rounded-lg bg-opacity-80 h-fit ">
+      <h1 className=" md:text-5xl text-4xl text-mountain-meadow-500 font-serif">
+        Research
       </h1>
-      <ul className="grid">
-        {data.map((item, index) => {
-          if (index > limit) {
-            return;
-          }
-          if (index === limit) {
-            return (
-              <li key={index} className=" w-full mt-4">
-                <SeeMoreBtn link={"/publications"} />
-              </li>
-            );
-          }
-          return (
-           <Publication key={index} item={item} />
-          );
-        })}
-      </ul>
+
+    <ResearchSlide data={data} />
     </div>
   );
 }

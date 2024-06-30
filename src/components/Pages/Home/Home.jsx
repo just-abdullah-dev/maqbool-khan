@@ -18,7 +18,7 @@ export default function Home({
   countriesData,
   researchData,
 }) {
-  console.log(researchData);
+  
   return (
     <div className=" grid gap-6">
       <AboutData data={aboutData} />
@@ -28,10 +28,10 @@ export default function Home({
       </div>
       <div className=" grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 overflow-hidden p-4 lg:px-12 ">
         <Publications data={publiData} limit={2} />
-        <Researchs data={publiData} />
+        <Researchs data={researchData} />
       </div>
       <Projects data={projectData} limit={3} />
-      <Skills data={skillsData} limit={6} />
+      <Skills data={skillsData} limit={3} />
       <Gallery data={countriesData} />
     </div>
   );
