@@ -10,10 +10,11 @@ export default function Researchs({ data, limit }) {
   data = data?.data;
 
   return (
-    <div className="p-4 lg:p-12 grid gap-2">
-      <h1 className=" text-5xl lg:text-6xl text-mountain-meadow-500 font-serif relative">
-        <div className="absolute bottom-0 left-0 h-[51%] z-50 w-[450px] bg-white dark:bg-gray-900 bg-opacity-40 dark:bg-opacity-40"></div>
-        Research Interest
+    <div className="p-4 lg:p-12 grid gap-2 ">
+      <h1 className=" text-5xl 
+ text-mountain-meadow-500 font-serif relative">
+        <div className="absolute bottom-0 left-0 h-[44%] z-50 w-[450px] bg-white dark:bg-gray-900 bg-opacity-40 dark:bg-opacity-40"></div>
+        RESEARCH
       </h1>
       <ul className="grid">
         {data.map((item, index) => {

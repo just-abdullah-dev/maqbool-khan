@@ -13,7 +13,8 @@ export default function Projects({ data, limit }) {
 
   return (
     <div className="p-4 lg:p-12 grid gap-2">
-      <h1 className=" text-5xl lg:text-6xl text-mountain-meadow-500 font-serif relative">
+      <h1 className=" text-5xl 
+ text-mountain-meadow-500 font-serif relative">
         <div className="absolute bottom-0 left-0 h-[51%] z-50 w-[330px] bg-white dark:bg-gray-900 bg-opacity-40 dark:bg-opacity-40"></div>
         PROJECTS
       </h1>

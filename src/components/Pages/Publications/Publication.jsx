@@ -10,18 +10,22 @@ export default function Publication({item}) {
       target: ref,
       offset: ["0.3 1", "1.15 1"],
     });
-    const scaleProgess = useTransform(scrollYProgress, [0, 1], [0.75, 1]);
-    const opacityProgess = useTransform(scrollYProgress, [0, 1], [0.4, 1]);
+    // const scaleProgess = useTransform(scrollYProgress, [0, 1], [0.75, 1]);
+    const opacityProgess = useTransform(scrollYProgress, [0, 1], [0.6, 1]);
 
+    const slideProgress = useTransform(scrollYProgress, [0, 1], [250, 0]);
   return (
     <motion.li
     ref={ref}
      style={{
-        scale: scaleProgess,
+        // scale: scaleProgess,
         opacity: opacityProgess,
+        y: slideProgress
       }}
-      className=" grid gap-1 border-mountain-meadow-500  rounded-b-3xl p-4 lg:px-8 lg:py-6 border-b-[1.5px] md:border-b-2"
+      className=" grid gap-1 border-mountain-meadow-500 pl-6  relative"
       >
+        
+        <div className=" w-5 h-5 bg-mountain-meadow-500 rounded-full absolute -left-3 top-1"></div>
         <div className=" flex items-center justify-between flex-wrap">
           <Link
             target="_blank"
