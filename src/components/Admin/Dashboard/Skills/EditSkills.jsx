@@ -44,7 +44,7 @@ export default function EditSkill({ goBack, prevData }) {
       redirect: "follow",
     };
 
-    await fetch(`/api/v1/skills/${prevData?._id}`, requestOptions)
+    await fetch(`${process.env.API_BASE_URL}/skills/${prevData?._id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
@@ -87,6 +87,8 @@ export default function EditSkill({ goBack, prevData }) {
             <h4>Title:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("title")}
                 type="text"
                 className=" inputTag"
@@ -99,6 +101,8 @@ export default function EditSkill({ goBack, prevData }) {
             <h1>Show On Home Page</h1>
             <div>
               <input
+autoComplete="on"
+
                 {...register("showOnHome")}
                 type="checkbox"
                 className="inputTag scale-150"
@@ -109,6 +113,8 @@ export default function EditSkill({ goBack, prevData }) {
             <h4>Type skill & press TAB to add:</h4>
             <div>
               <input
+autoComplete="on"
+
                 type="text"
                 className=" inputTag"
                 onKeyDown={handleKeyDown}

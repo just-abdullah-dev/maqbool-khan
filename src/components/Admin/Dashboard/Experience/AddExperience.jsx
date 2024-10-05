@@ -51,7 +51,7 @@ export default function AddExperience({ goBack }) {
       redirect: "follow",
     };
 
-    await fetch("/api/v1/experience/maqboolkhan", requestOptions)
+    await fetch(`${process.env.API_BASE_URL}/experience/${userInfo?.data?.id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
@@ -75,6 +75,8 @@ export default function AddExperience({ goBack }) {
             <h4>Title:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("title")}
                 type="text"
                 className=" inputTag"
@@ -86,6 +88,8 @@ export default function AddExperience({ goBack }) {
             <h4>Organization:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("company")}
                 type="text"
                 className=" inputTag"
@@ -97,6 +101,8 @@ export default function AddExperience({ goBack }) {
             <h4>Link:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("link")}
                 type="text"
                 className=" inputTag"
@@ -107,12 +113,16 @@ export default function AddExperience({ goBack }) {
           <div className=" grid gap-2">
             <h4>Starting Date:</h4>
             <div>
-              <input {...register("from")} type="date" className=" inputTag" />
+              <input
+autoComplete="on"
+ {...register("from")} type="date" className=" inputTag" />
             </div>
           </div>
           <div className=" grid gap-2">
             <h4>Currently Working:</h4>
             <input
+autoComplete="on"
+
               type="checkbox"
               checked={isWorking}
               className=" scale-75"
@@ -127,6 +137,8 @@ export default function AddExperience({ goBack }) {
             <h4>Ending Date:</h4>
             <div className="">
               <input
+autoComplete="on"
+
                 disabled={isWorking}
                 {...register("to")}
                 type="date"
@@ -139,6 +151,8 @@ export default function AddExperience({ goBack }) {
             <h1>Show On Home Page</h1>
             <div>
               <input
+autoComplete="on"
+
                 {...register("showOnHome")}
                 type="checkbox"
                 className="inputTag scale-150"

@@ -85,7 +85,7 @@ const handleDeleteDuty = (value) => {
       redirect: "follow",
     };
 
-    await fetch(`/api/v1/projects/${prevData?._id}`, requestOptions)
+    await fetch(`${process.env.API_BASE_URL}/projects/${prevData?._id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
@@ -109,6 +109,8 @@ const handleDeleteDuty = (value) => {
             <h4>Title:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("title")}
                 type="text"
                 className=" inputTag"
@@ -120,6 +122,8 @@ const handleDeleteDuty = (value) => {
             <h4>Link:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("link")}
                 type="text"
                 className=" inputTag"
@@ -131,6 +135,8 @@ const handleDeleteDuty = (value) => {
             <h4>Company:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("institute")}
                 type="text"
                 className=" inputTag"
@@ -142,7 +148,9 @@ const handleDeleteDuty = (value) => {
           <div className=" grid gap-2">
             <h4>Starting Date:</h4>
             <div>
-              <input 
+              <input
+autoComplete="on"
+ 
               value={startDate}
               onChange={(e)=>{setStartDate(e.target.value)}}
               type="date" className=" inputTag" />
@@ -151,6 +159,8 @@ const handleDeleteDuty = (value) => {
           <div className=" grid gap-2">
             <h4>Currently Working:</h4>
             <input
+autoComplete="on"
+
               type="checkbox"
               checked={isWorking}
               onChange={(e) => {
@@ -164,6 +174,8 @@ const handleDeleteDuty = (value) => {
             <h4>Ending Date:</h4>
             <div className="">
               <input
+autoComplete="on"
+
                 disabled={isWorking}
                 value={endDate}
                 onChange={(e)=>{
@@ -179,6 +191,8 @@ const handleDeleteDuty = (value) => {
             <h1>Show On Home Page</h1>
             <div>
               <input
+autoComplete="on"
+
                 {...register("showOnHome")}
                 type="checkbox"
                 className="inputTag scale-150"
@@ -190,6 +204,8 @@ const handleDeleteDuty = (value) => {
             <div>
               
               <input
+autoComplete="on"
+
                 type="text"
                 className=" inputTag"
                 value={duty}

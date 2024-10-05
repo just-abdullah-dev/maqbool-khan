@@ -46,7 +46,7 @@ export default function AddPublication({ goBack }) {
       redirect: "follow",
     };
 
-    await fetch("/api/v1/publications/maqboolkhan", requestOptions)
+    await fetch(`${process.env.API_BASE_URL}/publications/${userInfo?.data?.id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
@@ -89,6 +89,8 @@ export default function AddPublication({ goBack }) {
             <h4>Title:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("title")}
                 type="text"
                 className=" inputTag"
@@ -100,6 +102,8 @@ export default function AddPublication({ goBack }) {
             <h4>Link:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("link")}
                 type="text"
                 className=" inputTag"
@@ -111,6 +115,8 @@ export default function AddPublication({ goBack }) {
             <h4>Year:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("year")}
                 type="text"
                 className=" inputTag"
@@ -123,6 +129,8 @@ export default function AddPublication({ goBack }) {
             <h1>Show On Home Page</h1>
             <div>
               <input
+autoComplete="on"
+
                 {...register("showOnHome")}
                 type="checkbox"
                 className="inputTag scale-150"
@@ -133,6 +141,8 @@ export default function AddPublication({ goBack }) {
             <h4>Type members name & press TAB to add:</h4>
             <div>
               <input
+autoComplete="on"
+
                 type="text"
                 className=" inputTag"
                 onKeyDown={handleKeyDown}

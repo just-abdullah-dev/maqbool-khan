@@ -30,9 +30,10 @@ const socialsSchema = mongoose.Schema({
 const stdSchema = mongoose.Schema({
   typeOfStd: {
     type: String,
-    enum: ["undergraduate", "graduated", "master", "phd"],
+    enum: ["undergraduate", "graduated", "master", "phd", "assistant-professor", "professor", "researcher", "other"],
     required: true,
   },
+  otherType: {type: String, default: ""},
   showOnHome: { type: Boolean, default: false },
   avatar: { type: String, default: "" },
   cover: { type: String, default: "" },

@@ -32,7 +32,7 @@ export default function Specializations() {
         redirect: "follow",
       };
 
-      await fetch(`/api/v1/specialization/${_id}`, requestOptions)
+      await fetch(`${process.env.API_BASE_URL}/specialization/${_id}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {
@@ -50,7 +50,7 @@ export default function Specializations() {
   useEffect(() => {
     const main = async () => {
       setIsLoading(true);
-      const data = await getAll("maqboolkhan", "specialization");
+      const data = await getAll(userInfo?.data?.id, "specialization");
       if (data?.success) {
         setAllSpecializationspecializations(data?.data);
       } else {
@@ -103,7 +103,7 @@ export default function Specializations() {
                   allSpecializations.map((item, index) => {
                     if (selectedID === item?._id) {
                       return (
-                        <li key={index} className=" flex items-start gap-4">
+                        <li key={index} className=" flex items-start gap-4 rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
                           <button
                             onClick={() => {
                               setSelectedID("");
@@ -160,7 +160,7 @@ export default function Specializations() {
                       );
                     } else {
                       return (
-                        <li key={index} className=" flex gap-4 items-start">
+                        <li key={index} className=" flex gap-4 items-start rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
                           <div
                             className="flex items-center justify-center cursor-pointer"
                             onClick={() => {

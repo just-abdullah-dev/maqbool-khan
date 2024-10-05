@@ -33,7 +33,7 @@ export default function Project() {
         redirect: "follow",
       };
 
-      await fetch(`/api/v1/projects/${_id}`, requestOptions)
+      await fetch(`${process.env.API_BASE_URL}/projects/${_id}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {
@@ -51,7 +51,7 @@ export default function Project() {
   useEffect(() => {
     const main = async () => {
       setIsLoading(true);
-      const data = await getAll("maqboolkhan", "projects");
+      const data = await getAll(userInfo?.data?.id, "projects");
       if (data?.success) {
         setAllProjects(data?.data);
       } else {
@@ -105,7 +105,7 @@ export default function Project() {
                     if (selectedID === item?._id) {
                       return (
                         // detail view 
-                        <li key={index} className=" flex items-start gap-4">
+                        <li key={index} className=" flex items-start gap-4 rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
                           <button
                             onClick={() => {
                               setSelectedID("");
@@ -173,7 +173,7 @@ export default function Project() {
                       );
                     } else {
                       return (
-                        <li key={index} className=" flex gap-4 items-start">
+                        <li key={index} className=" flex gap-4 items-start rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
                           <div
                             className="flex items-center justify-center cursor-pointer"
                             onClick={() => {

@@ -12,16 +12,16 @@ import { useSelector } from "react-redux";
 const schema = z.object({
   title: z.string(),
   first: z.string(),
-  middle: z.string(),
-  last: z.string(),
+  middle: z.string().optional(),
+  last: z.string().optional(),
   bio: z.string(),
-  instagram: z.string().url(),
-  twitter: z.string().url(),
-  facebook: z.string().url(),
-  linkedin: z.string().url(),
-  github: z.string().url(),
-  googleScholar: z.string().url(),
-  researchGate: z.string().url(),
+  instagram: z.string().optional(),
+  twitter: z.string().optional(),
+  facebook: z.string().optional(),
+  linkedin: z.string().optional(),
+  github: z.string().optional(),
+  googleScholar: z.string().optional(),
+  researchGate: z.string().optional(),
   currentPosAt: z.string(),
   currentPosTitle: z.string(),
   email: z.string().email(),
@@ -29,11 +29,15 @@ const schema = z.object({
   about: z.string(),
   showOnHome: z.boolean(),
   typeOfStd: z.string(),
+  otherType: z.string().optional(),
 });
 
 export default function EditStudent({prevData, goBack}) {
   let { userInfo } = useSelector((state) => state.user);
   userInfo = userInfo?.data;
+  
+
+  const [typeOfStd, setTypeOfStd] = useState(prevData?.typeOfStd);
   
   const [avatar, setAvatar] = useState({
     url: "",
@@ -71,6 +75,7 @@ export default function EditStudent({prevData, goBack}) {
       researchGate: prevData?.socials?.researchGate,
       googleScholar: prevData?.socials?.googleScholar,
       typeOfStd: prevData?.typeOfStd,
+      otherType: prevData?.otherType,
       showOnHome: prevData?.showOnHome,
     },
     resolver: zodResolver(schema),
@@ -114,6 +119,7 @@ export default function EditStudent({prevData, goBack}) {
       bio: data?.bio,
       about: data?.about,
       typeOfStd: data?.typeOfStd,
+      otherType: data?.otherType,
       showOnHome: data?.showOnHome ? "yes" : "no",
     };
     formdata.append("body", JSON.stringify(body));
@@ -127,7 +133,7 @@ export default function EditStudent({prevData, goBack}) {
       redirect: "follow",
     };
 
-    await fetch(`/api/v1/student/${prevData?._id}`, requestOptions)
+    await fetch(`${process.env.API_BASE_URL}/student/${prevData?._id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
@@ -179,7 +185,7 @@ export default function EditStudent({prevData, goBack}) {
       <div className=" w-full relative flex flex-col gap-6 ">
         <Image
           className=" rounded h-[250px] w-full border dark:border-white border-black"
-          src={cover?.url ? cover?.url : `/uploads/${prevData?.cover}`}
+          src={cover?.url ? cover?.url : prevData?.cover ?  `/uploads/${prevData?.cover}` : '/uploads/sample.jpeg'}
           height={250}
           width={250}
           alt="Cover Picture width(any) x height(250px max)"
@@ -192,6 +198,8 @@ export default function EditStudent({prevData, goBack}) {
           Update Cover Picture
         </label>
         <input
+autoComplete="on"
+
           className=" absolute opacity-0"
           type="file"
           name="cover"
@@ -209,7 +217,7 @@ export default function EditStudent({prevData, goBack}) {
         <div className=" w-[25%] relative flex flex-col gap-6">
           <Image
             className=" rounded-full aspect-square border dark:border-white border-black"
-            src={avatar?.url ? avatar?.url : `/uploads/${prevData?.avatar}`}
+            src={avatar?.url ? avatar?.url : prevData?.avatar ?  `/uploads/${prevData?.avatar}` : '/uploads/sample.jpeg'}
             height={250}
             width={250}
             alt="Profile picture"
@@ -222,6 +230,8 @@ export default function EditStudent({prevData, goBack}) {
             Update Profile Picture
           </label>
           <input
+autoComplete="on"
+
             className=" absolute opacity-0"
             type="file"
             name="avatar"
@@ -241,6 +251,8 @@ export default function EditStudent({prevData, goBack}) {
             <div className=" grid gap-2 grid-cols-2">
               <div>
                 <input
+autoComplete="on"
+
                   {...register("title")}
                   type="text"
                   className=" inputTag"
@@ -254,6 +266,8 @@ export default function EditStudent({prevData, goBack}) {
               </div>
               <div>
                 <input
+autoComplete="on"
+
                   {...register("first")}
                   type="text"
                   className=" inputTag"
@@ -267,6 +281,8 @@ export default function EditStudent({prevData, goBack}) {
               </div>
               <div>
                 <input
+autoComplete="on"
+
                   {...register("middle")}
                   type="text"
                   className=" inputTag"
@@ -280,6 +296,8 @@ export default function EditStudent({prevData, goBack}) {
               </div>
               <div>
                 <input
+autoComplete="on"
+
                   {...register("last")}
                   type="text"
                   className=" inputTag"
@@ -317,28 +335,59 @@ export default function EditStudent({prevData, goBack}) {
       <div className=" grid gap-2 grid-cols-2">
         {/* type of std  */}
         <div className=" grid gap-2">
-          <h4>Type Of Std:</h4>
-          <div>
-            <select {...register("typeOfStd")} className="inputTag">
-              <option value="">Select type of student</option>
-              <option value="undergraduate">Undergraduate</option>
-              <option value="graduated">Graduated</option>
-              <option value="master">Masters</option>
-              <option value="phd">PhD</option>
-            </select>
-            {errors?.typeOfStd && (
-              <div className="text-red-500 text-sm">
-                {errors?.typeOfStd?.message}
-              </div>
-            )}
+            <h4>Type Of Std:</h4>
+            <div>
+              <select
+                {...register("typeOfStd")}
+                onChange={(e) => {
+                  setTypeOfStd(e.target.value);
+                }}
+                className="inputTag"
+              >
+                <option value="">Select type of student</option>
+                <option value="undergraduate">Undergraduate</option>
+                <option value="graduated">Graduated</option>
+                <option value="master">Masters</option>
+                <option value="phd">PhD</option>
+                <option value="assistant-professor">Assistant Professor</option>
+                <option value="professor">Professor</option>
+                <option value="researcher">Researcher</option>
+                <option value="other">Other</option>
+              </select>
+              {errors?.typeOfStd && (
+                <div className="text-red-500 text-sm">
+                  {errors?.typeOfStd?.message}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+          {typeOfStd === "other" && (
+            <div className=" grid gap-2">
+              <h4>Other Type:</h4>
+              <div>
+                <input
+                  autoComplete="on"
+                  {...register("otherType")}
+                  type="text"
+                  className=" inputTag"
+                  placeholder="Other Type"
+                />
+                {errors?.otherType && (
+                  <div className=" text-red-500 text-sm">
+                    {errors?.otherType?.message}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         {/* show on home */}
         <div className=" grid gap-2 overflow-hidden">
           <h1>Show On Home Page</h1>
           <div>
             <label className="flex items-center space-x-2">
               <input
+autoComplete="on"
+
                 {...register("showOnHome")}
                 type="checkbox"
                 className="inputTag scale-150"
@@ -359,6 +408,8 @@ export default function EditStudent({prevData, goBack}) {
         <div className=" grid grid-cols-2 gap-2">
           <div>
             <input
+autoComplete="on"
+
               {...register("currentPosTitle")}
               type="text"
               className=" inputTag"
@@ -372,6 +423,8 @@ export default function EditStudent({prevData, goBack}) {
           </div>
           <div>
             <input
+autoComplete="on"
+
               {...register("currentPosAt")}
               type="text"
               className=" inputTag"
@@ -409,6 +462,8 @@ export default function EditStudent({prevData, goBack}) {
         <div className=" grid grid-cols-2 gap-2">
           <div>
             <input
+autoComplete="on"
+
               {...register("email")}
               type="text"
               className=" inputTag"
@@ -422,6 +477,8 @@ export default function EditStudent({prevData, goBack}) {
           </div>
           <div>
             <input
+autoComplete="on"
+
               {...register("phone")}
               type="number"
               className=" inputTag"
@@ -441,6 +498,8 @@ export default function EditStudent({prevData, goBack}) {
         <div className=" grid gap-2 grid-cols-2">
           <div>
             <input
+autoComplete="on"
+
               {...register("instagram")}
               type="text"
               className=" inputTag"
@@ -454,6 +513,8 @@ export default function EditStudent({prevData, goBack}) {
           </div>
           <div>
             <input
+autoComplete="on"
+
               {...register("twitter")}
               type="text"
               className=" inputTag"
@@ -467,6 +528,8 @@ export default function EditStudent({prevData, goBack}) {
           </div>
           <div>
             <input
+autoComplete="on"
+
               {...register("facebook")}
               type="text"
               className=" inputTag"
@@ -480,6 +543,8 @@ export default function EditStudent({prevData, goBack}) {
           </div>
           <div>
             <input
+autoComplete="on"
+
               {...register("linkedin")}
               type="text"
               className=" inputTag"
@@ -494,6 +559,8 @@ export default function EditStudent({prevData, goBack}) {
 
           <div>
             <input
+autoComplete="on"
+
               {...register("github")}
               type="text"
               className=" inputTag"
@@ -507,6 +574,8 @@ export default function EditStudent({prevData, goBack}) {
           </div>
           <div>
             <input
+autoComplete="on"
+
               {...register("googleScholar")}
               type="text"
               className=" inputTag"
@@ -520,6 +589,8 @@ export default function EditStudent({prevData, goBack}) {
           </div>
           <div>
             <input
+autoComplete="on"
+
               {...register("researchGate")}
               type="text"
               className=" inputTag"

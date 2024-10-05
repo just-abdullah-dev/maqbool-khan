@@ -22,7 +22,7 @@ export default function Student() {
   const { userInfo } = useSelector((state) => state.user);
 
   const deleteStudent = async (_id) => {
-    if (!window.confirm("Are you sure to remove this student?")) {
+    if (!window.confirm("Are you sure to remove this person?")) {
       return;
     } else {
       var requestOptions = {
@@ -33,7 +33,7 @@ export default function Student() {
         redirect: "follow",
       };
 
-      await fetch(`/api/v1/student/${_id}`, requestOptions)
+      await fetch(`${process.env.API_BASE_URL}/student/${_id}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {
@@ -51,7 +51,7 @@ export default function Student() {
   useEffect(() => {
     const main = async () => {
       setIsLoading(true);
-      const data = await getAll("maqboolkhan", "student");
+      const data = await getAll(userInfo?.data?.id, "student");
       if (data?.success) {
         setAllStudents(data?.data);
       } else {
@@ -105,7 +105,10 @@ export default function Student() {
                     if (selectedID === item?._id) {
                       return (
                         // detail view
-                        <li key={index} className=" flex flex-wrap items-start gap-4 rounded border border-black p-4 pl-2 dark:border-white">
+                        <li
+                          key={index}
+                          className=" flex flex-wrap items-start gap-4 rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12"
+                        >
                           <button
                             onClick={() => {
                               setSelectedID("");
@@ -132,11 +135,20 @@ export default function Student() {
                                     "Graduated"}
                                   {item?.typeOfStd === "master" && "Masters"}
                                   {item?.typeOfStd === "phd" && "PhD"}
+                                  {item?.typeOfStd === "assistant-professor" &&
+                                    "Assistant Professor"}
+                                  {item?.typeOfStd === "professor" &&
+                                    "Professor"}
+                                  {item?.typeOfStd === "researcher" &&
+                                    "Researcher"}
+                                  {item?.typeOfStd === "other" &&
+                                    item?.otherType}
                                 </h3>
                                 -
-                            <p className=" mt-1">
-                              Show on Home: {item?.showOnHome?"True":"False"}
-                            </p>
+                                <p className=" mt-1">
+                                  Show on Home:{" "}
+                                  {item?.showOnHome ? "True" : "False"}
+                                </p>
                               </div>
                               {/* btns  */}
                               <div className="  flex gap-4 ">
@@ -163,17 +175,19 @@ export default function Student() {
                               width={600}
                               height={600}
                               className=" rounded w-full h-[200px]"
-                              src={`/uploads/${item?.cover}`}
+                              src={item?.cover ? `/uploads/${item?.cover}`: "/uploads/sample.jpeg"}
                               alt={"Cover Picture"}
                             />
                             <div className=" grid grid-cols-1 md:grid-cols-2">
-                              <Image
-                                width={150}
-                                height={150}
+                            <div className="grid place-items-center">
+                            <Image
+                                width={200}
+                                height={200}
                                 className=" rounded-full aspect-square"
-                                src={`/uploads/${item?.avatar}`}
+                                src={item?.avatar ? `/uploads/${item?.avatar}`: "/uploads/sample.jpeg"}
                                 alt={"Profile Picture"}
                               />
+                            </div>
                               <div className=" grid gap-2">
                                 <div>
                                   <h1 className=" font-semibold text-lg">
@@ -199,7 +213,7 @@ export default function Student() {
                               </div>
                             </div>
                             {/* socials links  */}
-                            <div>
+                            <div className="py-4 px-12">
                               <h1 className=" text-lg font-semibold">
                                 Socials Links:
                               </h1>
@@ -280,14 +294,13 @@ export default function Student() {
                                 </div>
                               </div>
                             </div>
-
                           </div>
                         </li>
                       );
                     } else {
                       return (
                         // short view
-                        <li key={index} className=" flex gap-4 items-start">
+                        <li key={index} className=" flex gap-4 items-start rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12 rounded-lg bg-gray-300 dark:bg-gray-800 py-4 px-12">
                           <div
                             className="flex items-center justify-center cursor-pointer"
                             onClick={() => {
@@ -310,10 +323,16 @@ export default function Student() {
                               {item?.typeOfStd === "graduated" && "Graduated"}
                               {item?.typeOfStd === "master" && "Masters"}
                               {item?.typeOfStd === "phd" && "PhD"}
+                              {item?.typeOfStd === "assistant-professor" &&
+                                "Assistant Professor"}
+                              {item?.typeOfStd === "professor" && "Professor"}
+                              {item?.typeOfStd === "researcher" && "Researcher"}
+                              {item?.typeOfStd === "other" && item?.otherType}
                             </h3>
                             -
                             <p className=" mt-1">
-                              Show on Home: {item?.showOnHome?"True":"False"}
+                              Show on Home:{" "}
+                              {item?.showOnHome ? "True" : "False"}
                             </p>
                           </div>
                         </li>

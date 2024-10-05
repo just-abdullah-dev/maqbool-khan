@@ -36,7 +36,7 @@ export async function GET(req, { params }) {
     const data = await Student.find(query);
 
     if (!data) {
-      return resError(`No student of ${id} was found in database.`);
+      return resError(`No person of ${id} was found in database.`);
     }
     return NextResponse.json({ success: true, data }, { status: 200 });
   } catch (error) {
@@ -59,14 +59,14 @@ export async function POST(req, { params }) {
     let body = formData.getAll("body")[0];
     body = JSON.parse(body);
 
-    const { name, bio, about, currentPosition, contact, socials, showOnHome, typeOfStd } =
+    const { name, bio, about, currentPosition, contact, socials, showOnHome, typeOfStd, otherType = "" } =
       body;
 
     const uploadedAvatar = await uploadMentionedFile(formData, "avatar");
     const uploadedCover = await uploadMentionedFile(formData, "cover");
 
     const std = await Student.create({
-      name, bio, about, currentPosition, contact, socials, professorId: id, typeOfStd
+      name, bio, about, currentPosition, contact, socials, professorId: id, typeOfStd, otherType
     });
 
     let user = await Student.findById(std?._id);
@@ -117,7 +117,7 @@ export async function PUT(req, { params }) {
     const formData = await req.formData();
     let body = formData.getAll("body")[0];
     body = JSON.parse(body);
-    const { name, bio, about, currentPosition, contact, socials, showOnHome } =
+    const { name, bio, about, currentPosition, contact, socials, showOnHome, typeOfStd, otherType = "" } =
       body;
       
     const uploadedAvatar = await uploadMentionedFile(formData, "avatar");
@@ -126,7 +126,7 @@ export async function PUT(req, { params }) {
 
     let user = await Student.findById(id);
     if (!user) {
-      return resError(`Student was not found in database.`);
+      return resError(`Person was not found in database.`);
     }
     
     user.name = name || user.name;
@@ -135,6 +135,8 @@ export async function PUT(req, { params }) {
     user.currentPosition = currentPosition || user.currentPosition;
     user.contact = contact || user.contact;
     user.socials = socials || user.socials;
+    user.typeOfStd = typeOfStd || user.typeOfStd;
+    user.otherType = otherType || user.otherType;
 
     if (uploadedAvatar.length > 0) {
       if (user.avatar) {
@@ -192,7 +194,7 @@ export async function DELETE(req, { params }) {
     }
 
     return NextResponse.json(
-      { success: true, message: `${data?.name?.first} student has been deleted.` },
+      { success: true, message: `${data?.name?.first} profile has been deleted.` },
       { status: 200 }
     );
   } catch (error) {

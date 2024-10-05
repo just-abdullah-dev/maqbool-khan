@@ -24,7 +24,7 @@ export default function Login() {
       },
       redirect: "follow",
     };
-    await fetch("/api/v1/auth/session", requestOptions)
+    await fetch(`${process.env.API_BASE_URL}/auth/session`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
       if (result?.success) {
@@ -48,7 +48,7 @@ export default function Login() {
         setIsLoading(false);
         return;
       }
-      const res = await fetch("/api/v1/auth/login", {
+      const res = await fetch(`${process.env.API_BASE_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -98,6 +98,8 @@ export default function Login() {
           >
             <div className=" ">
               <input
+autoComplete="on"
+
                 className="inputTag w-full"
                 type="text"
                 placeholder="Your Username"
@@ -107,6 +109,8 @@ export default function Login() {
             </div>
             <div className="relative ">
               <input
+autoComplete="on"
+
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="inputTag w-full"

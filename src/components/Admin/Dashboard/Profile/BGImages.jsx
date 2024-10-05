@@ -60,6 +60,8 @@ export default function BGImages({ bgImages, goBack, saveBGImages }) {
               Upload BG Images
             </label>
             <input
+autoComplete="on"
+
               className="absolute opacity-0"
               type="file"
               name="images"

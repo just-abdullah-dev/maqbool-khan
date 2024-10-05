@@ -15,7 +15,7 @@ import {
   SquareGantt,
   UserRound,
   UserRoundCog,
-  BookUser,
+  UsersRound,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -45,7 +45,7 @@ export default function Dashboard({ children }) {
         },
         redirect: "follow",
       };
-      await fetch("/api/v1/auth/session", requestOptions)
+      await fetch(`${process.env.API_BASE_URL}/auth/session`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (!result?.success) {
@@ -116,7 +116,7 @@ export default function Dashboard({ children }) {
       icon: <SearchCheck size={28} />,
     },
     { name: "Gallery", path: "gallery", icon: <Images size={28} /> },
-    { name: "Students", path: "students", icon: <BookUser size={28} /> },
+    { name: "People", path: "people", icon: <UsersRound size={28} /> },
   ];
 
   return (

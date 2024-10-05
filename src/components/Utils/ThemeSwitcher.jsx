@@ -36,6 +36,8 @@ const ThemeSwitcher = () => {
   return (
       <div className='dark_mode'>
         <input
+autoComplete="on"
+
             className='dark_mode_input'
             type='checkbox'
             id='darkmode-toggle'

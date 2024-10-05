@@ -33,7 +33,7 @@ export default function Gallery() {
         redirect: "follow",
       };
 
-      await fetch(`/api/v1/gallery/${_id}`, requestOptions)
+      await fetch(`${process.env.API_BASE_URL}/gallery/${_id}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {
@@ -51,7 +51,7 @@ export default function Gallery() {
   useEffect(() => {
     const main = async () => {
       setIsLoading(true);
-      const data = await getAll("maqboolkhan", "gallery");
+      const data = await getAll(userInfo?.data?.id, "gallery");
       if (data?.success) {
         setAllCountries(data?.data);
       } else {
@@ -104,7 +104,7 @@ export default function Gallery() {
                   allCountries.map((item, index) => {
                     if (selectedID === item?._id) {
                       return (
-                        <li key={index} className=" flex items-start gap-4">
+                        <li key={index} className=" flex items-start gap-4 rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
                           <button
                             onClick={() => {
                               setSelectedID("");
@@ -167,7 +167,7 @@ export default function Gallery() {
                       );
                     } else {
                       return (
-                        <li key={index} className=" flex gap-4 items-start">
+                        <li key={index} className=" flex gap-4 items-start rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
                           <div
                             className="flex items-center justify-center cursor-pointer"
                             onClick={() => {

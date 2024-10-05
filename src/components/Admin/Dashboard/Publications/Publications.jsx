@@ -32,7 +32,7 @@ export default function Publications() {
         redirect: "follow",
       };
 
-      await fetch(`/api/v1/publications/${_id}`, requestOptions)
+      await fetch(`${process.env.API_BASE_URL}/publications/${_id}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {
@@ -50,7 +50,7 @@ export default function Publications() {
   useEffect(() => {
     const main = async () => {
       setIsLoading(true);
-      const data = await getAll("maqboolkhan", "publications");
+      const data = await getAll(userInfo?.data?.id, "publications");
       if (data?.success) {
         setAllPublications(data?.data);
       } else {
@@ -104,7 +104,7 @@ export default function Publications() {
                     if (selectedID === item?._id) {
                       return (
                         // detail view 
-                        <li key={index} className=" flex items-start gap-4">
+                        <li key={index} className=" flex items-start gap-4 rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
                           <button
                             onClick={() => {
                               setSelectedID("");
@@ -161,7 +161,7 @@ export default function Publications() {
                     } else {
                       return (
                         // short view 
-                        <li key={index} className=" flex gap-4 items-start">
+                        <li key={index} className=" flex gap-4 items-start rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
                           <div
                             className="flex items-center justify-center cursor-pointer"
                             onClick={() => {

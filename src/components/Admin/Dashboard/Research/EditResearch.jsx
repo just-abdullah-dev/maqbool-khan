@@ -158,7 +158,7 @@ export default function EditResearch({ goBack, prevData }) {
       redirect: "follow",
     };
 
-    await fetch(`/api/v1/research/${prevData?._id}`, requestOptions)
+    await fetch(`${process.env.API_BASE_URL}/research/${prevData?._id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
@@ -181,6 +181,7 @@ export default function EditResearch({ goBack, prevData }) {
             <h4 className=" font-semibold text-lg">Research Interest:</h4>
             <div>
               <input
+                autoComplete="on"
                 type="text"
                 className=" inputTag"
                 value={interest}
@@ -229,6 +230,7 @@ export default function EditResearch({ goBack, prevData }) {
             <h1 className=" font-semibold text-lg">Reviewer:</h1>
             <div>
               <input
+                autoComplete="on"
                 type="text"
                 className=" inputTag"
                 value={reviewer}
@@ -277,6 +279,7 @@ export default function EditResearch({ goBack, prevData }) {
             <h1 className=" font-semibold text-lg">Organising Chair:</h1>
             <div>
               <input
+                autoComplete="on"
                 type="text"
                 className=" inputTag"
                 value={orgChair}
@@ -325,6 +328,7 @@ export default function EditResearch({ goBack, prevData }) {
             <h1 className=" font-semibold text-lg">Session Chair:</h1>
             <div>
               <input
+                autoComplete="on"
                 type="text"
                 className=" inputTag"
                 value={sessionChair}
@@ -375,6 +379,7 @@ export default function EditResearch({ goBack, prevData }) {
             <h4>Title:</h4>
             <div>
               <input
+                autoComplete="on"
                 type="text"
                 className=" inputTag"
                 value={member?.title}
@@ -391,6 +396,7 @@ export default function EditResearch({ goBack, prevData }) {
             <h4>Link:</h4>
             <div>
               <input
+                autoComplete="on"
                 type="text"
                 className=" inputTag"
                 value={member?.link}
@@ -404,7 +410,7 @@ export default function EditResearch({ goBack, prevData }) {
             </div>
           </div>
         </div>
-        <div className="mt-4 flex items-center justify-end w-full">
+        <div className="my-4 flex items-center justify-end w-full">
           <a
             onClick={handleAddMember}
             className=" bg-blue-500 normalButtonTag w-[15%] cursor-pointer"
@@ -416,7 +422,10 @@ export default function EditResearch({ goBack, prevData }) {
           <ul className=" px-4">
             {members.map((mem, index) => {
               return (
-                <li key={index} className=" flex items-start gap-4">
+                <li
+                  key={index}
+                  className=" flex items-start gap-4 "
+                >
                   <ArrowRight className=" mt-1" size={19} />
                   <div>
                     <h1>{mem?.title}</h1>

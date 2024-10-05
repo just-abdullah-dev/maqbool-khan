@@ -76,7 +76,7 @@ export default function AddGallery({ goBack }) {
       redirect: "follow",
     };
 
-    await fetch("/api/v1/gallery/maqboolkhan", requestOptions)
+    await fetch(`${process.env.API_BASE_URL}/gallery/${userInfo?.data?.id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
@@ -101,6 +101,8 @@ export default function AddGallery({ goBack }) {
             <h4>Country Name:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("countryName")}
                 type="text"
                 className="inputTag"
@@ -112,6 +114,8 @@ export default function AddGallery({ goBack }) {
             <h4>Slug:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("slug")}
                 type="text"
                 className="inputTag"
@@ -124,6 +128,8 @@ export default function AddGallery({ goBack }) {
             <h1>Show On Home Page</h1>
             <div>
               <input
+autoComplete="on"
+
                 {...register("showOnHome")}
                 type="checkbox"
                 className="inputTag scale-150"
@@ -139,6 +145,8 @@ export default function AddGallery({ goBack }) {
               Upload Images
             </label>
             <input
+autoComplete="on"
+
               className="absolute opacity-0"
               type="file"
               name="images"

@@ -70,7 +70,7 @@ export default function EditExperience({ goBack, prevData }) {
       redirect: "follow",
     };
 
-    await fetch(`/api/v1/experience/${prevData?._id}`, requestOptions)
+    await fetch(`${process.env.API_BASE_URL}/experience/${prevData?._id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
@@ -94,6 +94,8 @@ export default function EditExperience({ goBack, prevData }) {
             <h4>Title:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("title")}
                 type="text"
                 className=" inputTag"
@@ -105,6 +107,8 @@ export default function EditExperience({ goBack, prevData }) {
             <h4>Organization:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("company")}
                 type="text"
                 className=" inputTag"
@@ -116,6 +120,8 @@ export default function EditExperience({ goBack, prevData }) {
             <h4>Link:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("link")}
                 type="text"
                 className=" inputTag"
@@ -128,6 +134,8 @@ export default function EditExperience({ goBack, prevData }) {
             <h4>Starting Date:</h4>
             <div>
               <input
+autoComplete="on"
+
                 type="date"
                 value={startDate}
                 onChange={(e) => {
@@ -140,6 +148,8 @@ export default function EditExperience({ goBack, prevData }) {
           <div className=" grid gap-2">
             <h4>Currently Working:</h4>
             <input
+autoComplete="on"
+
               type="checkbox"
               className="scale-75"
               checked={isWorking}
@@ -154,6 +164,8 @@ export default function EditExperience({ goBack, prevData }) {
             <h4>Ending Date:</h4>
             <div className="">
               <input
+autoComplete="on"
+
                 disabled={isWorking}
                 type="date"
                 value={endDate}
@@ -169,6 +181,8 @@ export default function EditExperience({ goBack, prevData }) {
             <h1>Show On Home Page</h1>
             <div>
               <input
+autoComplete="on"
+
                 {...register("showOnHome")}
                 type="checkbox"
                 className="inputTag scale-150"

@@ -40,7 +40,7 @@ function ChangePassword() {
       redirect: "follow",
     };
 
-    await fetch("/api/v1/personal/changePassword/maqboolkhan", requestOptions)
+    await fetch(`${process.env.API_BASE_URL}/personal/changePassword/${userInfo?.data?.id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
@@ -62,6 +62,8 @@ function ChangePassword() {
         <div className=" grid gap-4">
           <div className="relative">
             <input
+autoComplete="on"
+
               value={oldPassword}
               onChange={(e) => {
                 setOldPassword(e.target.value);
@@ -88,6 +90,8 @@ function ChangePassword() {
           </div>
           <div className="relative">
             <input
+autoComplete="on"
+
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
@@ -114,6 +118,8 @@ function ChangePassword() {
           </div>
           <div className="relative">
             <input
+autoComplete="on"
+
               value={confirmPassword}
               onChange={(e) => {
                 setConfirmPassword(e.target.value);

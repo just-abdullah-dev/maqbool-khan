@@ -58,7 +58,7 @@ export default function AddProject({ goBack }) {
       redirect: "follow",
     };
 
-    await fetch("/api/v1/projects/maqboolkhan", requestOptions)
+    await fetch(`${process.env.API_BASE_URL}/projects/${userInfo?.data?.id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
@@ -97,6 +97,8 @@ export default function AddProject({ goBack }) {
             <h4>Title:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("title")}
                 type="text"
                 className=" inputTag"
@@ -108,6 +110,8 @@ export default function AddProject({ goBack }) {
             <h4>Link:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("link")}
                 type="text"
                 className=" inputTag"
@@ -119,6 +123,8 @@ export default function AddProject({ goBack }) {
             <h4>Company:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("institute")}
                 type="text"
                 className=" inputTag"
@@ -130,12 +136,16 @@ export default function AddProject({ goBack }) {
           <div className=" grid gap-2">
             <h4>Starting Date:</h4>
             <div>
-              <input {...register("from")} type="date" className=" inputTag" />
+              <input
+autoComplete="on"
+ {...register("from")} type="date" className=" inputTag" />
             </div>
           </div>
           <div className=" grid gap-2">
             <h4>Currently Working:</h4>
             <input
+autoComplete="on"
+
               type="checkbox"
               checked={isWorking}
               onChange={(e) => {
@@ -149,6 +159,8 @@ export default function AddProject({ goBack }) {
             <h4>Ending Date:</h4>
             <div className="">
               <input
+autoComplete="on"
+
                 disabled={isWorking}
                 {...register("to")}
                 type="date"
@@ -161,6 +173,8 @@ export default function AddProject({ goBack }) {
             <h1>Show On Home Page</h1>
             <div>
               <input
+autoComplete="on"
+
                 {...register("showOnHome")}
                 type="checkbox"
                 className="inputTag scale-150"
@@ -172,6 +186,8 @@ export default function AddProject({ goBack }) {
             <div>
               
               <input
+autoComplete="on"
+
                 type="text"
                 className=" inputTag"
                 value={duty}

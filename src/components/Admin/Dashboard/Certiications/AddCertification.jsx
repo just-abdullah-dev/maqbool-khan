@@ -69,7 +69,7 @@ export default function AddCertification({ goBack }) {
       redirect: "follow",
     };
 
-    await fetch("/api/v1/certifications/maqboolkhan", requestOptions)
+    await fetch(`${process.env.API_BASE_URL}/certifications/${userInfo?.data?.id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
@@ -93,6 +93,8 @@ export default function AddCertification({ goBack }) {
             <h4>Title:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("title")}
                 type="text"
                 className=" inputTag"
@@ -104,6 +106,8 @@ export default function AddCertification({ goBack }) {
             <h4>Series ID:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("seriesId")}
                 type="text"
                 className=" inputTag"
@@ -115,6 +119,8 @@ export default function AddCertification({ goBack }) {
             <h4>Certification ID:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("certificationId")}
                 type="text"
                 className=" inputTag"
@@ -127,6 +133,8 @@ export default function AddCertification({ goBack }) {
             <h4>Link:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("link")}
                 type="text"
                 className=" inputTag"
@@ -143,6 +151,8 @@ export default function AddCertification({ goBack }) {
               Upload Image
             </label>
             <input
+autoComplete="on"
+
               className=" absolute opacity-0"
               type="file"
               name="image"

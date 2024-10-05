@@ -46,7 +46,7 @@ export default function AddSpecialization({ goBack }) {
       redirect: "follow",
     };
 
-    await fetch("/api/v1/specialization/maqboolkhan", requestOptions)
+    await fetch(`${process.env.API_BASE_URL}/specialization/${userInfo?.data?.id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
@@ -101,6 +101,8 @@ export default function AddSpecialization({ goBack }) {
             <h4>Title:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("title")}
                 type="text"
                 className=" inputTag"
@@ -112,6 +114,8 @@ export default function AddSpecialization({ goBack }) {
             <h4>Link:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("link")}
                 type="text"
                 className=" inputTag"
@@ -123,6 +127,8 @@ export default function AddSpecialization({ goBack }) {
             <h4>Course Title</h4>
             <div>
               <input
+autoComplete="on"
+
                 onChange={(e) => {
                   setCourseTitle(e.target.value);
                 }}
@@ -137,6 +143,8 @@ export default function AddSpecialization({ goBack }) {
             <h4>Course Link:</h4>
             <div>
               <input
+autoComplete="on"
+
                 onChange={(e) => {
                   setCourseLink(e.target.value);
                 }}

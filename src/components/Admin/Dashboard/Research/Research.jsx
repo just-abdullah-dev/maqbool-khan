@@ -2,7 +2,6 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import toast from "react-hot-toast";
 import { getAll, revalidateTagFunc } from "@/services/utils";
 import Loading from "@/components/Utils/Loading";
 import Error from "@/components/Utils/Error";
@@ -10,46 +9,17 @@ import EditResearch from "./EditResearch";
 import { ArrowRight, SquarePen } from "lucide-react";
 
 export default function Research() {
-  const [isAdd, setIsAdd] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [selectedID, setSelectedID] = useState("");
   const [allResearch, setAllResearch] = useState([]);
   const [isError, setIsError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedObj, setSelectedObj] = useState(null);
   const { userInfo } = useSelector((state) => state.user);
 
-  const deleteResearch = async (_id) => {
-    if (!window.confirm("Are you sure to delete it?")) {
-      return;
-    } else {
-      var requestOptions = {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${userInfo?.data?.token}`,
-        },
-        redirect: "follow",
-      };
-
-      await fetch(`/api/v1/research/${_id}`, requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-          if (result?.success) {
-            toast.success(result?.message);
-            revalidateTagFunc("research");
-            window.location.reload();
-          } else {
-            toast.error(result?.message);
-          }
-        })
-        .catch((error) => console.log("error", error));
-    }
-  };
 
   useEffect(() => {
     const main = async () => {
       setIsLoading(true);
-      const data = await getAll("maqboolkhan", "research");
+      const data = await getAll(userInfo?.data?.id, "research");
       if (data?.success) {
         setAllResearch(data?.data);
       } else {
@@ -138,7 +108,7 @@ export default function Research() {
                         {item?.organizationChair.length > 0 && (
                           <div className=" grid gap-2">
                             <h1 className=" font-semibold text-xl">
-                              Organization Chair:
+                              Organising Chair:
                             </h1>
                             <ul className=" px-4">
                               {item?.organizationChair.map(

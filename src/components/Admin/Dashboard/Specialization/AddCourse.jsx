@@ -41,7 +41,7 @@ export default function AddCourse({ goBack, _id }) {
       redirect: "follow",
     };
 
-    await fetch(`/api/v1/specialization/course/${_id}`, requestOptions)
+    await fetch(`${process.env.API_BASE_URL}/specialization/course/${_id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
@@ -65,6 +65,8 @@ export default function AddCourse({ goBack, _id }) {
             <h4>Title:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("title")}
                 type="text"
                 className=" inputTag"
@@ -76,6 +78,8 @@ export default function AddCourse({ goBack, _id }) {
             <h4>Link:</h4>
             <div>
               <input
+autoComplete="on"
+
                 {...register("link")}
                 type="text"
                 className=" inputTag"

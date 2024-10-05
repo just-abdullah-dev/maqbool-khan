@@ -41,7 +41,7 @@ export default function Contact() {
       },
       body: JSON.stringify({ name, email, message, subject }),
     };
-    await fetch(`/api/v1/mail/contact/sendMail/maqboolkhan`, options)
+    await fetch(`${process.env.API_BASE_URL}/mail/contact/sendMail/maqboolkhan`, options)
       .then((data) => data.json())
       .then((data) => {
         if (data?.success) {

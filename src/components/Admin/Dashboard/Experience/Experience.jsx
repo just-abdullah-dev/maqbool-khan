@@ -33,7 +33,7 @@ export default function Experience() {
         redirect: "follow",
       };
 
-      await fetch(`/api/v1/experience/${_id}`, requestOptions)
+      await fetch(`${process.env.API_BASE_URL}/experience/${_id}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {
@@ -51,7 +51,7 @@ export default function Experience() {
   useEffect(() => {
     const main = async () => {
       setIsLoading(true);
-      const data = await getAll("maqboolkhan", "experience");
+      const data = await getAll(userInfo?.data?.id, "experience");
       if (data?.success) {
         setAllExperiences(data?.data);
       } else {
@@ -105,7 +105,7 @@ export default function Experience() {
                     if (selectedID === item?._id) {
                       return (
                         // detail view 
-                        <li key={index} className=" flex items-start gap-4">
+                        <li key={index} className=" flex items-start gap-4 rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
                           <button
                             onClick={() => {
                               setSelectedID("");
@@ -161,7 +161,7 @@ export default function Experience() {
                     else {
                       return (
                         // short view 
-                        <li key={index} className=" flex gap-4 items-start">
+                        <li key={index} className=" flex gap-4 items-start rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
                           <div
                             className="flex items-center justify-center cursor-pointer"
                             onClick={() => {

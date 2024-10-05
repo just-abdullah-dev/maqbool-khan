@@ -14,7 +14,7 @@ export async function GET(req, { params }) {
     const searchParams = getSearchParams(req);
     const showOnHome = searchParams.get("showOnHome");
 
-    let query;
+    let query = {professorId: id};
     if (showOnHome === "yes") {
       query = { professorId: id, showOnHome: true };
     }

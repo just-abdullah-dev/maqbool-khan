@@ -54,7 +54,7 @@ export default function Profile() {
   });
 
   const [resume, setResume] = useState({
-    name:"",
+    name: "",
     value: null,
     error: "",
   });
@@ -137,7 +137,7 @@ export default function Profile() {
       redirect: "follow",
     };
 
-    await fetch("/api/v1/personal/maqboolkhan", requestOptions)
+    await fetch(`${process.env.API_BASE_URL}/personal/${userInfo?.data?.id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
@@ -174,18 +174,26 @@ export default function Profile() {
     const input = event.target;
     if (input.files && input.files[0]) {
       const file = input.files[0];
-      if (file.type === 'application/pdf' || file.type === 'application/msword' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+      if (
+        file.type === "application/pdf" ||
+        file.type === "application/msword" ||
+        file.type ===
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      ) {
         setResume(() => {
           return { name: file.name, error: "", value: file };
         });
       } else {
         setResume(() => {
-          return { name: "", error: "Invalid file type. Please upload a PDF or Word document.", value: null };
+          return {
+            name: "",
+            error: "Invalid file type. Please upload a PDF or Word document.",
+            value: null,
+          };
         });
       }
     }
   }
-  
 
   return (
     <div>
@@ -226,6 +234,7 @@ export default function Profile() {
                 Update Picture
               </label>
               <input
+                autoComplete="on"
                 className=" absolute opacity-0"
                 type="file"
                 name="avatar"
@@ -245,6 +254,7 @@ export default function Profile() {
                 <div className=" grid gap-2 grid-cols-2">
                   <div>
                     <input
+                      autoComplete="on"
                       {...register("title")}
                       type="text"
                       className=" inputTag"
@@ -258,6 +268,7 @@ export default function Profile() {
                   </div>
                   <div>
                     <input
+                      autoComplete="on"
                       {...register("first")}
                       type="text"
                       className=" inputTag"
@@ -271,6 +282,7 @@ export default function Profile() {
                   </div>
                   <div>
                     <input
+                      autoComplete="on"
                       {...register("middle")}
                       type="text"
                       className=" inputTag"
@@ -284,6 +296,7 @@ export default function Profile() {
                   </div>
                   <div>
                     <input
+                      autoComplete="on"
                       {...register("last")}
                       type="text"
                       className=" inputTag"
@@ -323,6 +336,7 @@ export default function Profile() {
             <div className=" grid grid-cols-2 gap-2">
               <div>
                 <input
+                  autoComplete="on"
                   {...register("currentPosTitle")}
                   type="text"
                   className=" inputTag"
@@ -336,6 +350,7 @@ export default function Profile() {
               </div>
               <div>
                 <input
+                  autoComplete="on"
                   {...register("currentPosAt")}
                   type="text"
                   className=" inputTag"
@@ -373,6 +388,7 @@ export default function Profile() {
             <div className=" grid grid-cols-2 gap-2">
               <div>
                 <input
+                  autoComplete="on"
                   {...register("email")}
                   type="text"
                   className=" inputTag"
@@ -386,6 +402,7 @@ export default function Profile() {
               </div>
               <div>
                 <input
+                  autoComplete="on"
                   {...register("phone")}
                   type="number"
                   className=" inputTag"
@@ -405,6 +422,7 @@ export default function Profile() {
             <div className=" grid gap-2 grid-cols-2">
               <div>
                 <input
+                  autoComplete="on"
                   {...register("instagram")}
                   type="text"
                   className=" inputTag"
@@ -418,6 +436,7 @@ export default function Profile() {
               </div>
               <div>
                 <input
+                  autoComplete="on"
                   {...register("twitter")}
                   type="text"
                   className=" inputTag"
@@ -431,6 +450,7 @@ export default function Profile() {
               </div>
               <div>
                 <input
+                  autoComplete="on"
                   {...register("facebook")}
                   type="text"
                   className=" inputTag"
@@ -444,6 +464,7 @@ export default function Profile() {
               </div>
               <div>
                 <input
+                  autoComplete="on"
                   {...register("linkedin")}
                   type="text"
                   className=" inputTag"
@@ -458,6 +479,7 @@ export default function Profile() {
 
               <div>
                 <input
+                  autoComplete="on"
                   {...register("github")}
                   type="text"
                   className=" inputTag"
@@ -471,6 +493,7 @@ export default function Profile() {
               </div>
               <div>
                 <input
+                  autoComplete="on"
                   {...register("googleScholar")}
                   type="text"
                   className=" inputTag"
@@ -484,6 +507,7 @@ export default function Profile() {
               </div>
               <div>
                 <input
+                  autoComplete="on"
                   {...register("researchGate")}
                   type="text"
                   className=" inputTag"
@@ -503,32 +527,36 @@ export default function Profile() {
             <h1>Resume/CV: </h1>
             <div className=" w-full grid grid-cols-2 relative gap-6">
               <Link
-              className=" p-2 rounded-lg outline outline-1 dark:outline-primary_bg_light outline-primary_bg_dark text-center"
+                className=" p-2 rounded-lg outline outline-1 dark:outline-primary_bg_light outline-primary_bg_dark text-center"
                 href={`/uploads/${userInfo?.cv}`}
-               target="_blank"
-              >View Previous CV</Link>
+                target="_blank"
+              >
+                View Previous CV
+              </Link>
               <label
                 htmlFor="avatar"
                 className=" flex gap-2 cursor-pointer p-2 rounded-lg outline outline-1 dark:outline-primary_bg_light outline-primary_bg_dark overflow-hidden"
               >
                 <Upload />
                 Upload New Resume
-              <input
-                className=" absolute opacity-0 cursor-pointer"
-                type="file"
-                name="resume"
-                id="resume"
-                onChange={(event) => {
-                  handleChangeResume(event);
-                }}
-              />
-              {resume?.error ?
-              <p className=" text-red-500 text-sm">{resume?.error}</p>:
-              resume?.name ?
-              <p className=" text-sm">{resume?.name}</p>:
-              <p className=" text-sm">No File Chosen</p>}
+                <input
+                  autoComplete="on"
+                  className=" absolute opacity-0 cursor-pointer"
+                  type="file"
+                  name="resume"
+                  id="resume"
+                  onChange={(event) => {
+                    handleChangeResume(event);
+                  }}
+                />
+                {resume?.error ? (
+                  <p className=" text-red-500 text-sm">{resume?.error}</p>
+                ) : resume?.name ? (
+                  <p className=" text-sm">{resume?.name}</p>
+                ) : (
+                  <p className=" text-sm">No File Chosen</p>
+                )}
               </label>
-
             </div>
           </div>
 
