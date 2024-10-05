@@ -41,7 +41,7 @@ export default function AddCourse({ goBack, _id }) {
       redirect: "follow",
     };
 
-    await fetch(`${process.env.API_BASE_URL}/specialization/course/${_id}`, requestOptions)
+    await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/specialization/course/${_id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {

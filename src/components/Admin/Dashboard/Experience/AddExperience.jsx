@@ -51,7 +51,7 @@ export default function AddExperience({ goBack }) {
       redirect: "follow",
     };
 
-    await fetch(`${process.env.API_BASE_URL}/experience/${userInfo?.data?.id}`, requestOptions)
+    await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/experience/${userInfo?.data?.id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {

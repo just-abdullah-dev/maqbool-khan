@@ -46,7 +46,7 @@ export default function AddSpecialization({ goBack }) {
       redirect: "follow",
     };
 
-    await fetch(`${process.env.API_BASE_URL}/specialization/${userInfo?.data?.id}`, requestOptions)
+    await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/specialization/${userInfo?.data?.id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {

@@ -52,7 +52,7 @@ export default function EditSpecialization({ goBack, prevData }) {
       redirect: "follow",
     };
 
-    await fetch(`${process.env.API_BASE_URL}/specialization/${prevData?._id}`, requestOptions)
+    await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/specialization/${prevData?._id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
@@ -78,7 +78,7 @@ export default function EditSpecialization({ goBack, prevData }) {
         redirect: "follow",
       };
 
-      await fetch(`${process.env.API_BASE_URL}/specialization/course/${_id}`, requestOptions)
+      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/specialization/course/${_id}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {

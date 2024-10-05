@@ -14,7 +14,7 @@ export async function revalidateTagFunc(tag){
 //       next: { tags: [tableName] }
 //     };
 // const baseUrl = process.env.ENV === "production" ? "https://maqbool-khan.vercel.app" : process.env.ENV === "development" ? "http://localhost:3000" : "";
-//   const data = await fetch(`${baseUrl}${process.env.API_BASE_URL}/${tableName}/${professorId}`, requestOptions);
+//   const data = await fetch(`${baseUrl}${process.env.NEXT_PUBLIC_API_BASE_URL}/${tableName}/${professorId}`, requestOptions);
 //   return data.json();
 // }
 
@@ -25,9 +25,9 @@ export async function getAll(professorId, tableName, searchParams = []) {
     next: { tags: [tableName] }
   };
 
-  const baseUrl = process.env.CMS_BASE_URL ? process.env.CMS_BASE_URL : "http://localhost:3000";
+  const baseUrl = process.env.NEXT_PUBLIC_CMS_BASE_URL ? process.env.NEXT_PUBLIC_CMS_BASE_URL : "http://localhost:3000";
 
-    const apiBaseUrl = process.env.API_BASE_URL ? process.env.API_BASE_URL : "/api/v1";
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL ? process.env.NEXT_PUBLIC_API_BASE_URL : "/api/v1";
 
     let searchParamsString = "";
     if(searchParams.length > 0){

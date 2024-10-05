@@ -17,25 +17,25 @@ export default function Login() {
 
   useEffect(() => {
     const main = async () => {
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${userInfo?.data?.token}`,
-      },
-      redirect: "follow",
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${userInfo?.data?.token}`,
+        },
+        redirect: "follow",
+      };
+      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/session`, requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          if (result?.success) {
+            toast("Already logged in!", {
+              icon: "🔓",
+            });
+            router.push("/admin/pin/dashboard");
+          }
+        })
+        .catch((error) => console.log("error", error));
     };
-    await fetch(`${process.env.API_BASE_URL}/auth/session`, requestOptions)
-    .then((response) => response.json())
-    .then((result) => {
-      if (result?.success) {
-          toast("Already logged in!", {
-            icon: "🔓",
-          });
-          router.push("/admin/pin/dashboard");
-      }
-    })
-    .catch((error) => console.log("error", error));
-    }
     main();
   }, []);
 
@@ -48,7 +48,7 @@ export default function Login() {
         setIsLoading(false);
         return;
       }
-      const res = await fetch(`${process.env.API_BASE_URL}/auth/login`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -98,8 +98,7 @@ export default function Login() {
           >
             <div className=" ">
               <input
-autoComplete="on"
-
+                autoComplete="on"
                 className="inputTag w-full"
                 type="text"
                 placeholder="Your Username"
@@ -109,8 +108,7 @@ autoComplete="on"
             </div>
             <div className="relative ">
               <input
-autoComplete="on"
-
+                autoComplete="on"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="inputTag w-full"

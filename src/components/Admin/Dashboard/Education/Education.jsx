@@ -33,7 +33,7 @@ export default function Education() {
         redirect: "follow",
       };
 
-      await fetch(`${process.env.API_BASE_URL}/education/${_id}`, requestOptions)
+      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/education/${_id}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {

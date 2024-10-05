@@ -76,7 +76,7 @@ export default function AddGallery({ goBack }) {
       redirect: "follow",
     };
 
-    await fetch(`${process.env.API_BASE_URL}/gallery/${userInfo?.data?.id}`, requestOptions)
+    await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/gallery/${userInfo?.data?.id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {

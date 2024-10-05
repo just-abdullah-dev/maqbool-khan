@@ -32,7 +32,7 @@ export default function Publications() {
         redirect: "follow",
       };
 
-      await fetch(`${process.env.API_BASE_URL}/publications/${_id}`, requestOptions)
+      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/publications/${_id}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {
