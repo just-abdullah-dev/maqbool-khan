@@ -10,6 +10,7 @@ import AddExperience from "./AddExperience";
 import EditExperience from "./EditExperience";
 import getFormatDate from "@/utils/formateDate";
 import { ChevronDown, ChevronUp, SquarePen, Trash } from "lucide-react";
+import CopyURL from "../CopyURL";
 
 export default function Experience() {
   const [isAdd, setIsAdd] = useState(false);
@@ -33,13 +34,16 @@ export default function Experience() {
         redirect: "follow",
       };
 
-      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/experience/${_id}`, requestOptions)
+      await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/experience/${_id}`,
+        requestOptions
+      )
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {
             toast.success(result?.message);
             window.location.reload();
-            revalidateTagFunc('experience');
+            revalidateTagFunc("experience");
           } else {
             toast.error(result?.message);
           }
@@ -78,7 +82,7 @@ export default function Experience() {
             />
           ) : isEdit ? (
             <EditExperience
-            prevData={selectedObj}
+              prevData={selectedObj}
               goBack={() => {
                 setIsEdit(false);
                 setSelectedObj(null);
@@ -99,13 +103,20 @@ export default function Experience() {
                 </button>
               </div>
 
+              <CopyURL
+                url={`${process.env.NEXT_PUBLIC_CMS_BASE_URL}${process.env.NEXT_PUBLIC_API_BASE_URL}/experience/${userInfo?.data?.id}`}
+              />
+
               <ul className=" p-12 grid gap-6">
                 {allExperiences.length > 0 &&
                   allExperiences.map((item, index) => {
                     if (selectedID === item?._id) {
                       return (
-                        // detail view 
-                        <li key={index} className=" flex items-start gap-4 rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
+                        // detail view
+                        <li
+                          key={index}
+                          className=" flex items-start gap-4 rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12"
+                        >
                           <button
                             onClick={() => {
                               setSelectedID("");
@@ -121,8 +132,9 @@ export default function Experience() {
                                 {item?.title}
                               </h1>
                               <p className="mt-1">
-                              Show on Home: {item?.showOnHome?"True":"False"}
-                            </p>
+                                Show on Home:{" "}
+                                {item?.showOnHome ? "True" : "False"}
+                              </p>
                               <div className="">
                                 {getFormatDate(item?.from)} ---{" "}
                                 {item?.to ? getFormatDate(item?.to) : "Present"}
@@ -157,11 +169,13 @@ export default function Experience() {
                           </div>
                         </li>
                       );
-                    } 
-                    else {
+                    } else {
                       return (
-                        // short view 
-                        <li key={index} className=" flex gap-4 items-start rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
+                        // short view
+                        <li
+                          key={index}
+                          className=" flex gap-4 items-start rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12"
+                        >
                           <div
                             className="flex items-center justify-center cursor-pointer"
                             onClick={() => {
@@ -174,8 +188,8 @@ export default function Experience() {
                             {item?.title}
                           </h1>
                           <p className="mt-1">
-                              Show on Home: {item?.showOnHome?"True":"False"}
-                            </p>
+                            Show on Home: {item?.showOnHome ? "True" : "False"}
+                          </p>
                         </li>
                       );
                     }
@@ -188,4 +202,3 @@ export default function Experience() {
     </div>
   );
 }
-

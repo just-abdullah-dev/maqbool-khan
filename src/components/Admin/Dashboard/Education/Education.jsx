@@ -10,6 +10,7 @@ import AddEducation from "./AddEducation";
 import EditEducation from "./EditEducation";
 import getFormatDate from "@/utils/formateDate";
 import { ChevronDown, ChevronUp, SquarePen, Trash } from "lucide-react";
+import CopyURL from "../CopyURL";
 
 export default function Education() {
   const [isAdd, setIsAdd] = useState(false);
@@ -33,7 +34,10 @@ export default function Education() {
         redirect: "follow",
       };
 
-      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/education/${_id}`, requestOptions)
+      await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/education/${_id}`,
+        requestOptions
+      )
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {
@@ -99,13 +103,20 @@ export default function Education() {
                 </button>
               </div>
 
+              <CopyURL
+                url={`${process.env.NEXT_PUBLIC_CMS_BASE_URL}${process.env.NEXT_PUBLIC_API_BASE_URL}/education/${userInfo?.data?.id}`}
+              />
+
               <ul className=" p-12 grid gap-6">
                 {allEducations.length > 0 &&
                   allEducations.map((item, index) => {
                     if (selectedID === item?._id) {
                       return (
-                        // detail view 
-                        <li key={index} className=" flex items-start gap-4 rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
+                        // detail view
+                        <li
+                          key={index}
+                          className=" flex items-start gap-4 rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12"
+                        >
                           <button
                             onClick={() => {
                               setSelectedID("");
@@ -121,8 +132,9 @@ export default function Education() {
                                 {item?.degree}
                               </h1>
                               <p className="mt-1">
-                              Show on Home: {item?.showOnHome?"True":"False"}
-                            </p>
+                                Show on Home:{" "}
+                                {item?.showOnHome ? "True" : "False"}
+                              </p>
                               <div className="">
                                 {getFormatDate(item?.from)} ---{" "}
                                 {item?.to
@@ -164,8 +176,11 @@ export default function Education() {
                       );
                     } else {
                       return (
-                        // short view 
-                        <li key={index} className=" flex gap-4 items-start rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
+                        // short view
+                        <li
+                          key={index}
+                          className=" flex gap-4 items-start rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12"
+                        >
                           <div
                             className="flex items-center justify-center cursor-pointer"
                             onClick={() => {
@@ -178,8 +193,8 @@ export default function Education() {
                             {item?.degree}
                           </h1>
                           <p className="mt-1">
-                              Show on Home: {item?.showOnHome?"True":"False"}
-                            </p>
+                            Show on Home: {item?.showOnHome ? "True" : "False"}
+                          </p>
                         </li>
                       );
                     }

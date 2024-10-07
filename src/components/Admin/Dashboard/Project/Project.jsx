@@ -9,7 +9,14 @@ import Error from "@/components/Utils/Error";
 import AddProject from "./AddProject";
 import EditProject from "./EditProject";
 import getFormatDate from "@/utils/formateDate";
-import { ArrowRight, ChevronDown, ChevronUp, SquarePen, Trash } from "lucide-react";
+import {
+  ArrowRight,
+  ChevronDown,
+  ChevronUp,
+  SquarePen,
+  Trash,
+} from "lucide-react";
+import CopyURL from "../CopyURL";
 
 export default function Project() {
   const [isAdd, setIsAdd] = useState(false);
@@ -33,7 +40,10 @@ export default function Project() {
         redirect: "follow",
       };
 
-      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/projects/${_id}`, requestOptions)
+      await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/projects/${_id}`,
+        requestOptions
+      )
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {
@@ -99,13 +109,20 @@ export default function Project() {
                 </button>
               </div>
 
+              <CopyURL
+                url={`${process.env.NEXT_PUBLIC_CMS_BASE_URL}${process.env.NEXT_PUBLIC_API_BASE_URL}/projects/${userInfo?.data?.id}`}
+              />
+
               <ul className=" p-12 grid gap-6">
                 {allProjects.length > 0 &&
                   allProjects.map((item, index) => {
                     if (selectedID === item?._id) {
                       return (
-                        // detail view 
-                        <li key={index} className=" flex items-start gap-4 rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
+                        // detail view
+                        <li
+                          key={index}
+                          className=" flex items-start gap-4 rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12"
+                        >
                           <button
                             onClick={() => {
                               setSelectedID("");
@@ -121,8 +138,9 @@ export default function Project() {
                                 {item?.title}
                               </h1>
                               <p className="mt-1">
-                              Show on Home: {item?.showOnHome?"True":"False"}
-                            </p>
+                                Show on Home:{" "}
+                                {item?.showOnHome ? "True" : "False"}
+                              </p>
                               <div className="">
                                 {getFormatDate(item?.from)} ---{" "}
                                 {item?.isCompleted
@@ -149,31 +167,44 @@ export default function Project() {
                                 </button>
                               </div>
                             </div>
-                              
-                            <Link
-                            href={item?.link}
-                            className=" text-blue-500"
-                            >{item?.link}</Link>
-                            <h1 className=" text-xl font-semibold">{item?.institute}</h1>
-                            {/* responsibilities in bullet points  */}
-                            {item?.responsibilities.length > 0 && <>
-                            <h1 className=" text-lg font-semibold">Responsibilities:</h1>
-                            <ul className=" px-4">
-                              {item?.responsibilities.map((ele, index)=>{
-                              return <li key={index} className="flex items-center gap-2">
-                                <ArrowRight size={19} />
-                                {ele}
-                              </li>
-                            })}
-                              </ul></>}
-                            <p>{item?.desc}</p>
 
+                            <Link href={item?.link} className=" text-blue-500">
+                              {item?.link}
+                            </Link>
+                            <h1 className=" text-xl font-semibold">
+                              {item?.institute}
+                            </h1>
+                            {/* responsibilities in bullet points  */}
+                            {item?.responsibilities.length > 0 && (
+                              <>
+                                <h1 className=" text-lg font-semibold">
+                                  Responsibilities:
+                                </h1>
+                                <ul className=" px-4">
+                                  {item?.responsibilities.map((ele, index) => {
+                                    return (
+                                      <li
+                                        key={index}
+                                        className="flex items-center gap-2"
+                                      >
+                                        <ArrowRight size={19} />
+                                        {ele}
+                                      </li>
+                                    );
+                                  })}
+                                </ul>
+                              </>
+                            )}
+                            <p>{item?.desc}</p>
                           </div>
                         </li>
                       );
                     } else {
                       return (
-                        <li key={index} className=" flex gap-4 items-start rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
+                        <li
+                          key={index}
+                          className=" flex gap-4 items-start rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12"
+                        >
                           <div
                             className="flex items-center justify-center cursor-pointer"
                             onClick={() => {
@@ -186,8 +217,8 @@ export default function Project() {
                             {item?.title}
                           </h1>
                           <p className="mt-1">
-                              Show on Home: {item?.showOnHome?"True":"False"}
-                            </p>
+                            Show on Home: {item?.showOnHome ? "True" : "False"}
+                          </p>
                         </li>
                       );
                     }

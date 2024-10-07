@@ -8,7 +8,7 @@ export default function AdminHeader() {
         <div className=' flex items-center gap-6'>
             <Link
             href={"/"}
-            className=' font-bold text-2xl text-mountain-meadow-500'>Maqbool Khan</Link>
+            className=' font-bold text-2xl text-mountain-meadow-500'>Professor Portfolio</Link>
             <p className=' dark:text-white'>(CMS)</p>
         </div>
         <ThemeSwitcher />

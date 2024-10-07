@@ -6,15 +6,24 @@ import toast from "react-hot-toast";
 import { getAll, revalidateTagFunc } from "@/services/utils";
 import Loading from "@/components/Utils/Loading";
 import Error from "@/components/Utils/Error";
-import { ArrowRight, ChevronDown, ChevronUp, SquarePen, Trash } from "lucide-react";
+import {
+  ArrowRight,
+  ChevronDown,
+  ChevronUp,
+  SquarePen,
+  Trash,
+} from "lucide-react";
 import AddSpecialization from "./AddSpecialization";
 import EditSpecialization from "./EditSpecialization";
+import CopyURL from "../CopyURL";
 
 export default function Specializations() {
   const [isAdd, setIsAdd] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [selectedID, setSelectedID] = useState("");
-  const [allSpecializations, setAllSpecializationspecializations] = useState([]);
+  const [allSpecializations, setAllSpecializationspecializations] = useState(
+    []
+  );
   const [isError, setIsError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [selectedObj, setSelectedObj] = useState(null);
@@ -32,7 +41,10 @@ export default function Specializations() {
         redirect: "follow",
       };
 
-      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/specialization/${_id}`, requestOptions)
+      await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/specialization/${_id}`,
+        requestOptions
+      )
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {
@@ -98,12 +110,19 @@ export default function Specializations() {
                 </button>
               </div>
 
+              <CopyURL
+                url={`${process.env.NEXT_PUBLIC_CMS_BASE_URL}${process.env.NEXT_PUBLIC_API_BASE_URL}/specialization/${userInfo?.data?.id}`}
+              />
+
               <ul className=" p-12 grid gap-6">
                 {allSpecializations.length > 0 &&
                   allSpecializations.map((item, index) => {
                     if (selectedID === item?._id) {
                       return (
-                        <li key={index} className=" flex items-start gap-4 rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
+                        <li
+                          key={index}
+                          className=" flex items-start gap-4 rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12"
+                        >
                           <button
                             onClick={() => {
                               setSelectedID("");
@@ -137,22 +156,30 @@ export default function Specializations() {
                                   <Trash />
                                 </button>
                               </div>
-                              
                             </div>
-                            <Link href={item?.link} className=" text-blue-500" >
-                            {item?.link}
+                            <Link href={item?.link} className=" text-blue-500">
+                              {item?.link}
                             </Link>
                             {/* courses  */}
                             <ul className=" px-6">
-                              {item?.courses.map((course, index)=>{
-                                return <li className=" flex gap-2 items-start" key={index}>
-                                  <ArrowRight className=" mt-1" size={19} />
-                                  <div>
-                                    <h1>{course?.title}</h1>
-                                    <Link href={course?.link} className=" text-blue-500">{course?.link}</Link>
-                                  </div>
-                                  
+                              {item?.courses.map((course, index) => {
+                                return (
+                                  <li
+                                    className=" flex gap-2 items-start"
+                                    key={index}
+                                  >
+                                    <ArrowRight className=" mt-1" size={19} />
+                                    <div>
+                                      <h1>{course?.title}</h1>
+                                      <Link
+                                        href={course?.link}
+                                        className=" text-blue-500"
+                                      >
+                                        {course?.link}
+                                      </Link>
+                                    </div>
                                   </li>
+                                );
                               })}
                             </ul>
                           </div>
@@ -160,7 +187,10 @@ export default function Specializations() {
                       );
                     } else {
                       return (
-                        <li key={index} className=" flex gap-4 items-start rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
+                        <li
+                          key={index}
+                          className=" flex gap-4 items-start rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12"
+                        >
                           <div
                             className="flex items-center justify-center cursor-pointer"
                             onClick={() => {

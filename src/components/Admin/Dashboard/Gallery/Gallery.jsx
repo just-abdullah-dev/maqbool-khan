@@ -10,6 +10,7 @@ import { ChevronDown, ChevronUp, SquarePen, Trash } from "lucide-react";
 import Image from "next/image";
 import AddGallery from "./AddGallery";
 import EditGallery from "./EditGallery";
+import CopyURL from "../CopyURL";
 
 export default function Gallery() {
   const [isAdd, setIsAdd] = useState(false);
@@ -33,7 +34,10 @@ export default function Gallery() {
         redirect: "follow",
       };
 
-      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/gallery/${_id}`, requestOptions)
+      await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/gallery/${_id}`,
+        requestOptions
+      )
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {
@@ -99,12 +103,19 @@ export default function Gallery() {
                 </button>
               </div>
 
+              <CopyURL
+                url={`${process.env.NEXT_PUBLIC_CMS_BASE_URL}${process.env.NEXT_PUBLIC_API_BASE_URL}/gallery/${userInfo?.data?.id}`}
+              />
+
               <ul className=" p-12 grid gap-6">
                 {allCountries.length > 0 &&
                   allCountries.map((item, index) => {
                     if (selectedID === item?._id) {
                       return (
-                        <li key={index} className=" flex items-start gap-4 rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
+                        <li
+                          key={index}
+                          className=" flex items-start gap-4 rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12"
+                        >
                           <button
                             onClick={() => {
                               setSelectedID("");
@@ -120,8 +131,9 @@ export default function Gallery() {
                                 {item?.countryName}
                               </h1>
                               <p className="mt-1">
-                              Show on Home: {item?.showOnHome?"True":"False"}
-                            </p>
+                                Show on Home:{" "}
+                                {item?.showOnHome ? "True" : "False"}
+                              </p>
                               <div className="  flex gap-4 ">
                                 <button
                                   type="button"
@@ -142,32 +154,41 @@ export default function Gallery() {
                                 </button>
                               </div>
                             </div>
-                            <p><b>Slug:</b> {item?.slug}</p>
+                            <p>
+                              <b>Slug:</b> {item?.slug}
+                            </p>
                             <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                               {/* image  */}
-                              {item?.images.length > 0 && (
-                                item?.images.map((img, index)=>{
-                                  if(index === 4){
+                              {item?.images.length > 0 &&
+                                item?.images.map((img, index) => {
+                                  if (index === 4) {
                                     return;
                                   }
-                                  return <div key={index} className=" flex items-center justify-center">
-                                     <Image
-                                  className=" rounded-xl"
-                                  width={200}
-                                  height={200}
-                                  alt={item?.countryName}
-                                  src={`/uploads/${img}`}
-                                />
+                                  return (
+                                    <div
+                                      key={index}
+                                      className=" flex items-center justify-center"
+                                    >
+                                      <Image
+                                        className=" rounded-xl"
+                                        width={200}
+                                        height={200}
+                                        alt={item?.countryName}
+                                        src={`/uploads/${img}`}
+                                      />
                                     </div>
-                                })
-                              )}
+                                  );
+                                })}
                             </div>
                           </div>
                         </li>
                       );
                     } else {
                       return (
-                        <li key={index} className=" flex gap-4 items-start rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
+                        <li
+                          key={index}
+                          className=" flex gap-4 items-start rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12"
+                        >
                           <div
                             className="flex items-center justify-center cursor-pointer"
                             onClick={() => {
@@ -180,8 +201,8 @@ export default function Gallery() {
                             {item?.countryName}
                           </h1>
                           <p className="mt-1">
-                              Show on Home: {item?.showOnHome?"True":"False"}
-                            </p>
+                            Show on Home: {item?.showOnHome ? "True" : "False"}
+                          </p>
                         </li>
                       );
                     }

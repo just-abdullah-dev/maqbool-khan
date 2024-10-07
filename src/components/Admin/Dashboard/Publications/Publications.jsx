@@ -9,6 +9,7 @@ import Error from "@/components/Utils/Error";
 import { ChevronDown, ChevronUp, SquarePen, Trash } from "lucide-react";
 import AddPublication from "./AddPublication";
 import EditPublication from "./EditPublication";
+import CopyURL from "../CopyURL";
 
 export default function Publications() {
   const [isAdd, setIsAdd] = useState(false);
@@ -32,7 +33,10 @@ export default function Publications() {
         redirect: "follow",
       };
 
-      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/publications/${_id}`, requestOptions)
+      await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/publications/${_id}`,
+        requestOptions
+      )
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {
@@ -60,7 +64,7 @@ export default function Publications() {
     };
     main();
   }, []);
-  
+
   return (
     <div className=" px-12 py-6">
       {isError ? (
@@ -98,13 +102,20 @@ export default function Publications() {
                 </button>
               </div>
 
+              <CopyURL
+                url={`${process.env.NEXT_PUBLIC_CMS_BASE_URL}${process.env.NEXT_PUBLIC_API_BASE_URL}/publications/${userInfo?.data?.id}`}
+              />
+
               <ul className=" p-12 grid gap-6">
                 {allPublications.length > 0 &&
                   allPublications.map((item, index) => {
                     if (selectedID === item?._id) {
                       return (
-                        // detail view 
-                        <li key={index} className=" flex items-start gap-4 rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
+                        // detail view
+                        <li
+                          key={index}
+                          className=" flex items-start gap-4 rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12"
+                        >
                           <button
                             onClick={() => {
                               setSelectedID("");
@@ -120,11 +131,10 @@ export default function Publications() {
                                 {item?.title}
                               </h1>
                               <p className="mt-1">
-                              Show on Home: {item?.showOnHome?"True":"False"}
-                            </p>
-                              <div className="">
-                                {item?.year}
-                              </div>
+                                Show on Home:{" "}
+                                {item?.showOnHome ? "True" : "False"}
+                              </p>
+                              <div className="">{item?.year}</div>
                               <div className="  flex gap-4 ">
                                 <button
                                   type="button"
@@ -146,22 +156,32 @@ export default function Publications() {
                               </div>
                             </div>
 
-                           <div>
-                           {item?.members.map((ele, index)=>{
-                              return <h1 key={index} className="font-semibold">
-                              {ele}
-                            </h1>
-                            })}
-                           </div>
+                            <div>
+                              {item?.members.map((ele, index) => {
+                                return (
+                                  <h1 key={index} className="font-semibold">
+                                    {ele}
+                                  </h1>
+                                );
+                              })}
+                            </div>
 
-                            <Link className=" text-blue-500 hover:text-blue-600" href={item?.link}>{item?.link}</Link>
+                            <Link
+                              className=" text-blue-500 hover:text-blue-600"
+                              href={item?.link}
+                            >
+                              {item?.link}
+                            </Link>
                           </div>
                         </li>
                       );
                     } else {
                       return (
-                        // short view 
-                        <li key={index} className=" flex gap-4 items-start rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
+                        // short view
+                        <li
+                          key={index}
+                          className=" flex gap-4 items-start rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12"
+                        >
                           <div
                             className="flex items-center justify-center cursor-pointer"
                             onClick={() => {
@@ -174,8 +194,8 @@ export default function Publications() {
                             {item?.title}
                           </h1>
                           <p className="mt-1">
-                              Show on Home: {item?.showOnHome?"True":"False"}
-                            </p>
+                            Show on Home: {item?.showOnHome ? "True" : "False"}
+                          </p>
                         </li>
                       );
                     }

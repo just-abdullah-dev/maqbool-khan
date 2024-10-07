@@ -10,6 +10,7 @@ import { ChevronDown, ChevronUp, SquarePen, Trash } from "lucide-react";
 import AddCertification from "./AddCertification";
 import EditCertification from "./EditCertification";
 import Image from "next/image";
+import CopyURL from "../CopyURL";
 
 export default function Certifications() {
   const [isAdd, setIsAdd] = useState(false);
@@ -33,7 +34,10 @@ export default function Certifications() {
         redirect: "follow",
       };
 
-      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/certifications/${_id}`, requestOptions)
+      await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/certifications/${_id}`,
+        requestOptions
+      )
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {
@@ -99,12 +103,19 @@ export default function Certifications() {
                 </button>
               </div>
 
+              <CopyURL
+                url={`${process.env.NEXT_PUBLIC_CMS_BASE_URL}${process.env.NEXT_PUBLIC_API_BASE_URL}/certifications/${userInfo?.data?.id}`}
+              />
+
               <ul className=" p-12 grid gap-6">
                 {allCertifications.length > 0 &&
                   allCertifications.map((item, index) => {
                     if (selectedID === item?._id) {
                       return (
-                        <li key={index} className=" flex items-start gap-4 rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12 rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
+                        <li
+                          key={index}
+                          className=" flex items-start gap-4 rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12 "
+                        >
                           <button
                             onClick={() => {
                               setSelectedID("");
@@ -146,7 +157,9 @@ export default function Certifications() {
                                     <h1>Series ID: {item?.seriesId}</h1>
                                   )}
                                   {item?.certificationId && (
-                                    <h1>Certification ID: {item?.certificationId}</h1>
+                                    <h1>
+                                      Certification ID: {item?.certificationId}
+                                    </h1>
                                   )}
                                 </div>
                                 <Link
@@ -177,7 +190,10 @@ export default function Certifications() {
                       );
                     } else {
                       return (
-                        <li key={index} className=" flex gap-4 items-start rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12  rounded-lg bg-gray-300 dark:bg-gray-800 py-4 px-12">
+                        <li
+                          key={index}
+                          className=" flex gap-4 items-start rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12 "
+                        >
                           <div
                             className="flex items-center justify-center cursor-pointer"
                             onClick={() => {

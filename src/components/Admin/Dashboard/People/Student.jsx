@@ -10,6 +10,7 @@ import { ChevronDown, ChevronUp, SquarePen, Trash } from "lucide-react";
 import AddStudent from "./AddStudent";
 import EditStudent from "./EditStudent";
 import Image from "next/image";
+import CopyURL from "../CopyURL";
 
 export default function Student() {
   const [isAdd, setIsAdd] = useState(false);
@@ -33,7 +34,10 @@ export default function Student() {
         redirect: "follow",
       };
 
-      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/student/${_id}`, requestOptions)
+      await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/student/${_id}`,
+        requestOptions
+      )
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {
@@ -98,6 +102,10 @@ export default function Student() {
                   Add
                 </button>
               </div>
+
+              <CopyURL
+                url={`${process.env.NEXT_PUBLIC_CMS_BASE_URL}${process.env.NEXT_PUBLIC_API_BASE_URL}/student/${userInfo?.data?.id}`}
+              />
 
               <ul className=" p-12 grid gap-6">
                 {allStudents.length > 0 &&
@@ -175,19 +183,27 @@ export default function Student() {
                               width={600}
                               height={600}
                               className=" rounded w-full h-[200px]"
-                              src={item?.cover ? `/uploads/${item?.cover}`: "/uploads/sample.jpeg"}
+                              src={
+                                item?.cover
+                                  ? `/uploads/${item?.cover}`
+                                  : "/uploads/sample.jpeg"
+                              }
                               alt={"Cover Picture"}
                             />
                             <div className=" grid grid-cols-1 md:grid-cols-2">
-                            <div className="grid place-items-center">
-                            <Image
-                                width={200}
-                                height={200}
-                                className=" rounded-full aspect-square"
-                                src={item?.avatar ? `/uploads/${item?.avatar}`: "/uploads/sample.jpeg"}
-                                alt={"Profile Picture"}
-                              />
-                            </div>
+                              <div className="grid place-items-center">
+                                <Image
+                                  width={200}
+                                  height={200}
+                                  className=" rounded-full aspect-square"
+                                  src={
+                                    item?.avatar
+                                      ? `/uploads/${item?.avatar}`
+                                      : "/uploads/sample.jpeg"
+                                  }
+                                  alt={"Profile Picture"}
+                                />
+                              </div>
                               <div className=" grid gap-2">
                                 <div>
                                   <h1 className=" font-semibold text-lg">
@@ -300,7 +316,10 @@ export default function Student() {
                     } else {
                       return (
                         // short view
-                        <li key={index} className=" flex gap-4 items-start rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12 rounded-lg bg-gray-300 dark:bg-gray-800 py-4 px-12">
+                        <li
+                          key={index}
+                          className=" flex gap-4 items-start rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12 rounded-lg bg-gray-300 dark:bg-gray-800 py-4 px-12"
+                        >
                           <div
                             className="flex items-center justify-center cursor-pointer"
                             onClick={() => {

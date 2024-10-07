@@ -12,6 +12,7 @@ import ChangePassword from "./ChangePassword";
 import { revalidateTagFunc } from "@/services/utils";
 import BGImages from "./BGImages";
 import Link from "next/link";
+import CopyURL from "../CopyURL";
 
 const schema = z.object({
   title: z.string(),
@@ -137,7 +138,10 @@ export default function Profile() {
       redirect: "follow",
     };
 
-    await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/personal/${userInfo?.data?.id}`, requestOptions)
+    await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/personal/${userInfo?.data?.id}`,
+      requestOptions
+    )
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
@@ -211,393 +215,400 @@ export default function Profile() {
       {isChangePassword ? (
         <ChangePassword />
       ) : (
-        <form
-          onSubmit={handleSubmit(submitHandler)}
-          className=" grid gap-4 px-12 py-4"
-        >
-          {/* avatar, name & bio  */}
-          <div className=" flex p-8 bg-ray-500">
-            {/* avatar  */}
-            <div className=" w-[25%] relative flex flex-col gap-6">
-              <Image
-                className=" rounded-full aspect-square"
-                src={avatar?.url ? avatar?.url : `/uploads/${userInfo?.avatar}`}
-                height={250}
-                width={250}
-                alt="Profile picture"
-              />
-              <label
-                htmlFor="avatar"
-                className=" flex gap-2 cursor-pointer p-2 rounded-lg outline outline-1 dark:outline-primary_bg_light outline-primary_bg_dark"
-              >
-                <Upload />
-                Update Picture
-              </label>
-              <input
-                autoComplete="on"
-                className=" absolute opacity-0"
-                type="file"
-                name="avatar"
-                id="avatar"
-                accept="image/*"
-                onChange={(event) => {
-                  handleChangeAvatar(event);
-                }}
-              />
-            </div>
+        <>
+          <CopyURL
+            url={`${process.env.NEXT_PUBLIC_CMS_BASE_URL}${process.env.NEXT_PUBLIC_API_BASE_URL}/personal/${userInfo?.id}`}
+          />
+          <form
+            onSubmit={handleSubmit(submitHandler)}
+            className=" grid gap-4 px-12 py-4"
+          >
+            {/* avatar, name & bio  */}
+            <div className=" flex p-8 bg-ray-500">
+              {/* avatar  */}
+              <div className=" w-[25%] relative flex flex-col gap-6">
+                <Image
+                  className=" rounded-full aspect-square"
+                  src={
+                    avatar?.url ? avatar?.url : `/uploads/${userInfo?.avatar}`
+                  }
+                  height={250}
+                  width={250}
+                  alt="Profile picture"
+                />
+                <label
+                  htmlFor="avatar"
+                  className=" flex gap-2 cursor-pointer p-2 rounded-lg outline outline-1 dark:outline-primary_bg_light outline-primary_bg_dark"
+                >
+                  <Upload />
+                  Update Picture
+                </label>
+                <input
+                  autoComplete="on"
+                  className=" absolute opacity-0"
+                  type="file"
+                  name="avatar"
+                  id="avatar"
+                  accept="image/*"
+                  onChange={(event) => {
+                    handleChangeAvatar(event);
+                  }}
+                />
+              </div>
 
-            {/* name & bio  */}
-            <div className=" w-[75%] p-4 grid gap-4">
-              {/* name div  */}
-              <div className="grid gap-2">
-                <h4>Name:</h4>
-                <div className=" grid gap-2 grid-cols-2">
-                  <div>
-                    <input
-                      autoComplete="on"
-                      {...register("title")}
-                      type="text"
-                      className=" inputTag"
-                      placeholder="title"
-                    />
-                    {errors?.title && (
-                      <div className=" text-red-500 text-sm">
-                        {errors?.title?.message}
-                      </div>
-                    )}
+              {/* name & bio  */}
+              <div className=" w-[75%] p-4 grid gap-4">
+                {/* name div  */}
+                <div className="grid gap-2">
+                  <h4>Name:</h4>
+                  <div className=" grid gap-2 grid-cols-2">
+                    <div>
+                      <input
+                        autoComplete="on"
+                        {...register("title")}
+                        type="text"
+                        className=" inputTag"
+                        placeholder="title"
+                      />
+                      {errors?.title && (
+                        <div className=" text-red-500 text-sm">
+                          {errors?.title?.message}
+                        </div>
+                      )}
+                    </div>
+                    <div>
+                      <input
+                        autoComplete="on"
+                        {...register("first")}
+                        type="text"
+                        className=" inputTag"
+                        placeholder="first"
+                      />
+                      {errors?.first && (
+                        <div className=" text-red-500 text-sm">
+                          {errors?.first?.message}
+                        </div>
+                      )}
+                    </div>
+                    <div>
+                      <input
+                        autoComplete="on"
+                        {...register("middle")}
+                        type="text"
+                        className=" inputTag"
+                        placeholder="middle"
+                      />
+                      {errors?.middle && (
+                        <div className=" text-red-500 text-sm">
+                          {errors?.middle?.message}
+                        </div>
+                      )}
+                    </div>
+                    <div>
+                      <input
+                        autoComplete="on"
+                        {...register("last")}
+                        type="text"
+                        className=" inputTag"
+                        placeholder="last"
+                      />
+                      {errors?.last && (
+                        <div className=" text-red-500 text-sm">
+                          {errors?.last?.message}
+                        </div>
+                      )}
+                    </div>
                   </div>
+                </div>
+                {/* bio  */}
+                <div className=" grid gap-2">
+                  <h4>Bio:</h4>
                   <div>
-                    <input
-                      autoComplete="on"
-                      {...register("first")}
+                    <textarea
+                      {...register("bio")}
                       type="text"
                       className=" inputTag"
-                      placeholder="first"
+                      placeholder="bio"
+                      rows={4}
                     />
-                    {errors?.first && (
+                    {errors?.bio && (
                       <div className=" text-red-500 text-sm">
-                        {errors?.first?.message}
-                      </div>
-                    )}
-                  </div>
-                  <div>
-                    <input
-                      autoComplete="on"
-                      {...register("middle")}
-                      type="text"
-                      className=" inputTag"
-                      placeholder="middle"
-                    />
-                    {errors?.middle && (
-                      <div className=" text-red-500 text-sm">
-                        {errors?.middle?.message}
-                      </div>
-                    )}
-                  </div>
-                  <div>
-                    <input
-                      autoComplete="on"
-                      {...register("last")}
-                      type="text"
-                      className=" inputTag"
-                      placeholder="last"
-                    />
-                    {errors?.last && (
-                      <div className=" text-red-500 text-sm">
-                        {errors?.last?.message}
+                        {errors?.bio?.message}
                       </div>
                     )}
                   </div>
                 </div>
               </div>
-              {/* bio  */}
-              <div className=" grid gap-2">
-                <h4>Bio:</h4>
+            </div>
+            {/* current position  */}
+            <div className=" grid gap-2">
+              <h4>Current Position:</h4>
+              <div className=" grid grid-cols-2 gap-2">
                 <div>
-                  <textarea
-                    {...register("bio")}
+                  <input
+                    autoComplete="on"
+                    {...register("currentPosTitle")}
                     type="text"
                     className=" inputTag"
-                    placeholder="bio"
-                    rows={4}
+                    placeholder="currentPosTitle"
                   />
-                  {errors?.bio && (
+                  {errors?.currentPosTitle && (
                     <div className=" text-red-500 text-sm">
-                      {errors?.bio?.message}
+                      {errors?.currentPosTitle?.message}
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <input
+                    autoComplete="on"
+                    {...register("currentPosAt")}
+                    type="text"
+                    className=" inputTag"
+                    placeholder="currentPosAt"
+                  />
+                  {errors?.currentPosAt && (
+                    <div className=" text-red-500 text-sm">
+                      {errors?.currentPosAt?.message}
                     </div>
                   )}
                 </div>
               </div>
             </div>
-          </div>
-          {/* current position  */}
-          <div className=" grid gap-2">
-            <h4>Current Position:</h4>
-            <div className=" grid grid-cols-2 gap-2">
+            {/* about  */}
+            <div className=" grid gap-2">
+              <h4>About:</h4>
               <div>
-                <input
-                  autoComplete="on"
-                  {...register("currentPosTitle")}
+                <textarea
+                  {...register("about")}
                   type="text"
-                  className=" inputTag"
-                  placeholder="currentPosTitle"
+                  className=" inputTag w-full"
+                  placeholder="about"
+                  rows={8}
                 />
-                {errors?.currentPosTitle && (
+                {errors?.about && (
                   <div className=" text-red-500 text-sm">
-                    {errors?.currentPosTitle?.message}
-                  </div>
-                )}
-              </div>
-              <div>
-                <input
-                  autoComplete="on"
-                  {...register("currentPosAt")}
-                  type="text"
-                  className=" inputTag"
-                  placeholder="currentPosAt"
-                />
-                {errors?.currentPosAt && (
-                  <div className=" text-red-500 text-sm">
-                    {errors?.currentPosAt?.message}
+                    {errors?.about?.message}
                   </div>
                 )}
               </div>
             </div>
-          </div>
-          {/* about  */}
-          <div className=" grid gap-2">
-            <h4>About:</h4>
-            <div>
-              <textarea
-                {...register("about")}
-                type="text"
-                className=" inputTag w-full"
-                placeholder="about"
-                rows={8}
-              />
-              {errors?.about && (
-                <div className=" text-red-500 text-sm">
-                  {errors?.about?.message}
+            {/* contact  */}
+            <div className=" grid gap-2">
+              <h4>Contact:</h4>
+              <div className=" grid grid-cols-2 gap-2">
+                <div>
+                  <input
+                    autoComplete="on"
+                    {...register("email")}
+                    type="text"
+                    className=" inputTag"
+                    placeholder="email"
+                  />
+                  {errors?.email && (
+                    <div className=" text-red-500 text-sm">
+                      {errors?.email?.message}
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </div>
-          {/* contact  */}
-          <div className=" grid gap-2">
-            <h4>Contact:</h4>
-            <div className=" grid grid-cols-2 gap-2">
-              <div>
-                <input
-                  autoComplete="on"
-                  {...register("email")}
-                  type="text"
-                  className=" inputTag"
-                  placeholder="email"
-                />
-                {errors?.email && (
-                  <div className=" text-red-500 text-sm">
-                    {errors?.email?.message}
-                  </div>
-                )}
-              </div>
-              <div>
-                <input
-                  autoComplete="on"
-                  {...register("phone")}
-                  type="number"
-                  className=" inputTag"
-                  placeholder="Phone # e.g: 923101234567"
-                />
-                {errors?.phone && (
-                  <div className=" text-red-500 text-sm">
-                    {errors?.phone?.message}
-                  </div>
-                )}
+                <div>
+                  <input
+                    autoComplete="on"
+                    {...register("phone")}
+                    type="number"
+                    className=" inputTag"
+                    placeholder="Phone # e.g: 923101234567"
+                  />
+                  {errors?.phone && (
+                    <div className=" text-red-500 text-sm">
+                      {errors?.phone?.message}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-          {/* socials links  */}
-          <div className="grid gap-2">
-            <h4>Social Links:</h4>
-            <div className=" grid gap-2 grid-cols-2">
-              <div>
-                <input
-                  autoComplete="on"
-                  {...register("instagram")}
-                  type="text"
-                  className=" inputTag"
-                  placeholder="instagram"
-                />
-                {errors?.instagram && (
-                  <div className=" text-red-500 text-sm">
-                    {errors?.instagram?.message}
-                  </div>
-                )}
-              </div>
-              <div>
-                <input
-                  autoComplete="on"
-                  {...register("twitter")}
-                  type="text"
-                  className=" inputTag"
-                  placeholder="twitter"
-                />
-                {errors?.twitter && (
-                  <div className=" text-red-500 text-sm">
-                    {errors?.twitter?.message}
-                  </div>
-                )}
-              </div>
-              <div>
-                <input
-                  autoComplete="on"
-                  {...register("facebook")}
-                  type="text"
-                  className=" inputTag"
-                  placeholder="facebook"
-                />
-                {errors?.facebook && (
-                  <div className=" text-red-500 text-sm">
-                    {errors?.facebook?.message}
-                  </div>
-                )}
-              </div>
-              <div>
-                <input
-                  autoComplete="on"
-                  {...register("linkedin")}
-                  type="text"
-                  className=" inputTag"
-                  placeholder="linkedin"
-                />
-                {errors?.linkedin && (
-                  <div className=" text-red-500 text-sm">
-                    {errors?.linkedin?.message}
-                  </div>
-                )}
-              </div>
+            {/* socials links  */}
+            <div className="grid gap-2">
+              <h4>Social Links:</h4>
+              <div className=" grid gap-2 grid-cols-2">
+                <div>
+                  <input
+                    autoComplete="on"
+                    {...register("instagram")}
+                    type="text"
+                    className=" inputTag"
+                    placeholder="instagram"
+                  />
+                  {errors?.instagram && (
+                    <div className=" text-red-500 text-sm">
+                      {errors?.instagram?.message}
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <input
+                    autoComplete="on"
+                    {...register("twitter")}
+                    type="text"
+                    className=" inputTag"
+                    placeholder="twitter"
+                  />
+                  {errors?.twitter && (
+                    <div className=" text-red-500 text-sm">
+                      {errors?.twitter?.message}
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <input
+                    autoComplete="on"
+                    {...register("facebook")}
+                    type="text"
+                    className=" inputTag"
+                    placeholder="facebook"
+                  />
+                  {errors?.facebook && (
+                    <div className=" text-red-500 text-sm">
+                      {errors?.facebook?.message}
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <input
+                    autoComplete="on"
+                    {...register("linkedin")}
+                    type="text"
+                    className=" inputTag"
+                    placeholder="linkedin"
+                  />
+                  {errors?.linkedin && (
+                    <div className=" text-red-500 text-sm">
+                      {errors?.linkedin?.message}
+                    </div>
+                  )}
+                </div>
 
-              <div>
-                <input
-                  autoComplete="on"
-                  {...register("github")}
-                  type="text"
-                  className=" inputTag"
-                  placeholder="github"
-                />
-                {errors?.github && (
-                  <div className=" text-red-500 text-sm">
-                    {errors?.github?.message}
-                  </div>
-                )}
-              </div>
-              <div>
-                <input
-                  autoComplete="on"
-                  {...register("googleScholar")}
-                  type="text"
-                  className=" inputTag"
-                  placeholder="googleScholar"
-                />
-                {errors?.googleScholar && (
-                  <div className=" text-red-500 text-sm">
-                    {errors?.googleScholar?.message}
-                  </div>
-                )}
-              </div>
-              <div>
-                <input
-                  autoComplete="on"
-                  {...register("researchGate")}
-                  type="text"
-                  className=" inputTag"
-                  placeholder="researchGate"
-                />
-                {errors?.researchGate && (
-                  <div className=" text-red-500 text-sm">
-                    {errors?.researchGate?.message}
-                  </div>
-                )}
+                <div>
+                  <input
+                    autoComplete="on"
+                    {...register("github")}
+                    type="text"
+                    className=" inputTag"
+                    placeholder="github"
+                  />
+                  {errors?.github && (
+                    <div className=" text-red-500 text-sm">
+                      {errors?.github?.message}
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <input
+                    autoComplete="on"
+                    {...register("googleScholar")}
+                    type="text"
+                    className=" inputTag"
+                    placeholder="googleScholar"
+                  />
+                  {errors?.googleScholar && (
+                    <div className=" text-red-500 text-sm">
+                      {errors?.googleScholar?.message}
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <input
+                    autoComplete="on"
+                    {...register("researchGate")}
+                    type="text"
+                    className=" inputTag"
+                    placeholder="researchGate"
+                  />
+                  {errors?.researchGate && (
+                    <div className=" text-red-500 text-sm">
+                      {errors?.researchGate?.message}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* cv input  */}
-          <div className="grid gap-2">
-            <h1>Resume/CV: </h1>
-            <div className=" w-full grid grid-cols-2 relative gap-6">
-              <Link
-                className=" p-2 rounded-lg outline outline-1 dark:outline-primary_bg_light outline-primary_bg_dark text-center"
-                href={`/uploads/${userInfo?.cv}`}
-                target="_blank"
-              >
-                View Previous CV
-              </Link>
-              <label
-                htmlFor="avatar"
-                className=" flex gap-2 cursor-pointer p-2 rounded-lg outline outline-1 dark:outline-primary_bg_light outline-primary_bg_dark overflow-hidden"
-              >
-                <Upload />
-                Upload New Resume
-                <input
-                  autoComplete="on"
-                  className=" absolute opacity-0 cursor-pointer"
-                  type="file"
-                  name="resume"
-                  id="resume"
-                  onChange={(event) => {
-                    handleChangeResume(event);
+            {/* cv input  */}
+            <div className="grid gap-2">
+              <h1>Resume/CV: </h1>
+              <div className=" w-full grid grid-cols-2 relative gap-6">
+                <Link
+                  className=" p-2 rounded-lg outline outline-1 dark:outline-primary_bg_light outline-primary_bg_dark text-center"
+                  href={`/uploads/${userInfo?.cv}`}
+                  target="_blank"
+                >
+                  View Previous CV
+                </Link>
+                <label
+                  htmlFor="avatar"
+                  className=" flex gap-2 cursor-pointer p-2 rounded-lg outline outline-1 dark:outline-primary_bg_light outline-primary_bg_dark overflow-hidden"
+                >
+                  <Upload />
+                  Upload New Resume
+                  <input
+                    autoComplete="on"
+                    className=" absolute opacity-0 cursor-pointer"
+                    type="file"
+                    name="resume"
+                    id="resume"
+                    onChange={(event) => {
+                      handleChangeResume(event);
+                    }}
+                  />
+                  {resume?.error ? (
+                    <p className=" text-red-500 text-sm">{resume?.error}</p>
+                  ) : resume?.name ? (
+                    <p className=" text-sm">{resume?.name}</p>
+                  ) : (
+                    <p className=" text-sm">No File Chosen</p>
+                  )}
+                </label>
+              </div>
+            </div>
+
+            {/* home page bg images  */}
+            <div className=" grid place-items-center gap-2">
+              <h1 className=" text-lg font-semibold">
+                Home Page Background Images:
+              </h1>
+              {isChangeBGImages ? (
+                <BGImages
+                  saveBGImages={(newImagesParams, deletingImagesParams) => {
+                    setDeletingImages(deletingImagesParams);
+                    setNewImages(newImagesParams);
+                    setIsChangeBGImages(!isChangeBGImages);
+                  }}
+                  bgImages={userInfo?.bgImages}
+                  goBack={() => {
+                    setIsChangeBGImages(!isChangeBGImages);
                   }}
                 />
-                {resume?.error ? (
-                  <p className=" text-red-500 text-sm">{resume?.error}</p>
-                ) : resume?.name ? (
-                  <p className=" text-sm">{resume?.name}</p>
-                ) : (
-                  <p className=" text-sm">No File Chosen</p>
-                )}
-              </label>
+              ) : (
+                <button
+                  className=" seeMoreTag w-96"
+                  onClick={() => {
+                    setIsChangeBGImages(!isChangeBGImages);
+                  }}
+                >
+                  Update BG Images
+                </button>
+              )}
             </div>
-          </div>
 
-          {/* home page bg images  */}
-          <div className=" grid place-items-center gap-2">
-            <h1 className=" text-lg font-semibold">
-              Home Page Background Images:
-            </h1>
-            {isChangeBGImages ? (
-              <BGImages
-                saveBGImages={(newImagesParams, deletingImagesParams) => {
-                  setDeletingImages(deletingImagesParams);
-                  setNewImages(newImagesParams);
-                  setIsChangeBGImages(!isChangeBGImages);
-                }}
-                bgImages={userInfo?.bgImages}
-                goBack={() => {
-                  setIsChangeBGImages(!isChangeBGImages);
-                }}
-              />
-            ) : (
-              <button
-                className=" seeMoreTag w-96"
-                onClick={() => {
-                  setIsChangeBGImages(!isChangeBGImages);
-                }}
-              >
-                Update BG Images
-              </button>
-            )}
-          </div>
-
-          {/* form submit btn  */}
-          <button
-            disabled={isSubmitting}
-            type="submit"
-            className=" actionButtonTag"
-          >
-            {isSubmitting ? "Loading..." : "Update Profile"}
-          </button>
-        </form>
+            {/* form submit btn  */}
+            <button
+              disabled={isSubmitting}
+              type="submit"
+              className=" actionButtonTag"
+            >
+              {isSubmitting ? "Loading..." : "Update Profile"}
+            </button>
+          </form>
+        </>
       )}
     </div>
   );

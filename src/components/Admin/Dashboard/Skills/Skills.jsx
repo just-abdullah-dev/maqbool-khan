@@ -8,7 +8,14 @@ import Loading from "@/components/Utils/Loading";
 import Error from "@/components/Utils/Error";
 import AddSkill from "./AddSkill";
 import EditSkill from "./EditSkills";
-import { ArrowRight, ChevronDown, ChevronUp, SquarePen, Trash } from "lucide-react";
+import {
+  ArrowRight,
+  ChevronDown,
+  ChevronUp,
+  SquarePen,
+  Trash,
+} from "lucide-react";
+import CopyURL from "../CopyURL";
 
 export default function Skills() {
   const [isAdd, setIsAdd] = useState(false);
@@ -32,7 +39,10 @@ export default function Skills() {
         redirect: "follow",
       };
 
-      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/skills/${_id}`, requestOptions)
+      await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/skills/${_id}`,
+        requestOptions
+      )
         .then((response) => response.json())
         .then((result) => {
           if (result?.success) {
@@ -98,13 +108,20 @@ export default function Skills() {
                 </button>
               </div>
 
+              <CopyURL
+                url={`${process.env.NEXT_PUBLIC_CMS_BASE_URL}${process.env.NEXT_PUBLIC_API_BASE_URL}/skills/${userInfo?.data?.id}`}
+              />
+
               <ul className=" p-12 grid gap-6">
                 {allSkills.length > 0 &&
                   allSkills.map((item, index) => {
                     if (selectedID === item?._id) {
                       return (
-                        // detail view 
-                        <li key={index} className=" flex items-start gap-4 rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
+                        // detail view
+                        <li
+                          key={index}
+                          className=" flex items-start gap-4 rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12"
+                        >
                           <button
                             onClick={() => {
                               setSelectedID("");
@@ -120,8 +137,9 @@ export default function Skills() {
                                 {item?.title}
                               </h1>
                               <p className="mt-1">
-                              Show on Home: {item?.showOnHome?"True":"False"}
-                            </p>
+                                Show on Home:{" "}
+                                {item?.showOnHome ? "True" : "False"}
+                              </p>
                               <div className="  flex gap-4 ">
                                 <button
                                   type="button"
@@ -143,9 +161,16 @@ export default function Skills() {
                               </div>
                             </div>
                             <ul className=" px-6">
-                              {item?.items.map((skill, index)=>{
-                                return <li className=" flex gap-2 items-center" key={index}>
-                                  <ArrowRight size={18} />{skill}</li>
+                              {item?.items.map((skill, index) => {
+                                return (
+                                  <li
+                                    className=" flex gap-2 items-center"
+                                    key={index}
+                                  >
+                                    <ArrowRight size={18} />
+                                    {skill}
+                                  </li>
+                                );
                               })}
                             </ul>
                           </div>
@@ -153,7 +178,10 @@ export default function Skills() {
                       );
                     } else {
                       return (
-                        <li key={index} className=" flex gap-4 items-start rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12">
+                        <li
+                          key={index}
+                          className=" flex gap-4 items-start rounded-lg bg-gray-300 dark:bg-gray-800 py-6 px-12"
+                        >
                           <div
                             className="flex items-center justify-center cursor-pointer"
                             onClick={() => {
@@ -166,8 +194,8 @@ export default function Skills() {
                             {item?.title}
                           </h1>
                           <p className="mt-1">
-                              Show on Home: {item?.showOnHome?"True":"False"}
-                            </p>
+                            Show on Home: {item?.showOnHome ? "True" : "False"}
+                          </p>
                         </li>
                       );
                     }
